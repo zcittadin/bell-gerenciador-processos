@@ -1,14 +1,25 @@
 package com.servicos.estatica.belluno.app;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class App extends Application {
 
 	@Override
-	public void start(Stage primaryStage) throws Exception {
-		// TODO Auto-generated method stub
+	public void start(Stage stage) throws Exception {
 
+		Parent root = FXMLLoader.load(getClass().getResource("App.fxml"));
+		stage.setScene(new Scene(root));
+		stage.setTitle("Belluno - Controle de queima de coque");
+		stage.setMaximized(true);
+		stage.show();
+	}
+
+	public static void main(String[] args) {
+		launch();
 	}
 
 }
