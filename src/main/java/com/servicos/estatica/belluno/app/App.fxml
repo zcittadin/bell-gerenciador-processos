@@ -1,20 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import eu.hansolo.medusa.Clock?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.shape.Ellipse?>
 
-
-<AnchorPane prefHeight="723.0" prefWidth="1366.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+<AnchorPane fx:id="mainPane" prefHeight="723.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.servicos.estatica.belluno.controller.MainController">
    <children>
       <BorderPane prefHeight="723.0" prefWidth="1366.0">
          <top>
-            <AnchorPane prefHeight="82.0" prefWidth="1366.0" styleClass="myGradient" stylesheets="@../style/style.css" BorderPane.alignment="CENTER" />
+            <AnchorPane prefHeight="82.0" prefWidth="1366.0" styleClass="myGradient" stylesheets="@../style/style.css" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fx:id="imgCliente" fitHeight="70.0" fitWidth="124.0" layoutX="15.0" layoutY="5.0" onMouseClicked="#handleImgClienteAction" pickOnBounds="true">
+                     <image>
+                        <Image url="@../style/belluno.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <Clock layoutX="1230.0" layoutY="3.0" lcdDesign="LIGHTGREEN_BLACK" prefHeight="73.0" prefWidth="129.0" running="true" secondsVisible="true" skinType="LCD" />
+               </children></AnchorPane>
          </top>
          <left>
-            <AnchorPane prefHeight="641.0" prefWidth="158.0" styleClass="myGradient" stylesheets="@../style/style.css" BorderPane.alignment="CENTER" />
+            <AnchorPane prefHeight="641.0" prefWidth="158.0" styleClass="myGradient" stylesheets="@../style/style.css" BorderPane.alignment="CENTER">
+               <children>
+                  <Ellipse fill="DODGERBLUE" layoutX="79.0" layoutY="577.0" radiusX="33.0" radiusY="43.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #F5F5F5;">
+                     <effect>
+                        <BoxBlur height="29.29" width="32.32" />
+                     </effect>
+                  </Ellipse>
+                  <ImageView fx:id="imgExit" fitHeight="71.0" fitWidth="70.0" layoutX="50.0" layoutY="546.0" onMouseClicked="#exit" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../style/exit.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+               </children></AnchorPane>
          </left>
          <center>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <AnchorPane fx:id="centralPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </children>
