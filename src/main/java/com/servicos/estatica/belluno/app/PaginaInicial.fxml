@@ -11,14 +11,14 @@
    <children>
       <LineChart fx:id="chartTemp" createSymbols="false" layoutX="14.0" layoutY="178.0" legendVisible="false" prefHeight="429.0" prefWidth="1184.0" title="Temperatura x tempo">
         <xAxis>
-          <CategoryAxis side="BOTTOM" tickLabelFill="WHITE">
+          <CategoryAxis side="BOTTOM" tickLabelFill="WHITE" fx:id="xAxis">
                <tickLabelFont>
                   <Font size="14.0" />
                </tickLabelFont>
             </CategoryAxis>
         </xAxis>
         <yAxis>
-          <NumberAxis label="ºC" side="LEFT" tickLabelFill="WHITE">
+          <NumberAxis fx:id="yAxis" label="ºC" minorTickCount="1" minorTickLength="20.0" side="LEFT" tickLabelFill="WHITE" tickUnit="20.0">
                <tickLabelFont>
                   <Font size="17.0" />
                </tickLabelFont>
