@@ -52,8 +52,6 @@ public class MainController implements Initializable {
 
 	private static ImageViewResizer imgClienteResizer;
 	private static ImageViewResizer imgExitResizer;
-	private static Timeline tmlBtClockGrow = new Timeline();
-	private static Timeline tmlBtClockShrink = new Timeline();
 
 	ScreensController mainContainer = new ScreensController();
 
@@ -68,11 +66,6 @@ public class MainController implements Initializable {
 		imgExitResizer.setLayoutX(50);
 		imgExitResizer.setLayoutY(633);
 		mainPane.getChildren().addAll(imgClienteResizer, imgExitResizer);
-
-//		tmlBtClockGrow.getKeyFrames()
-//				.addAll(new KeyFrame(Duration.seconds(0.3), new KeyValue(btStyleClock.translateXProperty(), -105)));
-//		tmlBtClockShrink.getKeyFrames()
-//				.addAll(new KeyFrame(Duration.seconds(0.3), new KeyValue(btStyleClock.translateXProperty(), 0)));
 
 		mainContainer.loadScreen(screenInicioID, screenInicioFile);
 		CurrentScreenProperty.setScreen(screenInicioID);
