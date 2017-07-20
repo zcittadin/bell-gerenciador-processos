@@ -3,11 +3,11 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="mainPane" prefHeight="660.0" prefWidth="1208.0" styleClass="myGradient" stylesheets="@../style/style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="com.servicos.estatica.belluno.controller.PaginaInicialController">
+<AnchorPane fx:id="mainPane" prefHeight="660.0" prefWidth="1208.0" styleClass="myGradient" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.servicos.estatica.belluno.controller.PaginaInicialController">
    <children>
       <LineChart fx:id="chartTemp" createSymbols="false" layoutX="14.0" layoutY="178.0" legendVisible="false" prefHeight="429.0" prefWidth="1184.0" title="Temperatura x tempo">
         <xAxis>
@@ -25,5 +25,6 @@
             </NumberAxis>
         </yAxis>
       </LineChart>
+      <Separator orientation="VERTICAL" prefHeight="660.0" />
    </children>
 </AnchorPane>
