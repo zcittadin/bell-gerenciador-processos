@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 import com.servicos.estatica.belluno.app.ControlledScreen;
 import com.servicos.estatica.belluno.modbus.ModbusRTUService;
 import com.servicos.estatica.belluno.properties.MarkLineChartProperty;
-import com.servicos.estatica.belluno.util.EstaticaInfoUtil;
 import com.servicos.estatica.belluno.util.HoverDataChart;
 
 import javafx.animation.Animation;
@@ -39,9 +38,9 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private NumberAxis yAxis;
 
 	private static Timeline chartAnimation;
-	private static Timeline scanModbusSlaves;// = new Timeline();
+	private static Timeline scanModbusSlaves;
 	private static XYChart.Series<String, Number> tempSeries;
-	private static DateTimeFormatter horasFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+	private static DateTimeFormatter horasFormatter = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy");
 
 	private static Double temperatura = new Double(0);
 
@@ -60,7 +59,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		modService.setConnectionParams("COM5", 9600);
+		modService.setConnectionParams("COM9", 9600);
 		modService.openConnection();
 		initModbusReadSlaves();
 
