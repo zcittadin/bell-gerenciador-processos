@@ -17,6 +17,7 @@ import com.servicos.estatica.belluno.modbus.ModbusRTUService;
 import com.servicos.estatica.belluno.model.Leitura;
 import com.servicos.estatica.belluno.model.Processo;
 import com.servicos.estatica.belluno.properties.MarkLineChartProperty;
+import com.servicos.estatica.belluno.util.Chronometer;
 import com.servicos.estatica.belluno.util.HoverDataChart;
 
 import javafx.animation.Animation;
@@ -25,6 +26,8 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -40,6 +43,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -69,6 +73,8 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private Label lblTemp;
 	@FXML
 	private Label lblChrono;
+	@FXML
+	private ProgressIndicator progressSave;
 
 	private static Timeline chartAnimation;
 	private static Timeline scanModbusSlaves;
@@ -84,6 +90,8 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 
 	private static List<Leitura> leituras = new ArrayList<>();
 	private static Processo processo;
+
+	final Chronometer chronoMeter = new Chronometer();
 	private static LeituraDAO leituraDAO = new LeituraDAO();
 	private static ProcessoDAO processoDAO = new ProcessoDAO();
 	private static ModbusRTUService modService = new ModbusRTUService();
@@ -116,8 +124,32 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 			return;
 		}
 
-		processo = new Processo(null, leituras, txtProcesso.getText(), 0, 0, null);
-		processoDAO.saveProcesso(processo);
+		progressSave.setVisible(true);
+
+		Task<Void> saveTask = new Task<Void>() {
+			@Override
+			protected Void call() throws Exception {
+				processo = new Processo(null, leituras, txtProcesso.getText(), 0, 0, null);
+				processoDAO.saveProcesso(processo);
+				return null;
+			}
+		};
+
+		saveTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent arg0) {
+				progressSave.setVisible(false);
+			}
+		});
+
+		saveTask.setOnFailed(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent arg0) {
+				progressSave.setVisible(false);
+			}
+		});
+		Thread t = new Thread(saveTask);
+		t.start();
 
 		txtProcesso.setDisable(true);
 		btSalvar.setDisable(true);
@@ -168,6 +200,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		isRunning = true;
 		scanModbusSlaves.play();
 		chartAnimation.play();
+		chronoMeter.start(lblChrono);
 		imgFogo.setVisible(true);
 		// dadosParciaisTimeLine.play();
 		// chronoMeter.start(lblCronometro);
@@ -191,6 +224,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		// Tooltip.install(imgSwitch, TOOLTIP_SWITCH_FINALIZADO);
 		btSalvar.setDisable(false);
 		isRunning = false;
+		chronoMeter.stop();
 		txtProcesso.clear();
 		txtProcesso.setDisable(false);
 		imgFogo.setVisible(false);
