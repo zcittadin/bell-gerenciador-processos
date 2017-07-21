@@ -20,12 +20,12 @@
     -fx-effect: null;
 }
 
-.chart-plot-background {
+/* .chart-plot-background {
     -fx-background-color:  rgba(0.0,255.0,126.0,0.0);
-}
+}*/
 
 .default-color0.chart-series-line { 
-	-fx-stroke: #FFFF00; 
+	-fx-stroke: #FF0000; 
 }
 
 .chart-vertical-grid-lines {

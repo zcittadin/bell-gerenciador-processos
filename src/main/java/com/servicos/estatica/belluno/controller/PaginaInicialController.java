@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import com.servicos.estatica.belluno.app.ControlledScreen;
 import com.servicos.estatica.belluno.modbus.ModbusRTUService;
 import com.servicos.estatica.belluno.properties.MarkLineChartProperty;
+import com.servicos.estatica.belluno.util.EstaticaInfoUtil;
 import com.servicos.estatica.belluno.util.HoverDataChart;
 
 import javafx.animation.Animation;

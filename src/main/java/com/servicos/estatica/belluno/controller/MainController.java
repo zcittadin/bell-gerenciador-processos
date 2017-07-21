@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.servicos.estatica.belluno.properties.CurrentScreenProperty;
+import com.servicos.estatica.belluno.util.EstaticaInfoUtil;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -30,7 +31,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import zan.inc.custom.components.ImageViewResizer;
 
-public class MainController implements Initializable {
+public class MainController extends EstaticaInfoUtil implements Initializable {
 
 	public static String screenInicioID = "inicio";
 	public static String screenInicioFile = "/com/servicos/estatica/belluno/app/PaginaInicial.fxml";
@@ -58,6 +59,8 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
+		initEstaticaInfo();
+		
 		imgCliente.setImage(new Image("/com/servicos/estatica/belluno/style/belluno.png"));
 		imgClienteResizer = new ImageViewResizer(imgCliente, 126, 70);
 		imgClienteResizer.setLayoutX(16);
