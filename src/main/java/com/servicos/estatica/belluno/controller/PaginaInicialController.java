@@ -19,6 +19,7 @@ import com.servicos.estatica.belluno.model.Processo;
 import com.servicos.estatica.belluno.properties.MarkLineChartProperty;
 import com.servicos.estatica.belluno.util.Chronometer;
 import com.servicos.estatica.belluno.util.HoverDataChart;
+import com.servicos.estatica.belluno.util.Toast;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -47,6 +48,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class PaginaInicialController implements Initializable, ControlledScreen {
@@ -139,6 +141,9 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 			@Override
 			public void handle(WorkerStateEvent arg0) {
 				progressSave.setVisible(false);
+				lblTemp.setText("000.0");
+				lblChrono.setText("00:00:00");
+				makeToast("Processo salvo com sucesso.");
 			}
 		});
 
@@ -169,6 +174,16 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 
 	@FXML
 	public void toggleProcess() {
+		if (!isReady && !isRunning) {
+			Toolkit.getDefaultToolkit().beep();
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Atenção");
+			alert.setHeaderText("Informe um identificador antes de iniciar o registro do processo.");
+			alert.showAndWait();
+			txtProcesso.requestFocus();
+			imgSwitch.setCursor(Cursor.OPEN_HAND);
+			return;
+		}
 		if (isReady && !isRunning) {
 			initProcess();
 		} else if (!isReady && !isRunning) {
@@ -227,6 +242,8 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		chronoMeter.stop();
 		txtProcesso.clear();
 		txtProcesso.setDisable(false);
+		lblTemp.setText("");
+		lblChrono.setText("");
 		imgFogo.setVisible(false);
 		// ProcessoStatusManager.setProcessoStatus(NOME_REATOR, isRunning);
 		// chronoMeter.stop();
@@ -282,6 +299,15 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		data.setNode(mark);
 		tempSeries.getData().add(data);
 		saveTemp();
+	}
+
+	private void makeToast(String message) {
+		String toastMsg = message;
+		int toastMsgTime = 5000;
+		int fadeInTime = 600;
+		int fadeOutTime = 600;
+		Stage stage = (Stage) btSalvar.getScene().getWindow();
+		Toast.makeToast(stage, toastMsg, toastMsgTime, fadeInTime, fadeOutTime);
 	}
 
 }
