@@ -2,6 +2,8 @@ package com.servicos.estatica.belluno.app;
 
 import java.util.Optional;
 
+import com.servicos.estatica.belluno.util.HibernateUtil;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -9,8 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -39,6 +41,11 @@ public class App extends Application {
 			}
 		});
 		stage.show();
+	}
+	
+	@Override
+	public void stop() throws Exception {
+		HibernateUtil.closeSessionFactory();
 	}
 
 	public static void main(String[] args) {

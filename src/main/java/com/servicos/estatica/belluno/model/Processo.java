@@ -2,44 +2,52 @@ package com.servicos.estatica.belluno.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "processo")
 public class Processo implements Serializable {
 
-	private static final long serialVersionUID = -3589796632173698057L;
+	private static final long serialVersionUID = 254888343609435713L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
+	@OneToMany(mappedBy = "processo", targetEntity = Leitura.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Leitura> leituras;
 	@Column(name = "identificador")
 	private String identificador;
-	@Column(name = "dt_proc")
-	private Date dtProc;
-	@Column(name = "temp")
-	private double temp;
-	@Column(name = "sp")
-	private double sp;
+	@Column(name = "t_max")
+	private double tempMax;
+	@Column(name = "t_min")
+	private double tempMin;
+	@Column(name = "duracao")
+	private Date duracao;
 
 	public Processo() {
 
 	}
 
-	public Processo(Long id, String identificador, Date dtProc, double temp, double sp) {
+	public Processo(Long id, List<Leitura> leituras, String identificador, double tempMax, double tempMin,
+			Date duracao) {
 		super();
 		this.id = id;
+		this.leituras = leituras;
 		this.identificador = identificador;
-		this.dtProc = dtProc;
-		this.temp = temp;
-		this.sp = sp;
+		this.tempMax = tempMax;
+		this.tempMin = tempMin;
+		this.duracao = duracao;
 	}
 
 	public Long getId() {
@@ -50,6 +58,14 @@ public class Processo implements Serializable {
 		this.id = id;
 	}
 
+	public List<Leitura> getLeituras() {
+		return leituras;
+	}
+
+	public void setLeituras(List<Leitura> leituras) {
+		this.leituras = leituras;
+	}
+
 	public String getIdentificador() {
 		return identificador;
 	}
@@ -58,34 +74,34 @@ public class Processo implements Serializable {
 		this.identificador = identificador;
 	}
 
-	public Date getDtProc() {
-		return dtProc;
+	public double getTempMax() {
+		return tempMax;
 	}
 
-	public void setDtProc(Date dtProc) {
-		this.dtProc = dtProc;
+	public void setTempMax(double tempMax) {
+		this.tempMax = tempMax;
 	}
 
-	public double getTemp() {
-		return temp;
+	public double getTempMin() {
+		return tempMin;
 	}
 
-	public void setTemp(double temp) {
-		this.temp = temp;
+	public void setTempMin(double tempMin) {
+		this.tempMin = tempMin;
 	}
 
-	public double getSp() {
-		return sp;
+	public Date getDuracao() {
+		return duracao;
 	}
 
-	public void setSp(double sp) {
-		this.sp = sp;
+	public void setDuracao(Date duracao) {
+		this.duracao = duracao;
 	}
 
 	@Override
 	public String toString() {
-		return "Processo [id=" + id + ", identificador=" + identificador + ", dtProc=" + dtProc + ", temp=" + temp
-				+ ", sp=" + sp + "]";
+		return "Processo [id=" + id + ", leituras=" + leituras + ", identificador=" + identificador + ", tempMax="
+				+ tempMax + ", tempMin=" + tempMin + ", duracao=" + duracao + "]";
 	}
 
 	@Override

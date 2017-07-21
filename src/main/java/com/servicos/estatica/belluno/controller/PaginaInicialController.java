@@ -11,8 +11,10 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.servicos.estatica.belluno.app.ControlledScreen;
+import com.servicos.estatica.belluno.dao.LeituraDAO;
 import com.servicos.estatica.belluno.dao.ProcessoDAO;
 import com.servicos.estatica.belluno.modbus.ModbusRTUService;
+import com.servicos.estatica.belluno.model.Leitura;
 import com.servicos.estatica.belluno.model.Processo;
 import com.servicos.estatica.belluno.properties.MarkLineChartProperty;
 import com.servicos.estatica.belluno.util.HoverDataChart;
@@ -20,6 +22,7 @@ import com.servicos.estatica.belluno.util.HoverDataChart;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,6 +39,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -61,6 +65,10 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private Button btCancelar;
 	@FXML
 	private Button btReport;
+	@FXML
+	private Label lblTemp;
+	@FXML
+	private Label lblChrono;
 
 	private static Timeline chartAnimation;
 	private static Timeline scanModbusSlaves;
@@ -74,7 +82,9 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	final ObservableList<XYChart.Series<String, Number>> plotValuesList = FXCollections.observableArrayList();
 	final List<Node> valueMarks = new ArrayList<>();
 
+	private static List<Leitura> leituras = new ArrayList<>();
 	private static Processo processo;
+	private static LeituraDAO leituraDAO = new LeituraDAO();
 	private static ProcessoDAO processoDAO = new ProcessoDAO();
 	private static ModbusRTUService modService = new ModbusRTUService();
 
@@ -90,6 +100,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		imgFogo.setImage(new Image("/com/servicos/estatica/belluno/style/fire.gif"));
 		modService.setConnectionParams("COM9", 9600);
 		modService.openConnection();
+		initModbusReadSlaves();
 		configLineChart();
 	}
 
@@ -104,6 +115,9 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 			txtProcesso.requestFocus();
 			return;
 		}
+
+		processo = new Processo(null, leituras, txtProcesso.getText(), 0, 0, null);
+		processoDAO.saveProcesso(processo);
 
 		txtProcesso.setDisable(true);
 		btSalvar.setDisable(true);
@@ -146,16 +160,12 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	}
 
 	private void initProcess() {
-		initModbusReadSlaves();
 		plotTemp();
-		// lblStatus.setTextFill(Color.web(LBL_STATUS_ANDAMENTO_COLOR));
-		// lblStatus.setText(LBL_STATUS_ANDAMENTO);
 		imgSwitch.setImage(new Image("/com/servicos/estatica/belluno/style/switch_on.png"));
 		// Tooltip.install(imgSwitch, TOOLTIP_SWITCH_ANDAMENTO);
 		// lblHorario.setText(horasFormatter.format(LocalDateTime.now()));
 		isReady = false;
 		isRunning = true;
-		// ProcessoStatusManager.setProcessoStatus(NOME_REATOR, isRunning);
 		scanModbusSlaves.play();
 		chartAnimation.play();
 		imgFogo.setVisible(true);
@@ -190,18 +200,25 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	}
 
 	private void saveTemp() {
-		processo = new Processo(null, txtProcesso.getText(), Calendar.getInstance().getTime(), temperatura, 0);
-		processoDAO.saveProcesso(processo);
+		Leitura leitura = new Leitura(null, processo, Calendar.getInstance().getTime(), temperatura, 250);
+		leituras.add(leitura);
+		processo.setLeituras(leituras);
+		leituraDAO.saveLeitura(leitura);
 	}
 
 	private void initModbusReadSlaves() {
 		scanModbusSlaves = new Timeline(new KeyFrame(Duration.millis(3000), new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				temperatura = modService.readMultipleRegisters(1, 0, 1);
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						lblTemp.setText(temperatura.toString());
+					}
+				});
 			}
 		}));
 		scanModbusSlaves.setCycleCount(Timeline.INDEFINITE);
-		scanModbusSlaves.play();
 	}
 
 	private void configLineChart() {

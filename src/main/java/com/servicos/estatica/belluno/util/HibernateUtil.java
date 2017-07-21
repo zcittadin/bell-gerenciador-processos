@@ -6,6 +6,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import com.servicos.estatica.belluno.model.Leitura;
 import com.servicos.estatica.belluno.model.Processo;
 
 public class HibernateUtil {
@@ -30,13 +31,14 @@ public class HibernateUtil {
 
 	private static void getConfiguration() {
 		configuration.addPackage("com.estatica.servicos.model");
+		configuration.addAnnotatedClass(Leitura.class);
 		configuration.addAnnotatedClass(Processo.class);
 		configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
 		configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost/belluno");
 		configuration.setProperty("hibernate.connection.username", "root");
 		configuration.setProperty("hibernate.connection.password", "root");
 		configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-		// configuration.setProperty("hibernate.show_sql", "true");
+//		configuration.setProperty("hibernate.show_sql", "true");
 		configuration.setProperty("hibernate.format_sql", "true");
 	}
 
