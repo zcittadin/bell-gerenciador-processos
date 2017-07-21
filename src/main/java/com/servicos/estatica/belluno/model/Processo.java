@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Table(name = "processo")
 public class Processo implements Serializable {
 
-	private static final long serialVersionUID = 254888343609435713L;
+	private static final long serialVersionUID = -5827376150440761796L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +32,8 @@ public class Processo implements Serializable {
 	private double tempMax;
 	@Column(name = "t_min")
 	private double tempMin;
+	@Column(name = "dh_inicial")
+	private Date dhInicial;
 	@Column(name = "duracao")
 	private Date duracao;
 
@@ -40,14 +42,22 @@ public class Processo implements Serializable {
 	}
 
 	public Processo(Long id, List<Leitura> leituras, String identificador, double tempMax, double tempMin,
-			Date duracao) {
-		super();
+			Date dhInicial, Date duracao) {
 		this.id = id;
 		this.leituras = leituras;
 		this.identificador = identificador;
 		this.tempMax = tempMax;
 		this.tempMin = tempMin;
+		this.dhInicial = dhInicial;
 		this.duracao = duracao;
+	}
+
+	public Date getDhInicial() {
+		return dhInicial;
+	}
+
+	public void setDhInicial(Date dhInicial) {
+		this.dhInicial = dhInicial;
 	}
 
 	public Long getId() {
@@ -101,7 +111,7 @@ public class Processo implements Serializable {
 	@Override
 	public String toString() {
 		return "Processo [id=" + id + ", leituras=" + leituras + ", identificador=" + identificador + ", tempMax="
-				+ tempMax + ", tempMin=" + tempMin + ", duracao=" + duracao + "]";
+				+ tempMax + ", tempMin=" + tempMin + ", dhInicial=" + dhInicial + ", duracao=" + duracao + "]";
 	}
 
 	@Override

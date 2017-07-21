@@ -76,14 +76,22 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	@FXML
 	private Label lblChrono;
 	@FXML
+	private Label lblDhInicial;
+	@FXML
+	private Label lblTempMin;
+	@FXML
+	private Label lblTempMax;
+	@FXML
 	private ProgressIndicator progressSave;
 
 	private static Timeline chartAnimation;
 	private static Timeline scanModbusSlaves;
 	private static XYChart.Series<String, Number> tempSeries;
-	private static DateTimeFormatter horasFormatter = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy");
+	private static DateTimeFormatter dataHoraFormatter = DateTimeFormatter.ofPattern("HH:mm:ss - dd/MM/yy");
 
 	private static Double temperatura = new Double(0);
+	private static Double tempMin = new Double(300);
+	private static Double tempMax = new Double(0);
 	private static Boolean isReady = false;
 	private static Boolean isRunning = false;
 
@@ -108,7 +116,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		imgFogo.setImage(new Image("/com/servicos/estatica/belluno/style/fire.gif"));
-		modService.setConnectionParams("COM9", 9600);
+		modService.setConnectionParams("COM5", 9600);
 		modService.openConnection();
 		initModbusReadSlaves();
 		configLineChart();
@@ -131,7 +139,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		Task<Void> saveTask = new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
-				processo = new Processo(null, leituras, txtProcesso.getText(), 0, 0, null);
+				processo = new Processo(null, leituras, txtProcesso.getText(), 0, 0, null, null);
 				processoDAO.saveProcesso(processo);
 				return null;
 			}
@@ -216,10 +224,12 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		scanModbusSlaves.play();
 		chartAnimation.play();
 		chronoMeter.start(lblChrono);
+		lblDhInicial.setText(dataHoraFormatter.format(LocalDateTime.now()));
 		imgFogo.setVisible(true);
 		// dadosParciaisTimeLine.play();
 		// chronoMeter.start(lblCronometro);
 		// produtoService.updateDataInicial(Integer.parseInt(lblLote.getText()));
+		processoDAO.updateDataInicial(processo);
 	}
 
 	private void finalizeProcess() {
@@ -265,6 +275,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 					@Override
 					public void run() {
 						lblTemp.setText(temperatura.toString());
+						calculaMinMax();
 					}
 				});
 			}
@@ -283,14 +294,14 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		chartAnimation.setCycleCount(Animation.INDEFINITE);
 
 		tempSeries = new XYChart.Series<String, Number>();
-		tempSeries.getData().add(new XYChart.Data<>(horasFormatter.format(LocalDateTime.now()), 20));
+		tempSeries.getData().add(new XYChart.Data<>(dataHoraFormatter.format(LocalDateTime.now()), 20));
 		plotValuesList.add(tempSeries);
 		chartTemp.setData(plotValuesList);
 
 	}
 
 	private void plotTemp() {
-		final XYChart.Data<String, Number> data = new XYChart.Data<>(horasFormatter.format(LocalDateTime.now()),
+		final XYChart.Data<String, Number> data = new XYChart.Data<>(dataHoraFormatter.format(LocalDateTime.now()),
 				temperatura);
 		Node mark = new HoverDataChart(1, temperatura);
 		if (!MarkLineChartProperty.getMark())
@@ -299,6 +310,21 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		data.setNode(mark);
 		tempSeries.getData().add(data);
 		saveTemp();
+	}
+
+	private void calculaMinMax() {
+		if (tempMin > temperatura) {
+			tempMin = temperatura;
+			lblTempMin.setText(tempMin.toString());
+			// produtoService.updateTemperaturaMin(Integer.parseInt(lblLote.getText()),
+			// tempMin);
+		}
+		if (tempMax < temperatura) {
+			tempMax = temperatura;
+			lblTempMax.setText(tempMax.toString());
+			// produtoService.updateTemperaturaMax(Integer.parseInt(lblLote.getText()),
+			// tempMax);
+		}
 	}
 
 	private void makeToast(String message) {

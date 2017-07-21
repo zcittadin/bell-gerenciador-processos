@@ -13,6 +13,9 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="mainPane" onMousePressed="#switchIsPressing" prefHeight="660.0" prefWidth="1208.0" styleClass="myGradient" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.servicos.estatica.belluno.controller.PaginaInicialController">
@@ -102,6 +105,51 @@
       <Label layoutX="724.0" layoutY="34.0" text="Data/hora inicial" textFill="WHITE">
          <font>
             <Font size="15.0" />
+         </font>
+      </Label>
+      <Line endX="165.0" layoutX="842.0" layoutY="45.0">
+         <stroke>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#6bda76" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </stroke>
+      </Line>
+      <Line endX="133.0" layoutX="873.0" layoutY="117.0">
+         <stroke>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#6bda76" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </stroke>
+      </Line>
+      <Line endX="136.0" layoutX="871.0" layoutY="82.0">
+         <stroke>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#6bda76" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </stroke>
+      </Line>
+      <Label fx:id="lblDhInicial" alignment="CENTER" layoutX="1015.0" layoutY="33.0" prefHeight="25.0" prefWidth="153.0" style="-fx-background-color: #FFE4E1;" text="00:00:00 - 00/00/00" textFill="#000a6b">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTempMin" alignment="CENTER" layoutX="1015.0" layoutY="69.0" prefHeight="25.0" prefWidth="153.0" style="-fx-background-color: #FFE4E1;" text="000.0" textFill="#000a6b">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTempMax" alignment="CENTER" layoutX="1015.0" layoutY="104.0" prefHeight="25.0" prefWidth="153.0" style="-fx-background-color: #FFE4E1;" text="000.0" textFill="#000a6b">
+         <font>
+            <Font name="System Bold" size="15.0" />
          </font>
       </Label>
    </children>
