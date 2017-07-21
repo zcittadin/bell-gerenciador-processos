@@ -90,7 +90,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private static DateTimeFormatter dataHoraFormatter = DateTimeFormatter.ofPattern("HH:mm:ss - dd/MM/yy");
 
 	private static Double temperatura = new Double(0);
-	private static Double tempMin = new Double(300);
+	private static Double tempMin = new Double(1900);
 	private static Double tempMax = new Double(0);
 	private static Boolean isReady = false;
 	private static Boolean isRunning = false;
@@ -258,6 +258,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		// ProcessoStatusManager.setProcessoStatus(NOME_REATOR, isRunning);
 		// chronoMeter.stop();
 		// makeToast(TOASTER_FINALIZADO_SUCESSO);
+		processoDAO.updateDataFinal(processo);
 	}
 
 	private void saveTemp() {
@@ -316,14 +317,14 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		if (tempMin > temperatura) {
 			tempMin = temperatura;
 			lblTempMin.setText(tempMin.toString());
-			// produtoService.updateTemperaturaMin(Integer.parseInt(lblLote.getText()),
-			// tempMin);
+			processo.setTempMin(tempMin);
+			processoDAO.updateTemperaturaMin(processo);
 		}
 		if (tempMax < temperatura) {
 			tempMax = temperatura;
 			lblTempMax.setText(tempMax.toString());
-			// produtoService.updateTemperaturaMax(Integer.parseInt(lblLote.getText()),
-			// tempMax);
+			processo.setTempMax(tempMax);
+			processoDAO.updateTemperaturaMax(processo);
 		}
 	}
 

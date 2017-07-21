@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Table(name = "processo")
 public class Processo implements Serializable {
 
-	private static final long serialVersionUID = -5827376150440761796L;
+	private static final long serialVersionUID = 689884747660859207L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,22 +34,22 @@ public class Processo implements Serializable {
 	private double tempMin;
 	@Column(name = "dh_inicial")
 	private Date dhInicial;
-	@Column(name = "duracao")
-	private Date duracao;
+	@Column(name = "dh_final")
+	private Date dhFinal;
 
 	public Processo() {
 
 	}
 
 	public Processo(Long id, List<Leitura> leituras, String identificador, double tempMax, double tempMin,
-			Date dhInicial, Date duracao) {
+			Date dhInicial, Date dhFinal) {
 		this.id = id;
 		this.leituras = leituras;
 		this.identificador = identificador;
 		this.tempMax = tempMax;
 		this.tempMin = tempMin;
 		this.dhInicial = dhInicial;
-		this.duracao = duracao;
+		this.dhFinal = dhFinal;
 	}
 
 	public Date getDhInicial() {
@@ -100,18 +100,18 @@ public class Processo implements Serializable {
 		this.tempMin = tempMin;
 	}
 
-	public Date getDuracao() {
-		return duracao;
+	public Date getDhFinal() {
+		return dhFinal;
 	}
 
-	public void setDuracao(Date duracao) {
-		this.duracao = duracao;
+	public void setDhFinal(Date dhFinal) {
+		this.dhFinal = dhFinal;
 	}
 
 	@Override
 	public String toString() {
 		return "Processo [id=" + id + ", leituras=" + leituras + ", identificador=" + identificador + ", tempMax="
-				+ tempMax + ", tempMin=" + tempMin + ", dhInicial=" + dhInicial + ", duracao=" + duracao + "]";
+				+ tempMax + ", tempMin=" + tempMin + ", dhInicial=" + dhInicial + ", dhFinal=" + dhFinal + "]";
 	}
 
 	@Override

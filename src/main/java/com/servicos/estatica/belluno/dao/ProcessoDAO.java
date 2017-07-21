@@ -31,4 +31,37 @@ public class ProcessoDAO {
 		session.close();
 	}
 
+	public void updateDataFinal(Processo processo) {
+		Session session = HibernateUtil.openSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery("UPDATE Processo set dhFinal = :dtFim WHERE id = :id");
+		query.setParameter("dtFim", Calendar.getInstance().getTime());
+		query.setParameter("id", processo.getId());
+		query.executeUpdate();
+		tx.commit();
+		session.close();
+	}
+
+	public void updateTemperaturaMax(Processo processo) {
+		Session session = HibernateUtil.openSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery("UPDATE Processo set tempMax = :tempMax WHERE id = :id");
+		query.setParameter("tempMax", processo.getTempMax());
+		query.setParameter("id", processo.getId());
+		query.executeUpdate();
+		tx.commit();
+		session.close();
+	}
+
+	public void updateTemperaturaMin(Processo processo) {
+		Session session = HibernateUtil.openSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery("UPDATE Processo set tempMin = :tempMin WHERE id = :id");
+		query.setParameter("tempMin", processo.getTempMin());
+		query.setParameter("id", processo.getId());
+		query.executeUpdate();
+		tx.commit();
+		session.close();
+	}
+
 }
