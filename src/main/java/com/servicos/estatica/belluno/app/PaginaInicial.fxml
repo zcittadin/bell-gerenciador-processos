@@ -89,5 +89,20 @@
       <Label layoutX="575.0" layoutY="90.0" text="Tempo decorrido" textFill="WHITE" />
       <Separator layoutX="698.0" layoutY="1.0" orientation="VERTICAL" prefHeight="164.0" />
       <ProgressIndicator fx:id="progressSave" layoutX="88.0" layoutY="40.0" prefHeight="86.0" prefWidth="145.0" visible="false" />
+      <Label layoutX="723.0" layoutY="69.0" text="Temperatura mínima" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="723.0" layoutY="104.0" text="Temperatura máxima" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="724.0" layoutY="34.0" text="Data/hora inicial" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

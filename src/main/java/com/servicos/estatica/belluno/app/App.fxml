@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import eu.hansolo.medusa.Clock?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.BoxBlur?>
@@ -55,6 +56,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
+                  <Clock layoutX="11.0" layoutY="11.0" lcdDesign="LIGHTBLUE" prefHeight="75.0" prefWidth="136.0" running="true" secondsVisible="true" skinType="LCD" />
                </children></AnchorPane>
          </left>
          <center>
