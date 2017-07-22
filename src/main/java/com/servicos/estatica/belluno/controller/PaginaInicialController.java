@@ -238,33 +238,33 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 			alert.setTitle("Confirmar cancelamento");
 			alert.setHeaderText("Os dados referentes a este processo serão perdidos. Confirmar?");
 			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == ButtonType.CANCEL) {
-				return;
+			if (result.get() == ButtonType.OK) {
+				isAdding = false;
+				isFinalized = true;
+				isReady = false;
+				isRunning = false;
+				tempMax = new Double(0);
+				tempMin = new Double(1900);
+				imgFogo.setVisible(false);
+				imgSwitch.setImage(new Image("/com/servicos/estatica/belluno/style/switch_off.png"));
+				lblTemp.setText("000.0");
+				lblChrono.setText("00:00:00");
+				lblDhInicial.setText("00:00:00 - 00/00/00");
+				lblTempMax.setText("000.0");
+				lblTempMin.setText("000.0");
+				btNovo.setDisable(false);
+				btSalvar.setDisable(true);
+				btCancelar.setDisable(true);
+				txtProcesso.setText("");
+				txtProcesso.setDisable(true);
+				scanModbusSlaves.stop();
+				chartAnimation.stop();
+				clearLineChart();
+				leituraDAO.removeLeituras(processo);
+				leituras.clear();
+				processoDAO.removeProcesso(processo);
+				makeToast("Processo removido com sucesso.");
 			}
-			isAdding = false;
-			isFinalized = true;
-			isReady = false;
-			isRunning = false;
-			tempMax = new Double(0);
-			tempMin = new Double(1900);
-			imgFogo.setVisible(false);
-			imgSwitch.setImage(new Image("/com/servicos/estatica/belluno/style/switch_off.png"));
-			lblTemp.setText("000.0");
-			lblChrono.setText("00:00:00");
-			lblDhInicial.setText("00:00:00 - 00/00/00");
-			lblTempMax.setText("000.0");
-			lblTempMin.setText("000.0");
-			btNovo.setDisable(false);
-			btSalvar.setDisable(true);
-			btCancelar.setDisable(true);
-			txtProcesso.setText("");
-			txtProcesso.setDisable(true);
-			scanModbusSlaves.stop();
-			chartAnimation.stop();
-			leituraDAO.removeLeituras(processo);
-			leituras.clear();
-			processoDAO.removeProcesso(processo);
-			makeToast("Processo removido com sucesso.");
 		}
 
 	}
