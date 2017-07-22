@@ -30,7 +30,7 @@ public class HibernateUtil {
 	}
 
 	private static void getConfiguration() {
-		configuration.addPackage("com.estatica.servicos.model");
+		configuration.addPackage("com.servicos.estatica.belluno.model");
 		configuration.addAnnotatedClass(Leitura.class);
 		configuration.addAnnotatedClass(Processo.class);
 		configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");

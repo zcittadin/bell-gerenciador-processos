@@ -80,12 +80,12 @@
             <Glow level="1.0" />
          </effect>
       </ImageView>
-      <Label fx:id="lblTemp" alignment="CENTER" layoutX="566.0" layoutY="38.0" prefHeight="37.0" prefWidth="110.0" styleClass="headerGradient" stylesheets="@../style/style.css" textFill="RED">
+      <Label fx:id="lblTemp" alignment="CENTER" layoutX="566.0" layoutY="38.0" prefHeight="37.0" prefWidth="110.0" styleClass="headerGradient" stylesheets="@../style/style.css" text="000.0" textFill="RED">
          <font>
             <Font name="DSEG7 Classic-Bold" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="lblChrono" alignment="CENTER" layoutX="566.0" layoutY="111.0" prefHeight="37.0" prefWidth="110.0" styleClass="headerGradient" stylesheets="@../style/style.css" textFill="#5aff00">
+      <Label fx:id="lblChrono" alignment="CENTER" layoutX="566.0" layoutY="111.0" prefHeight="37.0" prefWidth="110.0" styleClass="headerGradient" stylesheets="@../style/style.css" text="00:00:00" textFill="#5aff00">
          <font>
             <Font name="DSEG7 Classic-Bold" size="20.0" />
          </font></Label>

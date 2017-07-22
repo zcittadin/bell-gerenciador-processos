@@ -143,6 +143,9 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private void addProcesso() {
 		isFinalized = false;
 		isAdding = true;
+		tempMax = new Double(0);
+		tempMin = new Double(1900);
+		clearLineChart();
 		lblTemp.setText("000.0");
 		lblChrono.setText("00:00:00");
 		lblDhInicial.setText("00:00:00 - 00/00/00");
@@ -221,6 +224,47 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 			txtProcesso.setDisable(true);
 			isAdding = false;
 			return;
+		}
+
+		if (isRunning) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Atenção");
+			alert.setHeaderText("Existe um processo em andamento. Encerre-o antes de cancelar.");
+			alert.showAndWait();
+		}
+
+		if (isReady || isFinalized) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmar cancelamento");
+			alert.setHeaderText("Os dados referentes a este processo serão perdidos. Confirmar?");
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.CANCEL) {
+				return;
+			}
+			isAdding = false;
+			isFinalized = true;
+			isReady = false;
+			isRunning = false;
+			tempMax = new Double(0);
+			tempMin = new Double(1900);
+			imgFogo.setVisible(false);
+			imgSwitch.setImage(new Image("/com/servicos/estatica/belluno/style/switch_off.png"));
+			lblTemp.setText("000.0");
+			lblChrono.setText("00:00:00");
+			lblDhInicial.setText("00:00:00 - 00/00/00");
+			lblTempMax.setText("000.0");
+			lblTempMin.setText("000.0");
+			btNovo.setDisable(false);
+			btSalvar.setDisable(true);
+			btCancelar.setDisable(true);
+			txtProcesso.setText("");
+			txtProcesso.setDisable(true);
+			scanModbusSlaves.stop();
+			chartAnimation.stop();
+			leituraDAO.removeLeituras(processo);
+			leituras.clear();
+			processoDAO.removeProcesso(processo);
+			makeToast("Processo removido com sucesso.");
 		}
 
 	}
@@ -347,7 +391,6 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		chartAnimation.setCycleCount(Animation.INDEFINITE);
 
 		tempSeries = new XYChart.Series<String, Number>();
-		tempSeries.getData().add(new XYChart.Data<>(dataHoraFormatter.format(LocalDateTime.now()), 20));
 		plotValuesList.add(tempSeries);
 		chartTemp.setData(plotValuesList);
 
@@ -363,6 +406,14 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		data.setNode(mark);
 		tempSeries.getData().add(data);
 		saveTemp();
+	}
+
+	@SuppressWarnings("unchecked")
+	private void clearLineChart() {
+		tempSeries.getData().clear();
+		chartTemp.getData().clear();
+		tempSeries = new XYChart.Series<String, Number>();
+		chartTemp.getData().addAll(tempSeries);
 	}
 
 	private void calculaMinMax() {

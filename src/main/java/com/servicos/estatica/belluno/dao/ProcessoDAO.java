@@ -17,7 +17,17 @@ public class ProcessoDAO {
 		session.beginTransaction();
 		session.save(processo);
 		session.getTransaction().commit();
+		session.clear();
 		session.close();
+	}
+
+	public void removeProcesso(Processo processo) {
+		Session session = HibernateUtil.openSession();
+		session.beginTransaction();
+		session.remove(processo);
+		session.getTransaction().commit();
+		session.close();
+
 	}
 
 	public void updateDataInicial(Processo processo) {
