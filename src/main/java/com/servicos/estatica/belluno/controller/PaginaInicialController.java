@@ -25,6 +25,8 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -43,6 +45,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
@@ -66,6 +69,8 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	@FXML
 	private TextField txtProcesso;
 	@FXML
+	private Button btNovo;
+	@FXML
 	private Button btSalvar;
 	@FXML
 	private Button btCancelar;
@@ -83,6 +88,8 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private Label lblTempMax;
 	@FXML
 	private ProgressIndicator progressSave;
+	@FXML
+	private CheckBox chkMarcadores;
 
 	private static Timeline chartAnimation;
 	private static Timeline scanModbusSlaves;
@@ -94,6 +101,8 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private static Double tempMax = new Double(0);
 	private static Boolean isReady = false;
 	private static Boolean isRunning = false;
+	private static Boolean isFinalized = false;
+	private static Boolean isAdding = false;
 
 	final ObservableList<XYChart.Series<String, Number>> plotValuesList = FXCollections.observableArrayList();
 	final List<Node> valueMarks = new ArrayList<>();
@@ -120,6 +129,30 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		modService.openConnection();
 		initModbusReadSlaves();
 		configLineChart();
+		MarkLineChartProperty.markProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				for (Node mark : valueMarks) {
+					mark.setVisible(newValue);
+				}
+			}
+		});
+	}
+
+	@FXML
+	private void addProcesso() {
+		isFinalized = false;
+		isAdding = true;
+		lblTemp.setText("000.0");
+		lblChrono.setText("00:00:00");
+		lblDhInicial.setText("00:00:00 - 00/00/00");
+		lblTempMax.setText("000.0");
+		lblTempMin.setText("000.0");
+		txtProcesso.setDisable(false);
+		txtProcesso.setText("");
+		txtProcesso.requestFocus();
+		btSalvar.setDisable(false);
+		btCancelar.setDisable(false);
 	}
 
 	@FXML
@@ -148,7 +181,9 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		saveTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent arg0) {
+				isAdding = false;
 				progressSave.setVisible(false);
+				btCancelar.setDisable(false);
 				lblTemp.setText("000.0");
 				lblChrono.setText("00:00:00");
 				makeToast("Processo salvo com sucesso.");
@@ -158,6 +193,11 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		saveTask.setOnFailed(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent arg0) {
+				isAdding = false;
+				txtProcesso.setText("");
+				txtProcesso.setDisable(true);
+				btNovo.setDisable(true);
+				btCancelar.setDisable(true);
 				progressSave.setVisible(false);
 			}
 		});
@@ -166,12 +206,22 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 
 		txtProcesso.setDisable(true);
 		btSalvar.setDisable(true);
+		btNovo.setDisable(true);
+		btCancelar.setDisable(true);
 		isReady = true;
 
 	}
 
 	@FXML
 	private void cancelarProcesso() {
+		if (isAdding) {
+			btSalvar.setDisable(true);
+			btCancelar.setDisable(true);
+			txtProcesso.setText("");
+			txtProcesso.setDisable(true);
+			isAdding = false;
+			return;
+		}
 
 	}
 
@@ -181,8 +231,13 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	}
 
 	@FXML
+	public void toggleMark() {
+		MarkLineChartProperty.setMark(chkMarcadores.isSelected());
+	}
+
+	@FXML
 	public void toggleProcess() {
-		if (!isReady && !isRunning) {
+		if ((!isReady && !isRunning) || isFinalized) {
 			Toolkit.getDefaultToolkit().beep();
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Atenção");
@@ -247,13 +302,10 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		// dadosParciaisTimeLine.stop();
 		imgSwitch.setImage(new Image("/com/servicos/estatica/belluno/style/switch_off.png"));
 		// Tooltip.install(imgSwitch, TOOLTIP_SWITCH_FINALIZADO);
-		btSalvar.setDisable(false);
+		btNovo.setDisable(false);
 		isRunning = false;
+		isFinalized = true;
 		chronoMeter.stop();
-		txtProcesso.clear();
-		txtProcesso.setDisable(false);
-		lblTemp.setText("");
-		lblChrono.setText("");
 		imgFogo.setVisible(false);
 		// ProcessoStatusManager.setProcessoStatus(NOME_REATOR, isRunning);
 		// chronoMeter.stop();

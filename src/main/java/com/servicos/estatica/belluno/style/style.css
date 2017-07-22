@@ -36,3 +36,7 @@
 .chart-vertical-grid-lines {
     -fx-stroke: rgba(0.0,255.0,126.0,0.0);
 }
+
+.btNovo {
+  -fx-graphic: url('add.png');
+}
