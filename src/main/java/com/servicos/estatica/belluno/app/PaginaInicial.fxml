@@ -57,7 +57,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btReport" disable="true" layoutX="31.0" layoutY="129.0" mnemonicParsing="false" onAction="#generateReport" prefHeight="25.0" prefWidth="258.0" text="Relatório">
+      <Button fx:id="btReport" layoutX="31.0" layoutY="129.0" mnemonicParsing="false" onAction="#saveReport" prefHeight="25.0" prefWidth="258.0" text="Relatório">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

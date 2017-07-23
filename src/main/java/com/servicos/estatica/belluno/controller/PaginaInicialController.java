@@ -1,6 +1,9 @@
 package com.servicos.estatica.belluno.controller;
 
+import java.awt.Desktop;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -17,6 +20,7 @@ import com.servicos.estatica.belluno.modbus.ModbusRTUService;
 import com.servicos.estatica.belluno.model.Leitura;
 import com.servicos.estatica.belluno.model.Processo;
 import com.servicos.estatica.belluno.properties.MarkLineChartProperty;
+import com.servicos.estatica.belluno.report.builder.ProcessoReportCreator;
 import com.servicos.estatica.belluno.util.Chronometer;
 import com.servicos.estatica.belluno.util.HoverDataChart;
 import com.servicos.estatica.belluno.util.Toast;
@@ -51,6 +55,8 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -270,6 +276,68 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	}
 
 	@FXML
+	public void saveReport() {
+		Stage stage = new Stage();
+		stage.initOwner(btReport.getScene().getWindow());
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("PDF Files", "*.pdf"));
+		fileChooser.setTitle("Salvar relatório de processo");
+		fileChooser.setInitialFileName(processo.getIdentificador() + ".pdf");
+		File savedFile = fileChooser.showSaveDialog(stage);
+		if (savedFile != null) {
+			generatePdfReport(savedFile);
+		}
+
+	}
+
+	private void generatePdfReport(File file) {
+		progressSave.setVisible(Boolean.TRUE);
+		btReport.setDisable(Boolean.TRUE);
+		Task<Integer> reportTask = new Task<Integer>() {
+			@Override
+			protected Integer call() throws Exception {
+				int result = ProcessoReportCreator.build(processo, file.getAbsolutePath(), lblChrono.getText());
+				int maximum = 20;
+				for (int i = 0; i < maximum; i++) {
+					updateProgress(i, maximum);
+				}
+				return new Integer(result);
+			}
+		};
+
+		reportTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent event) {
+				progressSave.setVisible(Boolean.FALSE);
+				btReport.setDisable(Boolean.FALSE);
+				int r = reportTask.getValue();
+				if (r != 1) {
+					Toolkit.getDefaultToolkit().beep();
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Erro");
+					alert.setHeaderText("Houve uma falha na emissão do relatório.");
+					alert.showAndWait();
+					return;
+				}
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Concluído");
+				alert.setHeaderText("Relatório emitido com sucesso. Deseja visualizar?");
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == ButtonType.OK) {
+					try {
+						Desktop.getDesktop().open(file);
+					} catch (IOException ex) {
+						ex.printStackTrace();
+					}
+				}
+			}
+		});
+
+		Thread t = new Thread(reportTask);
+		t.start();
+	}
+
+	@FXML
 	private void generateReport() {
 
 	}
@@ -328,6 +396,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		// dadosParciaisTimeLine.play();
 		// chronoMeter.start(lblCronometro);
 		// produtoService.updateDataInicial(Integer.parseInt(lblLote.getText()));
+		processo.setDhInicial(Calendar.getInstance().getTime());
 		processoDAO.updateDataInicial(processo);
 	}
 
@@ -354,6 +423,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		// ProcessoStatusManager.setProcessoStatus(NOME_REATOR, isRunning);
 		// chronoMeter.stop();
 		// makeToast(TOASTER_FINALIZADO_SUCESSO);
+		processo.setDhFinal(Calendar.getInstance().getTime());
 		processoDAO.updateDataFinal(processo);
 	}
 
