@@ -131,7 +131,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		imgFogo.setImage(new Image("/com/servicos/estatica/belluno/style/fire.gif"));
-		modService.setConnectionParams("COM5", 9600);
+		modService.setConnectionParams("COM9", 9600);
 		modService.openConnection();
 		initModbusReadSlaves();
 		configLineChart();
