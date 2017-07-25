@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="450.0" prefWidth="1200.0" styleClass="myGradient" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.servicos.estatica.belluno.controller.ChartScreenController">
+   <children>
+      <LineChart fx:id="chartTemp" createSymbols="false" layoutX="26.0" layoutY="25.0" legendVisible="false" prefHeight="429.0" prefWidth="1184.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" tickLabelFill="WHITE" fx:id="xAxis">
+               <tickLabelFont>
+                  <Font size="10.0" />
+               </tickLabelFont>
+            </CategoryAxis>
+        </xAxis>
+        <yAxis>
+          <NumberAxis fx:id="yAxis" label="ºC" minorTickCount="1" minorTickLength="20.0" side="LEFT" tickLabelFill="WHITE" tickUnit="20.0">
+               <tickLabelFont>
+                  <Font size="17.0" />
+               </tickLabelFont>
+            </NumberAxis>
+        </yAxis>
+      </LineChart>
+   </children>
+</AnchorPane>

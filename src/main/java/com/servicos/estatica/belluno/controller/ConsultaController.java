@@ -26,8 +26,12 @@ import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -48,6 +52,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -328,7 +333,30 @@ public class ConsultaController implements Initializable, ControlledScreen {
 									setText(null);
 								} else {
 									btn.setOnAction(event -> {
-										System.out.println("Grafico");
+
+										try {
+											Stage stage;
+											Parent root;
+											stage = new Stage();
+											URL url = getClass()
+													.getResource("/com/servicos/estatica/belluno/app/ChartScreen.fxml");
+											FXMLLoader fxmlloader = new FXMLLoader();
+											fxmlloader.setLocation(url);
+											fxmlloader.setBuilderFactory(new JavaFXBuilderFactory());
+											root = (Parent) fxmlloader.load(url.openStream());
+											stage.setScene(new Scene(root));
+											stage.setTitle("Visualização gráfica do processo");
+											stage.initModality(Modality.APPLICATION_MODAL);
+											stage.initOwner(txtIdentificador.getScene().getWindow());
+											stage.setResizable(Boolean.FALSE);
+											((ChartScreenController) fxmlloader.getController())
+													.setContext(getTableView().getItems().get(getIndex()));
+											stage.showAndWait();
+										} catch (IOException e) {
+											System.err.println("Erro ao carregar FXML!");
+											e.printStackTrace();
+										}
+
 									});
 									btn.setStyle(
 											"-fx-graphic: url('com/servicos/estatica/belluno/style/chart_curve.png');");
