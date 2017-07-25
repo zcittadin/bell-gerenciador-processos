@@ -49,10 +49,10 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <RadioButton fx:id="rdIdentificador" layoutX="51.0" layoutY="80.0" mnemonicParsing="false" onAction="#selectUltimos" selected="true" text="Últimos processos" textFill="WHITE" />
+      <RadioButton fx:id="rdUltimos" layoutX="51.0" layoutY="80.0" mnemonicParsing="false" onAction="#selectUltimos" selected="true" text="Últimos processos" textFill="WHITE" />
       <RadioButton fx:id="rdPeriodo" layoutX="51.0" layoutY="116.0" mnemonicParsing="false" onAction="#selectPorPeriodo" text="Por período" textFill="WHITE" />
-      <RadioButton fx:id="rdUltimos" layoutX="51.0" layoutY="152.0" mnemonicParsing="false" onAction="#selectPorIdentificador" text="Por identificador" textFill="WHITE" />
-      <Button fx:id="btBuscar" layoutX="242.0" layoutY="205.0" mnemonicParsing="false" onAction="#consultarPorIdentificador" prefHeight="25.0" prefWidth="84.0" text="Buscar">
+      <RadioButton fx:id="rdIdentificador" layoutX="51.0" layoutY="152.0" mnemonicParsing="false" onAction="#selectPorIdentificador" text="Por identificador" textFill="WHITE" />
+      <Button fx:id="btBuscar" layoutX="242.0" layoutY="205.0" mnemonicParsing="false" onAction="#consultar" prefHeight="25.0" prefWidth="84.0" text="Buscar">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

@@ -130,13 +130,24 @@ public class ConsultaController implements Initializable, ControlledScreen {
 	}
 
 	@FXML
-	private void consultarPorIdentificador() {
+	private void consultar() {
 		tblConsulta.getItems().clear();
 		Task<Void> searchTask = new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
-				processos = FXCollections.observableList(
-						(List<Processo>) processoDAO.findByIdentificadorProcessos(txtIdentificador.getText()));
+				if (rdIdentificador.isSelected()) {
+					processos = FXCollections.observableList(
+							(List<Processo>) processoDAO.findByIdentificadorProcessos(txtIdentificador.getText()));
+					return null;
+				}
+				if (rdPeriodo.isSelected()) {
+					System.out.println("Por periodo");
+					return null;
+				}
+				if (rdUltimos.isSelected()) {
+					processos = FXCollections.observableList((List<Processo>) processoDAO.findLastProcessos());
+					return null;
+				}
 				return null;
 			}
 		};
