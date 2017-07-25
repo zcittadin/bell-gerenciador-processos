@@ -19,17 +19,21 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Callback;
@@ -287,6 +291,40 @@ public class ConsultaController implements Initializable, ControlledScreen {
 						return simpleObject;
 					}
 				});
+		colRelatorios.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+
+		Callback<TableColumn<Processo, String>, TableCell<Processo, String>> cellFactory = //
+				new Callback<TableColumn<Processo, String>, TableCell<Processo, String>>() {
+					@Override
+					public TableCell call(final TableColumn<Processo, String> param) {
+						final TableCell<Processo, String> cell = new TableCell<Processo, String>() {
+
+							final Button btn = new Button("Emitir");
+
+							@Override
+							public void updateItem(String item, boolean empty) {
+								super.updateItem(item, empty);
+								if (empty) {
+									setGraphic(null);
+									setText(null);
+								} else {
+									btn.setOnAction(event -> {
+										Processo processo = getTableView().getItems().get(getIndex());
+										System.out
+												.println(processo.getIdentificador() + "   " + processo.getDhInicial());
+									});
+									btn.setCursor(Cursor.HAND);
+									setGraphic(btn);
+									setText(null);
+								}
+							}
+						};
+						return cell;
+					}
+				};
+
+		colRelatorios.setCellFactory(cellFactory);
+
 		colIdentificador.setStyle("-fx-alignment: CENTER;");
 		colDhInicial.setStyle("-fx-alignment: CENTER;");
 		colDhFinal.setStyle("-fx-alignment: CENTER;");
