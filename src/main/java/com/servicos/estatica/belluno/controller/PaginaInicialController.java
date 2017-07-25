@@ -260,6 +260,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 				lblTempMin.setText("000.0");
 				btNovo.setDisable(false);
 				btSalvar.setDisable(true);
+				btReport.setDisable(true);
 				btCancelar.setDisable(true);
 				txtProcesso.setText("");
 				txtProcesso.setDisable(true);
@@ -338,11 +339,6 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	}
 
 	@FXML
-	private void generateReport() {
-
-	}
-
-	@FXML
 	public void toggleMark() {
 		MarkLineChartProperty.setMark(chkMarcadores.isSelected());
 	}
@@ -416,6 +412,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		imgSwitch.setImage(new Image("/com/servicos/estatica/belluno/style/switch_off.png"));
 		// Tooltip.install(imgSwitch, TOOLTIP_SWITCH_FINALIZADO);
 		btNovo.setDisable(false);
+		btReport.setDisable(false);
 		isRunning = false;
 		isFinalized = true;
 		chronoMeter.stop();

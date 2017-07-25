@@ -31,8 +31,8 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 
 	public static String screenInicioID = "inicio";
 	public static String screenInicioFile = "/com/servicos/estatica/belluno/app/PaginaInicial.fxml";
-	//public static String screenConsultaID = "consulta";
-	//public static String screenConsultaFile = "/com/servicos/estatica/resicolor/app/Consulta.fxml";
+	public static String screenConsultaID = "consulta";
+	public static String screenConsultaFile = "/com/servicos/estatica/belluno/app/Consulta.fxml";
 
 	@FXML
 	private AnchorPane mainPane;
@@ -67,11 +67,22 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 		mainPane.getChildren().addAll(imgClienteResizer, imgExitResizer);
 
 		mainContainer.loadScreen(screenInicioID, screenInicioFile);
+		mainContainer.loadScreen(screenConsultaID, screenConsultaFile);
 		CurrentScreenProperty.setScreen(screenInicioID);
 
 		mainContainer.setScreen(screenInicioID);
 		centralPane.getChildren().addAll(mainContainer);
 
+	}
+	
+	@FXML
+	private void openInicial() {
+		mainContainer.setScreen(screenInicioID);
+	}
+
+	@FXML
+	private void openConsultas() {
+		mainContainer.setScreen(screenConsultaID);
 	}
 
 	@FXML
