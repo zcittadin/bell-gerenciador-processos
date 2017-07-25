@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import com.servicos.estatica.belluno.app.ControlledScreen;
 import com.servicos.estatica.belluno.dao.ProcessoDAO;
 import com.servicos.estatica.belluno.model.Processo;
+import com.servicos.estatica.belluno.util.PeriodFormatter;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
@@ -265,7 +266,8 @@ public class ConsultaController implements Initializable, ControlledScreen {
 				new Callback<TableColumn.CellDataFeatures<Processo, String>, ObservableValue<String>>() {
 					public ObservableValue<String> call(CellDataFeatures<Processo, String> cell) {
 						final Processo p = cell.getValue();
-						final SimpleObjectProperty<String> simpleObject = new SimpleObjectProperty<String>("12:00:00");
+						final SimpleObjectProperty<String> simpleObject = new SimpleObjectProperty<String>(
+								PeriodFormatter.formatPeriod(p.getDhInicial(), p.getDhFinal()));
 						return simpleObject;
 					}
 				});
@@ -290,7 +292,6 @@ public class ConsultaController implements Initializable, ControlledScreen {
 		colSetPoint.setCellValueFactory(
 				new Callback<TableColumn.CellDataFeatures<Processo, Double>, ObservableValue<Double>>() {
 					public ObservableValue<Double> call(CellDataFeatures<Processo, Double> cell) {
-						final Processo p = cell.getValue();
 						final SimpleObjectProperty<Double> simpleObject = new SimpleObjectProperty<Double>(
 								new Double(0));
 						return simpleObject;
