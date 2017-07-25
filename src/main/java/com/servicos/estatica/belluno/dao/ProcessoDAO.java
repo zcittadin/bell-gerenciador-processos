@@ -1,6 +1,8 @@
 package com.servicos.estatica.belluno.dao;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.persistence.Query;
 
@@ -72,6 +74,29 @@ public class ProcessoDAO {
 		query.executeUpdate();
 		tx.commit();
 		session.close();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Processo> findLastProcessos() {
+		Session session = HibernateUtil.openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("SELECT p FROM Processo p");
+		List<Processo> list = new ArrayList<>();
+		list = query.getResultList();
+		session.close();
+		return list;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Processo> findByIdentificadorProcessos(String identificador) {
+		Session session = HibernateUtil.openSession();
+		session.beginTransaction();
+		Query query = session
+				.createQuery("SELECT p FROM Processo p WHERE identificador LIKE '%" + identificador + "%'");
+		List<Processo> list = new ArrayList<>();
+		list = query.getResultList();
+		session.close();
+		return list;
 	}
 
 }

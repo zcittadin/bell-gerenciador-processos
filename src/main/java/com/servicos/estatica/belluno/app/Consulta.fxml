@@ -29,35 +29,35 @@
          </fill></Rectangle>
       <TableView fx:id="tblConsulta" layoutX="29.0" layoutY="257.0" prefHeight="360.0" prefWidth="1150.0">
         <columns>
-          <TableColumn prefWidth="160.0" text="Identificador" />
-          <TableColumn prefWidth="130.0" text="Data/hora inicial" />
-            <TableColumn prefWidth="130.0" text="Data/hora final" />
-            <TableColumn prefWidth="120.0" text="Tempo decorrido" />
-            <TableColumn prefWidth="130.0" text="Temperatura mínima" />
-            <TableColumn prefWidth="130.0" text="Temperatura máxima" />
-            <TableColumn prefWidth="130.0" text="Set-point" />
-            <TableColumn prefWidth="110.0" text="Gráficos" />
-            <TableColumn prefWidth="110.0" text="Relatórios" />
+          <TableColumn fx:id="colIdentificador" prefWidth="160.0" text="Identificador" />
+          <TableColumn fx:id="colDhInicial" prefWidth="130.0" text="Data/hora inicial" />
+            <TableColumn fx:id="colDhFinal" prefWidth="130.0" text="Data/hora final" />
+            <TableColumn fx:id="colTempoDecorrido" prefWidth="120.0" text="Tempo decorrido" />
+            <TableColumn fx:id="colTempMin" prefWidth="130.0" text="Temperatura mínima" />
+            <TableColumn fx:id="colTempMax" prefWidth="130.0" text="Temperatura máxima" />
+            <TableColumn fx:id="colSetPoint" prefWidth="130.0" text="Set-point" />
+            <TableColumn fx:id="colGraficos" prefWidth="110.0" text="Gráficos" />
+            <TableColumn fx:id="colRelatorios" prefWidth="110.0" text="Relatórios" />
         </columns>
       </TableView>
       <Separator orientation="VERTICAL" prefHeight="660.0" />
-      <TextField fx:id="txtIdentificador" layoutX="221.0" layoutY="75.0" prefHeight="27.0" prefWidth="301.0" promptText="Identificador" />
-      <DatePicker fx:id="dtpInicio" layoutX="221.0" layoutY="111.0" prefHeight="27.0" prefWidth="143.0" promptText="Início" />
-      <DatePicker fx:id="dtpFinal" layoutX="379.0" layoutY="111.0" prefHeight="27.0" prefWidth="143.0" promptText="Final" />
-      <Label layoutX="51.0" layoutY="32.0" text="Dados para consulta" textFill="WHITE">
+      <TextField fx:id="txtIdentificador" disable="true" layoutX="218.0" layoutY="148.0" prefHeight="27.0" prefWidth="301.0" promptText="Identificador" />
+      <DatePicker fx:id="dtpInicio" disable="true" layoutX="218.0" layoutY="111.0" prefHeight="27.0" prefWidth="143.0" promptText="Início" />
+      <DatePicker fx:id="dtpFinal" disable="true" layoutX="376.0" layoutY="111.0" prefHeight="27.0" prefWidth="143.0" promptText="Final" />
+      <Label layoutX="51.0" layoutY="26.0" text="Dados para consulta" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <RadioButton fx:id="rdIdentificador" layoutX="51.0" layoutY="80.0" mnemonicParsing="false" text="Por identificador" textFill="WHITE" />
-      <RadioButton fx:id="rdPeriodo" layoutX="51.0" layoutY="116.0" mnemonicParsing="false" text="Por período" textFill="WHITE" />
-      <RadioButton fx:id="rdUltimos" layoutX="51.0" layoutY="152.0" mnemonicParsing="false" text="Últimos processos" textFill="WHITE" />
-      <Button fx:id="btBuscar" layoutX="242.0" layoutY="205.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="Buscar">
+      <RadioButton fx:id="rdIdentificador" layoutX="51.0" layoutY="80.0" mnemonicParsing="false" onAction="#selectUltimos" selected="true" text="Últimos processos" textFill="WHITE" />
+      <RadioButton fx:id="rdPeriodo" layoutX="51.0" layoutY="116.0" mnemonicParsing="false" onAction="#selectPorPeriodo" text="Por período" textFill="WHITE" />
+      <RadioButton fx:id="rdUltimos" layoutX="51.0" layoutY="152.0" mnemonicParsing="false" onAction="#selectPorIdentificador" text="Por identificador" textFill="WHITE" />
+      <Button fx:id="btBuscar" layoutX="242.0" layoutY="205.0" mnemonicParsing="false" onAction="#consultarPorIdentificador" prefHeight="25.0" prefWidth="84.0" text="Buscar">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Spinner fx:id="spnUltimos" layoutX="218.0" layoutY="148.0" prefHeight="25.0" prefWidth="66.0" />
+      <Spinner fx:id="spnUltimos" layoutX="218.0" layoutY="75.0" prefHeight="25.0" prefWidth="66.0" />
       <Separator layoutX="30.0" layoutY="191.0" prefWidth="509.0" />
    </children>
 </AnchorPane>

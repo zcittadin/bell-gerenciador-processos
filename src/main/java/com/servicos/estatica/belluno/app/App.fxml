@@ -77,7 +77,7 @@
                </children></AnchorPane>
          </left>
          <center>
-            <AnchorPane fx:id="centralPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <AnchorPane fx:id="centralPane" prefHeight="200.0" prefWidth="200.0" styleClass="myGradient" stylesheets="@../style/style.css" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </children>
