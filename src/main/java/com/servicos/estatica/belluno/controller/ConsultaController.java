@@ -18,6 +18,7 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
@@ -27,6 +28,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Callback;
@@ -72,7 +74,7 @@ public class ConsultaController implements Initializable, ControlledScreen {
 	private TableColumn colRelatorios;
 
 	SpinnerValueFactory<Integer> valueFactory = //
-			new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, 5);
+			new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, 10);
 	ToggleGroup group = new ToggleGroup();
 	private static ProcessoDAO processoDAO = new ProcessoDAO();
 	private static ObservableList<Processo> processos = FXCollections.observableArrayList();
@@ -110,7 +112,7 @@ public class ConsultaController implements Initializable, ControlledScreen {
 	@FXML
 	private void selectPorPeriodo() {
 		spnUltimos.setDisable(true);
-		spnUltimos.getValueFactory().setValue(5);
+		spnUltimos.getValueFactory().setValue(10);
 		txtIdentificador.setText(null);
 		dtpInicio.setDisable(false);
 		dtpFinal.setDisable(false);
@@ -122,7 +124,7 @@ public class ConsultaController implements Initializable, ControlledScreen {
 		dtpInicio.getEditor().setText(null);
 		dtpFinal.getEditor().setText(null);
 		spnUltimos.setDisable(true);
-		spnUltimos.getValueFactory().setValue(5);
+		spnUltimos.getValueFactory().setValue(10);
 		dtpInicio.setDisable(true);
 		dtpFinal.setDisable(true);
 		txtIdentificador.setDisable(false);
@@ -131,6 +133,8 @@ public class ConsultaController implements Initializable, ControlledScreen {
 
 	@FXML
 	private void consultar() {
+		if (!validateFields())
+			return;
 		tblConsulta.getItems().clear();
 		Task<Void> searchTask = new Task<Void>() {
 			@Override
@@ -166,6 +170,39 @@ public class ConsultaController implements Initializable, ControlledScreen {
 		});
 		Thread t = new Thread(searchTask);
 		t.start();
+	}
+
+	private Boolean validateFields() {
+		if (rdPeriodo.isSelected()) {
+			if ((dtpInicio.getValue() == null) || (dtpFinal.getValue() == null)) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Atenção");
+				alert.setHeaderText("Informe as datas de início e fim do processo.");
+				alert.showAndWait();
+				dtpInicio.requestFocus();
+				return false;
+			}
+		}
+		if (rdIdentificador.isSelected()) {
+			if (txtIdentificador.getText() == null) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Atenção");
+				alert.setHeaderText("Informe um identificador para a consulta.");
+				alert.showAndWait();
+				txtIdentificador.requestFocus();
+				return false;
+			}
+			if (txtIdentificador.getText().trim().equals("")) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Atenção");
+				alert.setHeaderText("Informe um identificador para a consulta.");
+				alert.showAndWait();
+				txtIdentificador.requestFocus();
+				return false;
+			}
+		}
+		return true;
+
 	}
 
 	private void consultarRecentes() {
