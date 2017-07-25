@@ -100,4 +100,16 @@ public class ProcessoDAO {
 		return list;
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Processo> findByPeriodo(String inicio, String fim) {
+		Session session = HibernateUtil.openSession();
+		session.beginTransaction();
+		Query query = session.createQuery(
+				"SELECT p FROM Processo p WHERE DATE(dhInicial) BETWEEN '" + inicio + "' AND '" + fim + "'");
+		List<Processo> list = new ArrayList<>();
+		list = query.getResultList();
+		session.close();
+		return list;
+	}
+
 }

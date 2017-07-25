@@ -141,11 +141,13 @@ public class ConsultaController implements Initializable, ControlledScreen {
 					return null;
 				}
 				if (rdPeriodo.isSelected()) {
-					System.out.println("Por periodo");
+					processos = FXCollections.observableList((List<Processo>) processoDAO
+							.findByPeriodo(dtpInicio.getValue().toString(), dtpFinal.getValue().toString()));
 					return null;
 				}
 				if (rdUltimos.isSelected()) {
-					processos = FXCollections.observableList((List<Processo>) processoDAO.findLastProcessos(spnUltimos.getValue()));
+					processos = FXCollections
+							.observableList((List<Processo>) processoDAO.findLastProcessos(spnUltimos.getValue()));
 					return null;
 				}
 				return null;
