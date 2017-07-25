@@ -145,7 +145,7 @@ public class ConsultaController implements Initializable, ControlledScreen {
 					return null;
 				}
 				if (rdUltimos.isSelected()) {
-					processos = FXCollections.observableList((List<Processo>) processoDAO.findLastProcessos());
+					processos = FXCollections.observableList((List<Processo>) processoDAO.findLastProcessos(spnUltimos.getValue()));
 					return null;
 				}
 				return null;
@@ -171,7 +171,7 @@ public class ConsultaController implements Initializable, ControlledScreen {
 		Task<Void> searchTask = new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
-				processos = FXCollections.observableList((List<Processo>) processoDAO.findLastProcessos());
+				processos = FXCollections.observableList((List<Processo>) processoDAO.findLastProcessos(5));
 				return null;
 			}
 		};

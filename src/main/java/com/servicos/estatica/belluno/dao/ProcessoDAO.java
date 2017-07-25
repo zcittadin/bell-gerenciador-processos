@@ -77,10 +77,11 @@ public class ProcessoDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Processo> findLastProcessos() {
+	public List<Processo> findLastProcessos(Integer limit) {
 		Session session = HibernateUtil.openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("SELECT p FROM Processo p");
+		query.setMaxResults(limit);
 		List<Processo> list = new ArrayList<>();
 		list = query.getResultList();
 		session.close();
