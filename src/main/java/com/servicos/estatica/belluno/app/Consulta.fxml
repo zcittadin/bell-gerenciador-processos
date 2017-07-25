@@ -42,8 +42,14 @@
       </TableView>
       <Separator orientation="VERTICAL" prefHeight="660.0" />
       <TextField fx:id="txtIdentificador" disable="true" layoutX="218.0" layoutY="148.0" prefHeight="27.0" prefWidth="301.0" promptText="Identificador" />
-      <DatePicker fx:id="dtpInicio" disable="true" layoutX="218.0" layoutY="111.0" prefHeight="27.0" prefWidth="143.0" promptText="Início" />
-      <DatePicker fx:id="dtpFinal" disable="true" layoutX="376.0" layoutY="111.0" prefHeight="27.0" prefWidth="143.0" promptText="Final" />
+      <DatePicker fx:id="dtpInicio" disable="true" editable="false" layoutX="218.0" layoutY="111.0" prefHeight="27.0" prefWidth="143.0" promptText="Início">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></DatePicker>
+      <DatePicker fx:id="dtpFinal" disable="true" editable="false" layoutX="376.0" layoutY="111.0" prefHeight="27.0" prefWidth="143.0" promptText="Final">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></DatePicker>
       <Label layoutX="51.0" layoutY="26.0" text="Dados para consulta" textFill="WHITE">
          <font>
             <Font size="16.0" />

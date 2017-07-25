@@ -309,15 +309,47 @@ public class ConsultaController implements Initializable, ControlledScreen {
 						return simpleObject;
 					}
 				});
+		colGraficos.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 		colRelatorios.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
-		Callback<TableColumn<Processo, String>, TableCell<Processo, String>> cellFactory = //
+		Callback<TableColumn<Processo, String>, TableCell<Processo, String>> cellGraficoFactory = //
 				new Callback<TableColumn<Processo, String>, TableCell<Processo, String>>() {
 					@Override
 					public TableCell call(final TableColumn<Processo, String> param) {
 						final TableCell<Processo, String> cell = new TableCell<Processo, String>() {
 
-							final Button btn = new Button("Emitir");
+							final Button btn = new Button();
+
+							@Override
+							public void updateItem(String item, boolean empty) {
+								super.updateItem(item, empty);
+								if (empty) {
+									setGraphic(null);
+									setText(null);
+								} else {
+									btn.setOnAction(event -> {
+										System.out.println("Grafico");
+									});
+									btn.setStyle(
+											"-fx-graphic: url('com/servicos/estatica/belluno/style/chart_curve.png');");
+									btn.setCursor(Cursor.HAND);
+									setGraphic(btn);
+									setText(null);
+								}
+							}
+						};
+						return cell;
+					}
+				};
+		colGraficos.setCellFactory(cellGraficoFactory);
+
+		Callback<TableColumn<Processo, String>, TableCell<Processo, String>> cellReportFactory = //
+				new Callback<TableColumn<Processo, String>, TableCell<Processo, String>>() {
+					@Override
+					public TableCell call(final TableColumn<Processo, String> param) {
+						final TableCell<Processo, String> cell = new TableCell<Processo, String>() {
+
+							final Button btn = new Button();
 
 							@Override
 							public void updateItem(String item, boolean empty) {
@@ -330,6 +362,7 @@ public class ConsultaController implements Initializable, ControlledScreen {
 										Processo processo = getTableView().getItems().get(getIndex());
 										saveReport(processo);
 									});
+									btn.setStyle("-fx-graphic: url('com/servicos/estatica/belluno/style/report.png');");
 									btn.setCursor(Cursor.HAND);
 									setGraphic(btn);
 									setText(null);
@@ -339,7 +372,7 @@ public class ConsultaController implements Initializable, ControlledScreen {
 						return cell;
 					}
 				};
-		colRelatorios.setCellFactory(cellFactory);
+		colRelatorios.setCellFactory(cellReportFactory);
 
 		colIdentificador.setStyle("-fx-alignment: CENTER;");
 		colDhInicial.setStyle("-fx-alignment: CENTER;");
