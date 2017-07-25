@@ -1,13 +1,21 @@
 package com.servicos.estatica.belluno.controller;
 
+import java.awt.Desktop;
+import java.awt.Toolkit;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.servicos.estatica.belluno.app.ControlledScreen;
+import com.servicos.estatica.belluno.dao.LeituraDAO;
 import com.servicos.estatica.belluno.dao.ProcessoDAO;
+import com.servicos.estatica.belluno.model.Leitura;
 import com.servicos.estatica.belluno.model.Processo;
+import com.servicos.estatica.belluno.report.builder.ProcessoReportCreator;
 import com.servicos.estatica.belluno.util.PeriodFormatter;
 
 import javafx.beans.property.SimpleObjectProperty;
@@ -23,7 +31,9 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -36,6 +46,9 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 @SuppressWarnings("rawtypes")
@@ -75,10 +88,15 @@ public class ConsultaController implements Initializable, ControlledScreen {
 	private TableColumn colGraficos;
 	@FXML
 	private TableColumn colRelatorios;
+	@FXML
+	private ProgressIndicator progForm;
 
 	SpinnerValueFactory<Integer> valueFactory = //
 			new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, 10);
+
 	ToggleGroup group = new ToggleGroup();
+
+	private static LeituraDAO leituraDAO = new LeituraDAO();
 	private static ProcessoDAO processoDAO = new ProcessoDAO();
 	private static ObservableList<Processo> processos = FXCollections.observableArrayList();
 
@@ -310,8 +328,7 @@ public class ConsultaController implements Initializable, ControlledScreen {
 								} else {
 									btn.setOnAction(event -> {
 										Processo processo = getTableView().getItems().get(getIndex());
-										System.out
-												.println(processo.getIdentificador() + "   " + processo.getDhInicial());
+										saveReport(processo);
 									});
 									btn.setCursor(Cursor.HAND);
 									setGraphic(btn);
@@ -322,7 +339,6 @@ public class ConsultaController implements Initializable, ControlledScreen {
 						return cell;
 					}
 				};
-
 		colRelatorios.setCellFactory(cellFactory);
 
 		colIdentificador.setStyle("-fx-alignment: CENTER;");
@@ -335,6 +351,69 @@ public class ConsultaController implements Initializable, ControlledScreen {
 		colRelatorios.setStyle("-fx-alignment: CENTER;");
 		tblConsulta.getColumns().setAll(colIdentificador, colDhInicial, colDhFinal, colTempoDecorrido, colTempMin,
 				colTempMax, colGraficos, colRelatorios);
+	}
+
+	public void saveReport(Processo processo) {
+		List<Leitura> leituras = leituraDAO.findLeiturasByProcesso(processo);
+		processo.setLeituras(leituras);
+		Stage stage = new Stage();
+		stage.initOwner(tblConsulta.getScene().getWindow());
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("PDF Files", "*.pdf"));
+		fileChooser.setTitle("Salvar relatório de processo");
+		fileChooser.setInitialFileName(processo.getIdentificador() + ".pdf");
+		File savedFile = fileChooser.showSaveDialog(stage);
+		if (savedFile != null) {
+			generatePdfReport(savedFile, processo);
+		}
+	}
+
+	private void generatePdfReport(File file, Processo processo) {
+		progForm.setVisible(true);
+		// btReport.setDisable(Boolean.TRUE);
+		Task<Integer> reportTask = new Task<Integer>() {
+			@Override
+			protected Integer call() throws Exception {
+				int result = ProcessoReportCreator.build(processo, file.getAbsolutePath(),
+						PeriodFormatter.formatPeriod(processo.getDhInicial(), processo.getDhFinal()));
+				int maximum = 20;
+				for (int i = 0; i < maximum; i++) {
+					updateProgress(i, maximum);
+				}
+				return new Integer(result);
+			}
+		};
+
+		reportTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent event) {
+				progForm.setVisible(false);
+				// btReport.setDisable(Boolean.FALSE);
+				int r = reportTask.getValue();
+				if (r != 1) {
+					Toolkit.getDefaultToolkit().beep();
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Erro");
+					alert.setHeaderText("Houve uma falha na emissão do relatório.");
+					alert.showAndWait();
+					return;
+				}
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Concluído");
+				alert.setHeaderText("Relatório emitido com sucesso. Deseja visualizar?");
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == ButtonType.OK) {
+					try {
+						Desktop.getDesktop().open(file);
+					} catch (IOException ex) {
+						ex.printStackTrace();
+					}
+				}
+			}
+		});
+
+		Thread t = new Thread(reportTask);
+		t.start();
 	}
 
 }

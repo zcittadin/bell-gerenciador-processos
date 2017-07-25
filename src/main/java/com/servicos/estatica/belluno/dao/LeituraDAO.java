@@ -1,5 +1,6 @@
 package com.servicos.estatica.belluno.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -37,6 +38,18 @@ public class LeituraDAO {
 		}
 		session.getTransaction().commit();
 		session.close();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Leitura> findLeiturasByProcesso(Processo processo) {
+		Session session = HibernateUtil.openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("SELECT l FROM Leitura l WHERE processo = :idProc");
+		query.setParameter("idProc", processo);
+		List<Leitura> list = new ArrayList<>();
+		list = query.getResultList();
+		session.close();
+		return list;
 	}
 
 }
