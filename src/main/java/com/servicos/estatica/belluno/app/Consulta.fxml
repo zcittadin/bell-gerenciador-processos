@@ -1,8 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="mainPane" prefHeight="660.0" prefWidth="1208.0" styleClass="myGradient" stylesheets="@../style/style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="com.servicos.estatica.belluno.controller.ConsultaController">
-	<!-- TODO Add Nodes -->
+<AnchorPane fx:id="mainPane" prefHeight="660.0" prefWidth="1208.0" styleClass="myGradient" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.servicos.estatica.belluno.controller.ConsultaController">
+   <children>
+      <Rectangle fx:id="recConsulta" arcHeight="25.0" arcWidth="25.0" height="225.0" layoutX="29.0" layoutY="16.0" stroke="#a8cdc1" strokeType="INSIDE" strokeWidth="2.0" width="510.0">
+         <fill>
+            <LinearGradient endX="1.0" endY="1.0" startX="1.0">
+               <stops>
+                  <Stop color="#042b13" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </fill></Rectangle>
+      <TableView fx:id="tblConsulta" layoutX="29.0" layoutY="257.0" prefHeight="360.0" prefWidth="1150.0">
+        <columns>
+          <TableColumn prefWidth="160.0" text="Identificador" />
+          <TableColumn prefWidth="130.0" text="Data/hora inicial" />
+            <TableColumn prefWidth="130.0" text="Data/hora final" />
+            <TableColumn prefWidth="120.0" text="Tempo decorrido" />
+            <TableColumn prefWidth="130.0" text="Temperatura mínima" />
+            <TableColumn prefWidth="130.0" text="Temperatura máxima" />
+            <TableColumn prefWidth="130.0" text="Set-point" />
+            <TableColumn prefWidth="110.0" text="Gráficos" />
+            <TableColumn prefWidth="110.0" text="Relatórios" />
+        </columns>
+      </TableView>
+      <Separator orientation="VERTICAL" prefHeight="660.0" />
+      <TextField fx:id="txtIdentificador" layoutX="221.0" layoutY="75.0" prefHeight="27.0" prefWidth="301.0" promptText="Identificador" />
+      <DatePicker fx:id="dtpInicio" layoutX="221.0" layoutY="111.0" prefHeight="27.0" prefWidth="143.0" promptText="Início" />
+      <DatePicker fx:id="dtpFinal" layoutX="379.0" layoutY="111.0" prefHeight="27.0" prefWidth="143.0" promptText="Final" />
+      <Label layoutX="51.0" layoutY="32.0" text="Dados para consulta" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="rdIdentificador" layoutX="51.0" layoutY="80.0" mnemonicParsing="false" text="Por identificador" textFill="WHITE" />
+      <RadioButton fx:id="rdPeriodo" layoutX="51.0" layoutY="116.0" mnemonicParsing="false" text="Por período" textFill="WHITE" />
+      <RadioButton fx:id="rdUltimos" layoutX="51.0" layoutY="152.0" mnemonicParsing="false" text="Últimos processos" textFill="WHITE" />
+      <Button fx:id="btBuscar" layoutX="242.0" layoutY="205.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="Buscar">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Spinner fx:id="spnUltimos" layoutX="218.0" layoutY="148.0" prefHeight="25.0" prefWidth="66.0" />
+      <Separator layoutX="30.0" layoutY="191.0" prefWidth="509.0" />
+   </children>
 </AnchorPane>
