@@ -68,8 +68,6 @@ public class ConsultaController implements Initializable, ControlledScreen {
 	@FXML
 	private TableColumn colTempMax;
 	@FXML
-	private TableColumn colSetPoint;
-	@FXML
 	private TableColumn colGraficos;
 	@FXML
 	private TableColumn colRelatorios;
@@ -289,25 +287,16 @@ public class ConsultaController implements Initializable, ControlledScreen {
 						return simpleObject;
 					}
 				});
-		colSetPoint.setCellValueFactory(
-				new Callback<TableColumn.CellDataFeatures<Processo, Double>, ObservableValue<Double>>() {
-					public ObservableValue<Double> call(CellDataFeatures<Processo, Double> cell) {
-						final SimpleObjectProperty<Double> simpleObject = new SimpleObjectProperty<Double>(
-								new Double(0));
-						return simpleObject;
-					}
-				});
 		colIdentificador.setStyle("-fx-alignment: CENTER;");
 		colDhInicial.setStyle("-fx-alignment: CENTER;");
 		colDhFinal.setStyle("-fx-alignment: CENTER;");
 		colTempoDecorrido.setStyle("-fx-alignment: CENTER;");
 		colTempMin.setStyle("-fx-alignment: CENTER;");
 		colTempMax.setStyle("-fx-alignment: CENTER;");
-		colSetPoint.setStyle("-fx-alignment: CENTER;");
 		colGraficos.setStyle("-fx-alignment: CENTER;");
 		colRelatorios.setStyle("-fx-alignment: CENTER;");
 		tblConsulta.getColumns().setAll(colIdentificador, colDhInicial, colDhFinal, colTempoDecorrido, colTempMin,
-				colTempMax, colSetPoint, colGraficos, colRelatorios);
+				colTempMax, colGraficos, colRelatorios);
 	}
 
 }
