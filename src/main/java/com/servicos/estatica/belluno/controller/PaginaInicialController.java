@@ -162,6 +162,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		txtProcesso.requestFocus();
 		btSalvar.setDisable(false);
 		btCancelar.setDisable(false);
+		btReport.setDisable(true);
 	}
 
 	@FXML
@@ -192,7 +193,6 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 				return null;
 			}
 		};
-
 		saveTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent arg0) {
@@ -204,7 +204,6 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 				makeToast("Processo salvo com sucesso.");
 			}
 		});
-
 		saveTask.setOnFailed(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent arg0) {
@@ -397,26 +396,13 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		chronoMeter.start(lblChrono);
 		lblDhInicial.setText(dataHoraFormatter.format(LocalDateTime.now()));
 		imgFogo.setVisible(true);
-		// dadosParciaisTimeLine.play();
-		// chronoMeter.start(lblCronometro);
-		// produtoService.updateDataInicial(Integer.parseInt(lblLote.getText()));
 		processo.setDhInicial(Calendar.getInstance().getTime());
 		processoDAO.updateDataInicial(processo);
 	}
 
 	private void finalizeProcess() {
-		// produtoService.updateDataFinal(Integer.parseInt(lblLote.getText()));
-		// Platform.runLater(new Runnable() {
-		// @Override
-		// public void run() {
-		// lblStatus.setTextFill(Color.web(LBL_STATUS_FINALIZADO_COLOR));
-		// lblStatus.setText(LBL_STATUS_FINALIZADO);
-		// }
-		// });
-		// lblStatus.setOpacity(1);
 		scanModbusSlaves.stop();
 		chartAnimation.stop();
-		// dadosParciaisTimeLine.stop();
 		imgSwitch.setImage(new Image("/com/servicos/estatica/belluno/style/switch_off.png"));
 		// Tooltip.install(imgSwitch, TOOLTIP_SWITCH_FINALIZADO);
 		btNovo.setDisable(false);
@@ -426,8 +412,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		chronoMeter.stop();
 		imgFogo.setVisible(false);
 		// ProcessoStatusManager.setProcessoStatus(NOME_REATOR, isRunning);
-		// chronoMeter.stop();
-		// makeToast(TOASTER_FINALIZADO_SUCESSO);
+		makeToast("Processo finalizado com sucesso.");
 		processo.setDhFinal(Calendar.getInstance().getTime());
 		processoDAO.updateDataFinal(processo);
 	}
