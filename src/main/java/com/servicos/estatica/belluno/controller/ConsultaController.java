@@ -98,6 +98,8 @@ public class ConsultaController implements Initializable, ControlledScreen {
 	private TableColumn colExcluir;
 	@FXML
 	private ProgressIndicator progForm;
+	@FXML
+	private Button btBuscar;
 
 	SpinnerValueFactory<Integer> valueFactory = //
 			new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, 10);
@@ -164,6 +166,13 @@ public class ConsultaController implements Initializable, ControlledScreen {
 	private void consultar() {
 		if (!validateFields())
 			return;
+		progForm.setVisible(true);
+		spnUltimos.setDisable(true);
+		rdIdentificador.setDisable(true);
+		rdPeriodo.setDisable(true);
+		rdUltimos.setDisable(true);
+		spnUltimos.setDisable(true);
+		btBuscar.setDisable(true);
 		tblConsulta.getItems().clear();
 		Task<Void> searchTask = new Task<Void>() {
 			@Override
@@ -193,6 +202,31 @@ public class ConsultaController implements Initializable, ControlledScreen {
 				if (!processos.isEmpty()) {
 					populateTable();
 				}
+				progForm.setVisible(false);
+				spnUltimos.setDisable(false);
+				rdIdentificador.setDisable(false);
+				rdPeriodo.setDisable(false);
+				rdUltimos.setDisable(false);
+				spnUltimos.setDisable(false);
+				btBuscar.setDisable(false);
+				// progressProcessos.setVisible(false);
+				// tbProcessos.setDisable(false);
+			}
+		});
+		searchTask.setOnFailed(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent arg0) {
+				progForm.setVisible(false);
+				spnUltimos.setDisable(false);
+				rdIdentificador.setDisable(false);
+				rdPeriodo.setDisable(false);
+				rdUltimos.setDisable(false);
+				spnUltimos.setDisable(false);
+				btBuscar.setDisable(false);
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Falha");
+				alert.setHeaderText("Ocorreu um erro ao consultar os dados.");
+				alert.showAndWait();
 				// progressProcessos.setVisible(false);
 				// tbProcessos.setDisable(false);
 			}
@@ -235,6 +269,13 @@ public class ConsultaController implements Initializable, ControlledScreen {
 	}
 
 	private void consultarRecentes() {
+		progForm.setVisible(true);
+		spnUltimos.setDisable(true);
+		rdIdentificador.setDisable(true);
+		rdPeriodo.setDisable(true);
+		rdUltimos.setDisable(true);
+		spnUltimos.setDisable(true);
+		btBuscar.setDisable(true);
 		tblConsulta.getItems().clear();
 		Task<Void> searchTask = new Task<Void>() {
 			@Override
@@ -251,6 +292,29 @@ public class ConsultaController implements Initializable, ControlledScreen {
 				if (!processos.isEmpty()) {
 					populateTable();
 				}
+				progForm.setVisible(false);
+				spnUltimos.setDisable(false);
+				rdIdentificador.setDisable(false);
+				rdPeriodo.setDisable(false);
+				rdUltimos.setDisable(false);
+				btBuscar.setDisable(false);
+				// progressProcessos.setVisible(false);
+				// tbProcessos.setDisable(false);
+			}
+		});
+		searchTask.setOnFailed(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent arg0) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Atenção");
+				alert.setHeaderText("Informe um identificador para a consulta.");
+				alert.showAndWait();
+				progForm.setVisible(false);
+				spnUltimos.setDisable(false);
+				rdIdentificador.setDisable(false);
+				rdPeriodo.setDisable(false);
+				rdUltimos.setDisable(false);
+				btBuscar.setDisable(false);
 				// progressProcessos.setVisible(false);
 				// tbProcessos.setDisable(false);
 			}
