@@ -104,8 +104,7 @@ public class ConsultaController implements Initializable, ControlledScreen {
 	@FXML
 	private Button btBuscar;
 
-	SpinnerValueFactory<Integer> valueFactory = //
-			new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, 10);
+	SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, 10);
 
 	ToggleGroup group = new ToggleGroup();
 
@@ -596,7 +595,6 @@ public class ConsultaController implements Initializable, ControlledScreen {
 
 	private void generatePdfReport(File file, Processo processo) {
 		progForm.setVisible(true);
-		// progTable.setVisible(true);
 		spnUltimos.setDisable(true);
 		rdIdentificador.setDisable(true);
 		rdPeriodo.setDisable(true);
@@ -605,8 +603,6 @@ public class ConsultaController implements Initializable, ControlledScreen {
 		dtpInicio.setDisable(true);
 		dtpFinal.setDisable(true);
 		txtIdentificador.setDisable(true);
-		// tblConsulta.setDisable(true);
-		// tblConsulta.getItems().clear();
 		Task<Integer> reportTask = new Task<Integer>() {
 			@Override
 			protected Integer call() throws Exception {
@@ -624,12 +620,10 @@ public class ConsultaController implements Initializable, ControlledScreen {
 			@Override
 			public void handle(WorkerStateEvent event) {
 				progForm.setVisible(false);
-				// progTable.setVisible(false);
 				rdIdentificador.setDisable(false);
 				rdPeriodo.setDisable(false);
 				rdUltimos.setDisable(false);
 				btBuscar.setDisable(false);
-				// tblConsulta.setDisable(false);
 				if (rdIdentificador.isSelected()) {
 					txtIdentificador.setDisable(false);
 				}
