@@ -80,7 +80,7 @@ public class ProcessoDAO {
 	public List<Processo> findLastProcessos(Integer limit) {
 		Session session = HibernateUtil.openSession();
 		session.beginTransaction();
-		Query query = session.createQuery("SELECT p FROM Processo p");
+		Query query = session.createQuery("SELECT p FROM Processo p ORDER BY id DESC");
 		query.setMaxResults(limit);
 		List<Processo> list = new ArrayList<>();
 		list = query.getResultList();
