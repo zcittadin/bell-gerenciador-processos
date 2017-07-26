@@ -95,7 +95,7 @@
       <Label layoutX="573.0" layoutY="16.0" text="Temperatura atual" textFill="WHITE" />
       <Label layoutX="575.0" layoutY="90.0" text="Tempo decorrido" textFill="WHITE" />
       <Separator layoutX="698.0" layoutY="1.0" orientation="VERTICAL" prefHeight="164.0" />
-      <ProgressIndicator fx:id="progressSave" layoutX="88.0" layoutY="40.0" prefHeight="86.0" prefWidth="145.0" visible="false" />
+      <ProgressIndicator fx:id="progressSave" layoutX="71.0" layoutY="39.0" prefHeight="93.0" prefWidth="180.0" style="-fx-progress-color: #E0FFFF;" visible="false" />
       <Label layoutX="723.0" layoutY="69.0" text="Temperatura mínima" textFill="WHITE">
          <font>
             <Font size="15.0" />

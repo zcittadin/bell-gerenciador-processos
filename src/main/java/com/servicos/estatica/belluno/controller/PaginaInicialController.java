@@ -177,6 +177,11 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		}
 
 		progressSave.setVisible(true);
+		txtProcesso.setDisable(true);
+		btNovo.setDisable(true);
+		btSalvar.setDisable(true);
+		btCancelar.setDisable(true);
+		btReport.setDisable(true);
 
 		Task<Void> saveTask = new Task<Void>() {
 			@Override
@@ -204,20 +209,16 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 			@Override
 			public void handle(WorkerStateEvent arg0) {
 				isAdding = false;
-				txtProcesso.setText("");
+				txtProcesso.setText(null);
 				txtProcesso.setDisable(true);
 				btNovo.setDisable(true);
+				btSalvar.setDisable(true);
 				btCancelar.setDisable(true);
 				progressSave.setVisible(false);
 			}
 		});
 		Thread t = new Thread(saveTask);
 		t.start();
-
-		txtProcesso.setDisable(true);
-		btSalvar.setDisable(true);
-		btNovo.setDisable(true);
-		btCancelar.setDisable(true);
 		isReady = true;
 
 	}
@@ -293,8 +294,11 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	}
 
 	private void generatePdfReport(File file) {
-		progressSave.setVisible(Boolean.TRUE);
-		btReport.setDisable(Boolean.TRUE);
+		progressSave.setVisible(true);
+		txtProcesso.setDisable(true);
+		btNovo.setDisable(true);
+		btCancelar.setDisable(true);
+		btReport.setDisable(true);
 		Task<Integer> reportTask = new Task<Integer>() {
 			@Override
 			protected Integer call() throws Exception {
@@ -310,8 +314,11 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		reportTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
-				progressSave.setVisible(Boolean.FALSE);
-				btReport.setDisable(Boolean.FALSE);
+				progressSave.setVisible(false);
+				txtProcesso.setDisable(false);
+				btNovo.setDisable(false);
+				btCancelar.setDisable(false);
+				btReport.setDisable(false);
 				int r = reportTask.getValue();
 				if (r != 1) {
 					Toolkit.getDefaultToolkit().beep();
