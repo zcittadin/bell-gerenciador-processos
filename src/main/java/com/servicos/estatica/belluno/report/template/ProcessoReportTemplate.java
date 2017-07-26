@@ -85,16 +85,11 @@ public class ProcessoReportTemplate {
 
 	public static ComponentBuilder<?, ?> createHeaderComponent(Processo processo) {
 		return cmp.horizontalList().add(cmp.horizontalList(
-				cmp.image(ProcessoReportTemplate.class
-						.getResource("/com/servicos/estatica/belluno/style/belluno.png")).setFixedDimension(80, 80),
+				cmp.image(ProcessoReportTemplate.class.getResource("/com/servicos/estatica/belluno/style/belluno.png"))
+						.setFixedDimension(100, 100),
 				cmp.horizontalGap(10),
-				cmp.verticalList(
-						cmp.text("Relatório de processo").setStyle(bold18CenteredStyle)
-								.setHorizontalTextAlignment(HorizontalTextAlignment.LEFT).setFixedWidth(300),
-						cmp.text("Lote " + processo.getId()).setStyle(boldStyle.setFontSize(12))
-								.setHorizontalTextAlignment(HorizontalTextAlignment.LEFT),
-						cmp.text(processo.getIdentificador()).setStyle(boldStyle.setFontSize(12))
-								.setHorizontalTextAlignment(HorizontalTextAlignment.LEFT).setFixedWidth(300)),
+				cmp.verticalList(cmp.text("Relatório de processo").setStyle(bold22CenteredStyle)
+						.setHorizontalTextAlignment(HorizontalTextAlignment.CENTER).setFixedWidth(370)),
 				cmp.horizontalGap(10)));
 	}
 
@@ -116,23 +111,14 @@ public class ProcessoReportTemplate {
 
 	public static ComponentBuilder<?, ?> createDadosComponent(Processo processo, String periodo) {
 		return cmp.horizontalList(
-				cmp.verticalList(
-						cmp.text("Data de produção: " + dataSdf.format(processo.getDhInicial())),
-						cmp.text("Código do produto: " + processo.getId()),
-						cmp.text("Quantidade: "),
-						cmp.text("Produção média: ")
-						),
-				cmp.verticalList(
-						cmp.text("Horário de início: " + horasSdf.format(processo.getDhInicial())),
+				cmp.verticalList(cmp.text("Data de produção: " + dataSdf.format(processo.getDhInicial())),
+						cmp.text("Identificador: " + processo.getIdentificador())),
+				cmp.verticalList(cmp.text("Horário de início: " + horasSdf.format(processo.getDhInicial())),
 						cmp.text("Horário de encerramento: " + horasSdf.format(processo.getDhFinal())),
-						cmp.text("Tempo de processo: " + periodo)
-						),
-				cmp.verticalList(
-						cmp.text("Temperatura mínima: " + processo.getTempMin() + " ºC"),
+						cmp.text("Tempo de processo: " + periodo)),
+				cmp.verticalList(cmp.text("Temperatura mínima: " + processo.getTempMin() + " ºC"),
 						cmp.text("Temperatura máxima: " + processo.getTempMax() + " ºC"),
-						cmp.text("Set-point: " + processo.getLeituras().get(0).getSp() + " ºC")
-						)
-				);
+						cmp.text("Set-point: " + processo.getLeituras().get(0).getSp() + " ºC")));
 	}
 
 	private static TimeSeriesChartBuilder createLineChart(Processo processo) {

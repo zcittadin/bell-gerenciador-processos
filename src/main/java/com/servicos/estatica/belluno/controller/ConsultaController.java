@@ -123,7 +123,6 @@ public class ConsultaController implements Initializable, ControlledScreen {
 	@Override
 	public void setScreenParent(ScreensController screenPage) {
 		myController = screenPage;
-
 	}
 
 	@Override
@@ -597,7 +596,17 @@ public class ConsultaController implements Initializable, ControlledScreen {
 
 	private void generatePdfReport(File file, Processo processo) {
 		progForm.setVisible(true);
-		// btReport.setDisable(Boolean.TRUE);
+		// progTable.setVisible(true);
+		spnUltimos.setDisable(true);
+		rdIdentificador.setDisable(true);
+		rdPeriodo.setDisable(true);
+		rdUltimos.setDisable(true);
+		btBuscar.setDisable(true);
+		dtpInicio.setDisable(true);
+		dtpFinal.setDisable(true);
+		txtIdentificador.setDisable(true);
+		// tblConsulta.setDisable(true);
+		// tblConsulta.getItems().clear();
 		Task<Integer> reportTask = new Task<Integer>() {
 			@Override
 			protected Integer call() throws Exception {
@@ -615,7 +624,22 @@ public class ConsultaController implements Initializable, ControlledScreen {
 			@Override
 			public void handle(WorkerStateEvent event) {
 				progForm.setVisible(false);
-				// btReport.setDisable(Boolean.FALSE);
+				// progTable.setVisible(false);
+				rdIdentificador.setDisable(false);
+				rdPeriodo.setDisable(false);
+				rdUltimos.setDisable(false);
+				btBuscar.setDisable(false);
+				// tblConsulta.setDisable(false);
+				if (rdIdentificador.isSelected()) {
+					txtIdentificador.setDisable(false);
+				}
+				if (rdPeriodo.isSelected()) {
+					dtpInicio.setDisable(false);
+					dtpFinal.setDisable(false);
+				}
+				if (rdUltimos.isSelected()) {
+					spnUltimos.setDisable(false);
+				}
 				int r = reportTask.getValue();
 				if (r != 1) {
 					Toolkit.getDefaultToolkit().beep();
