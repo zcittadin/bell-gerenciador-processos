@@ -53,6 +53,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -110,6 +111,14 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private static Boolean isFinalized = false;
 	private static Boolean isAdding = false;
 
+	private static String TOOLTIP_CSS = "-fx-font-size: 8pt; -fx-font-weight: bold; -fx-font-style: normal; ";
+	private Tooltip tooltipNovo = new Tooltip("Clique para cadastrar um novo processo");
+	private Tooltip tooltipSalvar = new Tooltip("Salvar processo");
+	private Tooltip tooltipCancelar = new Tooltip("Cancelar e excluir processo");
+	private Tooltip tooltipReport = new Tooltip("Exportar relatório em PDF");
+	private Tooltip tooltipMarks = new Tooltip("Habilitar marcadores do gráfico de linhas");
+	private Tooltip tooltipSwitch = new Tooltip("Iniciar/parar registro do processo");
+
 	final ObservableList<XYChart.Series<String, Number>> plotValuesList = FXCollections.observableArrayList();
 	final List<Node> valueMarks = new ArrayList<>();
 
@@ -130,6 +139,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		initTooltips();
 		imgFogo.setImage(new Image("/com/servicos/estatica/belluno/style/fire.gif"));
 		modService.setConnectionParams("COM9", 9600);
 		modService.openConnection();
@@ -460,15 +470,15 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		final XYChart.Data<String, Number> data = new XYChart.Data<>(dataHoraFormatter.format(LocalDateTime.now()),
 				temperatura);
 		Node mark = new HoverDataChart(1, temperatura);
-//		if (!MarkLineChartProperty.getMark())
-			mark.setVisible(MarkLineChartProperty.getMark());
-//		else {
-//			mark.setVisible(true);
-//			System.out.println("Visível");
-//		}
-		valueMarks.add(mark);
+		// if (!MarkLineChartProperty.getMark())
+		mark.setVisible(MarkLineChartProperty.getMark());
+		// else {
+		// mark.setVisible(true);
+		// System.out.println("Visível");
+		// }
 		data.setNode(mark);
 		tempSeries.getData().add(data);
+		valueMarks.add(mark);
 		saveTemp();
 	}
 
@@ -502,6 +512,21 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		int fadeOutTime = 600;
 		Stage stage = (Stage) btSalvar.getScene().getWindow();
 		Toast.makeToast(stage, toastMsg, toastMsgTime, fadeInTime, fadeOutTime);
+	}
+
+	private void initTooltips() {
+		tooltipCancelar.setStyle(TOOLTIP_CSS);
+		tooltipMarks.setStyle(TOOLTIP_CSS);
+		tooltipNovo.setStyle(TOOLTIP_CSS);
+		tooltipReport.setStyle(TOOLTIP_CSS);
+		tooltipSalvar.setStyle(TOOLTIP_CSS);
+		tooltipSwitch.setStyle(TOOLTIP_CSS);
+		Tooltip.install(btNovo, tooltipNovo);
+		Tooltip.install(btSalvar, tooltipSalvar);
+		Tooltip.install(btCancelar, tooltipCancelar);
+		Tooltip.install(btReport, tooltipReport);
+		Tooltip.install(imgSwitch, tooltipSwitch);
+		Tooltip.install(chkMarcadores, tooltipMarks);
 	}
 
 }

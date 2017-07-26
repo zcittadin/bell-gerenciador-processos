@@ -11,7 +11,8 @@ public class HoverDataChart extends StackPane {
 
 	public HoverDataChart(int priorValue, Double value) {
 		setPrefSize(8, 8);
-		setStyle("-fx-background-color: #8B008B; -fx-text-fill: white; -fx-border-color: white; -fx-border-radius: 10px;");
+		setStyle(
+				"-fx-background-color: #8B008B; -fx-text-fill: white; -fx-border-color: white; -fx-border-radius: 10px;");
 
 		final Label label = createDataThresholdLabel(priorValue, value);
 

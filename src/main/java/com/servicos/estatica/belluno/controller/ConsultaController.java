@@ -48,6 +48,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -108,6 +109,11 @@ public class ConsultaController implements Initializable, ControlledScreen {
 
 	ToggleGroup group = new ToggleGroup();
 
+	private static String TOOLTIP_CSS = "-fx-font-size: 8pt; -fx-font-weight: bold; -fx-font-style: normal; ";
+	private Tooltip tooltipChart = new Tooltip("Visualizar o gráfico do processo");
+	private Tooltip tooltipReport = new Tooltip("Emitir um relatório em PDF");
+	private Tooltip tooltipDelete = new Tooltip("Excluir o processo");
+
 	private static LeituraDAO leituraDAO = new LeituraDAO();
 	private static ProcessoDAO processoDAO = new ProcessoDAO();
 	private static ObservableList<Processo> processos = FXCollections.observableArrayList();
@@ -122,6 +128,9 @@ public class ConsultaController implements Initializable, ControlledScreen {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		tooltipChart.setStyle(TOOLTIP_CSS);
+		tooltipDelete.setStyle(TOOLTIP_CSS);
+		tooltipReport.setStyle(TOOLTIP_CSS);
 		spnUltimos.setValueFactory(valueFactory);
 		recConsulta.setFill(Color.TRANSPARENT);
 		rdIdentificador.setToggleGroup(group);
@@ -355,7 +364,7 @@ public class ConsultaController implements Initializable, ControlledScreen {
 					public ObservableValue<String> call(CellDataFeatures<Processo, String> cell) {
 						final Processo p = cell.getValue();
 						final SimpleObjectProperty<String> simpleObject;
-						if (p.getDhFinal() != null) {
+						if (p.getDhInicial() != null) {
 							simpleObject = new SimpleObjectProperty<String>(
 									new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss").format(p.getDhInicial()));
 						} else {
@@ -455,6 +464,7 @@ public class ConsultaController implements Initializable, ControlledScreen {
 										}
 
 									});
+									Tooltip.install(btn, tooltipChart);
 									btn.setStyle(
 											"-fx-graphic: url('com/servicos/estatica/belluno/style/chart_curve.png');");
 									btn.setCursor(Cursor.HAND);
@@ -487,6 +497,7 @@ public class ConsultaController implements Initializable, ControlledScreen {
 										Processo processo = getTableView().getItems().get(getIndex());
 										saveReport(processo);
 									});
+									Tooltip.install(btn, tooltipReport);
 									btn.setStyle("-fx-graphic: url('com/servicos/estatica/belluno/style/report.png');");
 									btn.setCursor(Cursor.HAND);
 									setGraphic(btn);
@@ -543,6 +554,7 @@ public class ConsultaController implements Initializable, ControlledScreen {
 									t.start();
 								}
 							});
+							Tooltip.install(btn, tooltipDelete);
 							btn.setStyle("-fx-graphic: url('com/servicos/estatica/belluno/style/delete.png');");
 							btn.setCursor(Cursor.HAND);
 							setGraphic(btn);

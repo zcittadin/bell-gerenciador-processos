@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="450.0" prefWidth="1200.0" styleClass="myGradient" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.servicos.estatica.belluno.controller.ChartScreenController">
+<AnchorPane prefHeight="503.0" prefWidth="1210.0" styleClass="myGradient" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.servicos.estatica.belluno.controller.ChartScreenController">
    <children>
-      <LineChart fx:id="chartTemp" createSymbols="false" layoutX="26.0" layoutY="25.0" legendVisible="false" prefHeight="429.0" prefWidth="1184.0">
+      <LineChart fx:id="chartTemp" createSymbols="false" layoutX="13.0" layoutY="15.0" legendVisible="false" prefHeight="429.0" prefWidth="1184.0" title="Temperatura x tempo">
         <xAxis>
           <CategoryAxis side="BOTTOM" tickLabelFill="WHITE" fx:id="xAxis">
                <tickLabelFont>
@@ -25,5 +26,10 @@
             </NumberAxis>
         </yAxis>
       </LineChart>
+      <Button fx:id="btVoltar" layoutX="581.0" layoutY="460.0" mnemonicParsing="false" onAction="#voltar" text="Voltar">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </AnchorPane>
