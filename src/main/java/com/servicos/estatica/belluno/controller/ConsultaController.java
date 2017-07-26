@@ -236,7 +236,7 @@ public class ConsultaController implements Initializable, ControlledScreen {
 		Task<Void> searchTask = new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
-				processos = FXCollections.observableList((List<Processo>) processoDAO.findLastProcessos(5));
+				processos = FXCollections.observableList((List<Processo>) processoDAO.findLastProcessos(spnUltimos.getValue()));
 				return null;
 			}
 		};

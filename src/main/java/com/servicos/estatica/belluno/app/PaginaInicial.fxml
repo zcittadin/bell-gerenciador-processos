@@ -19,7 +19,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" onMousePressed="#switchIsPressing" prefHeight="660.0" prefWidth="1208.0" styleClass="myGradient" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.servicos.estatica.belluno.controller.PaginaInicialController">
+<AnchorPane fx:id="mainPane" prefHeight="660.0" prefWidth="1208.0" styleClass="myGradient" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.servicos.estatica.belluno.controller.PaginaInicialController">
    <children>
       <ImageView fx:id="imgForno" fitHeight="134.0" fitWidth="207.0" layoutX="359.0" layoutY="16.0" pickOnBounds="true">
          <image>
@@ -65,7 +65,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <ImageView fx:id="imgSwitch" fitHeight="37.0" fitWidth="39.0" layoutX="362.0" layoutY="18.0" onMouseClicked="#toggleProcess" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgSwitch" fitHeight="37.0" fitWidth="39.0" layoutX="362.0" layoutY="18.0" onMouseClicked="#toggleProcess" onMousePressed="#switchIsPressing" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../style/switch_off.png" />
          </image>
