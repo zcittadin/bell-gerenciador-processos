@@ -460,8 +460,12 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		final XYChart.Data<String, Number> data = new XYChart.Data<>(dataHoraFormatter.format(LocalDateTime.now()),
 				temperatura);
 		Node mark = new HoverDataChart(1, temperatura);
-		if (!MarkLineChartProperty.getMark())
-			mark.setVisible(Boolean.FALSE);
+//		if (!MarkLineChartProperty.getMark())
+			mark.setVisible(MarkLineChartProperty.getMark());
+//		else {
+//			mark.setVisible(true);
+//			System.out.println("Visível");
+//		}
 		valueMarks.add(mark);
 		data.setNode(mark);
 		tempSeries.getData().add(data);

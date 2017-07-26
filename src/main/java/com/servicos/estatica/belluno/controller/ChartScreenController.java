@@ -58,7 +58,6 @@ public class ChartScreenController implements Initializable {
 		tempSeries = new XYChart.Series<String, Number>();
 		plotValuesList.add(tempSeries);
 		chartTemp.setData(plotValuesList);
-
 	}
 
 	private void plotTemp(Double temperatura, Date dtProc) {

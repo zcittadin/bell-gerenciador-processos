@@ -174,7 +174,6 @@ public class ConsultaController implements Initializable, ControlledScreen {
 		rdIdentificador.setDisable(true);
 		rdPeriodo.setDisable(true);
 		rdUltimos.setDisable(true);
-		spnUltimos.setDisable(true);
 		btBuscar.setDisable(true);
 		tblConsulta.setDisable(true);
 		tblConsulta.getItems().clear();
@@ -208,13 +207,21 @@ public class ConsultaController implements Initializable, ControlledScreen {
 				}
 				progForm.setVisible(false);
 				progTable.setVisible(false);
-				spnUltimos.setDisable(false);
 				rdIdentificador.setDisable(false);
 				rdPeriodo.setDisable(false);
 				rdUltimos.setDisable(false);
-				spnUltimos.setDisable(false);
 				btBuscar.setDisable(false);
 				tblConsulta.setDisable(false);
+				if (rdIdentificador.isSelected()) {
+					txtIdentificador.setDisable(false);
+				}
+				if (rdPeriodo.isSelected()) {
+					dtpInicio.setDisable(false);
+					dtpFinal.setDisable(false);
+				}
+				if (rdUltimos.isSelected()) {
+					spnUltimos.setDisable(false);
+				}
 			}
 		});
 		searchTask.setOnFailed(new EventHandler<WorkerStateEvent>() {
@@ -347,8 +354,13 @@ public class ConsultaController implements Initializable, ControlledScreen {
 				new Callback<TableColumn.CellDataFeatures<Processo, String>, ObservableValue<String>>() {
 					public ObservableValue<String> call(CellDataFeatures<Processo, String> cell) {
 						final Processo p = cell.getValue();
-						final SimpleObjectProperty<String> simpleObject = new SimpleObjectProperty<String>(
-								new SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(p.getDhInicial()));
+						final SimpleObjectProperty<String> simpleObject;
+						if (p.getDhFinal() != null) {
+							simpleObject = new SimpleObjectProperty<String>(
+									new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss").format(p.getDhInicial()));
+						} else {
+							simpleObject = new SimpleObjectProperty<String>("Em andamento");
+						}
 						return simpleObject;
 					}
 				});
@@ -356,8 +368,13 @@ public class ConsultaController implements Initializable, ControlledScreen {
 				new Callback<TableColumn.CellDataFeatures<Processo, String>, ObservableValue<String>>() {
 					public ObservableValue<String> call(CellDataFeatures<Processo, String> cell) {
 						final Processo p = cell.getValue();
-						final SimpleObjectProperty<String> simpleObject = new SimpleObjectProperty<String>(
-								new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss").format(p.getDhFinal()));
+						final SimpleObjectProperty<String> simpleObject;
+						if (p.getDhFinal() != null) {
+							simpleObject = new SimpleObjectProperty<String>(
+									new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss").format(p.getDhFinal()));
+						} else {
+							simpleObject = new SimpleObjectProperty<String>("Em andamento");
+						}
 						return simpleObject;
 					}
 				});
@@ -365,8 +382,13 @@ public class ConsultaController implements Initializable, ControlledScreen {
 				new Callback<TableColumn.CellDataFeatures<Processo, String>, ObservableValue<String>>() {
 					public ObservableValue<String> call(CellDataFeatures<Processo, String> cell) {
 						final Processo p = cell.getValue();
-						final SimpleObjectProperty<String> simpleObject = new SimpleObjectProperty<String>(
-								PeriodFormatter.formatPeriod(p.getDhInicial(), p.getDhFinal()));
+						final SimpleObjectProperty<String> simpleObject;
+						if (p.getDhFinal() != null) {
+							simpleObject = new SimpleObjectProperty<String>(
+									PeriodFormatter.formatPeriod(p.getDhInicial(), p.getDhFinal()));
+						} else {
+							simpleObject = new SimpleObjectProperty<String>("");
+						}
 						return simpleObject;
 					}
 				});
