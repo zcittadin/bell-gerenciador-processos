@@ -3,6 +3,7 @@ package com.servicos.estatica.belluno.controller;
 import java.net.URL;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -10,15 +11,19 @@ import java.util.ResourceBundle;
 import com.servicos.estatica.belluno.dao.LeituraDAO;
 import com.servicos.estatica.belluno.model.Leitura;
 import com.servicos.estatica.belluno.model.Processo;
+import com.servicos.estatica.belluno.properties.MarkLineChartProperty;
+import com.servicos.estatica.belluno.util.HoverDataChart;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.CheckBox;
 import javafx.stage.Stage;
 
 public class ChartScreenController implements Initializable {
@@ -29,6 +34,8 @@ public class ChartScreenController implements Initializable {
 	private CategoryAxis xAxis;
 	@FXML
 	private NumberAxis yAxis;
+	@FXML
+	private CheckBox chkMarcadores;
 
 	private static XYChart.Series<String, Number> tempSeries;
 	private static DateTimeFormatter dataHoraFormatter = DateTimeFormatter.ofPattern("HH:mm:ss - dd/MM/yy");
@@ -36,6 +43,7 @@ public class ChartScreenController implements Initializable {
 	final ObservableList<XYChart.Series<String, Number>> plotValuesList = FXCollections.observableArrayList();
 	private static LeituraDAO LeituraDAO = new LeituraDAO();
 	private static List<Leitura> leituras;
+	final List<Node> valueMarks = new ArrayList<>();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -65,11 +73,11 @@ public class ChartScreenController implements Initializable {
 		final XYChart.Data<String, Number> data = new XYChart.Data<>(
 				dataHoraFormatter.format(dtProc.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()),
 				temperatura);
-		// Node mark = new HoverDataChart(1, temperatura);
-		// if (!MarkLineChartProperty.getMark())
-		// mark.setVisible(Boolean.FALSE);
-		// valueMarks.add(mark);
-		// data.setNode(mark);
+
+		Node mark = new HoverDataChart(1, temperatura);
+		mark.setVisible(chkMarcadores.isSelected());
+		valueMarks.add(mark);
+		data.setNode(mark);
 		tempSeries.getData().add(data);
 	}
 
@@ -77,6 +85,13 @@ public class ChartScreenController implements Initializable {
 	public void voltar() {
 		Stage stage = (Stage) chartTemp.getScene().getWindow();
 		stage.close();
+	}
+
+	@FXML
+	public void toggleMarks() {
+		for (Node mark : valueMarks) {
+			mark.setVisible(chkMarcadores.isSelected());
+		}
 	}
 
 }
