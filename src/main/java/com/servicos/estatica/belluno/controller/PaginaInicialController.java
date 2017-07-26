@@ -181,6 +181,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		Task<Void> saveTask = new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
+				leituras.clear();
 				processo = new Processo(null, leituras, txtProcesso.getText(), 0, 0, null, null);
 				processoDAO.saveProcesso(processo);
 				return null;

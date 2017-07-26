@@ -17,6 +17,7 @@ import com.servicos.estatica.belluno.model.Leitura;
 import com.servicos.estatica.belluno.model.Processo;
 import com.servicos.estatica.belluno.report.builder.ProcessoReportCreator;
 import com.servicos.estatica.belluno.util.PeriodFormatter;
+import com.servicos.estatica.belluno.util.Toast;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
@@ -93,6 +94,8 @@ public class ConsultaController implements Initializable, ControlledScreen {
 	private TableColumn colGraficos;
 	@FXML
 	private TableColumn colRelatorios;
+	@FXML
+	private TableColumn colExcluir;
 	@FXML
 	private ProgressIndicator progForm;
 
@@ -236,7 +239,8 @@ public class ConsultaController implements Initializable, ControlledScreen {
 		Task<Void> searchTask = new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
-				processos = FXCollections.observableList((List<Processo>) processoDAO.findLastProcessos(spnUltimos.getValue()));
+				processos = FXCollections
+						.observableList((List<Processo>) processoDAO.findLastProcessos(spnUltimos.getValue()));
 				return null;
 			}
 		};
@@ -316,6 +320,7 @@ public class ConsultaController implements Initializable, ControlledScreen {
 				});
 		colGraficos.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 		colRelatorios.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+		colExcluir.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
 		Callback<TableColumn<Processo, String>, TableCell<Processo, String>> cellGraficoFactory = //
 				new Callback<TableColumn<Processo, String>, TableCell<Processo, String>>() {
@@ -402,6 +407,62 @@ public class ConsultaController implements Initializable, ControlledScreen {
 				};
 		colRelatorios.setCellFactory(cellReportFactory);
 
+		Callback<TableColumn<Processo, String>, TableCell<Processo, String>> cellExcluirFactory = new Callback<TableColumn<Processo, String>, TableCell<Processo, String>>() {
+			@Override
+			public TableCell call(final TableColumn<Processo, String> param) {
+				final TableCell<Processo, String> cell = new TableCell<Processo, String>() {
+
+					final Button btn = new Button();
+
+					@Override
+					public void updateItem(String item, boolean empty) {
+						super.updateItem(item, empty);
+						if (empty) {
+							setGraphic(null);
+							setText(null);
+						} else {
+							btn.setOnAction(event -> {
+								Alert alert = new Alert(AlertType.CONFIRMATION);
+								alert.setTitle("Confirmar cancelamento");
+								alert.setHeaderText("Os dados referentes a este processo serão perdidos. Confirmar?");
+								Optional<ButtonType> result = alert.showAndWait();
+								if (result.get() == ButtonType.OK) {
+									Processo processo = getTableView().getItems().get(getIndex());
+									Task<Void> exclusionTask = new Task<Void>() {
+										@Override
+										protected Void call() throws Exception {
+											leituraDAO.removeLeituras(processo);
+											processoDAO.removeProcesso(processo);
+											processos.remove(processo);
+											tblConsulta.refresh();
+											return null;
+										}
+									};
+
+									exclusionTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+										@Override
+										public void handle(WorkerStateEvent arg0) {
+											if (!processos.isEmpty()) {
+												makeToast("Processo removido com sucesso.");
+											}
+										}
+									});
+									Thread t = new Thread(exclusionTask);
+									t.start();
+								}
+							});
+							btn.setStyle("-fx-graphic: url('com/servicos/estatica/belluno/style/delete.png');");
+							btn.setCursor(Cursor.HAND);
+							setGraphic(btn);
+							setText(null);
+						}
+					}
+				};
+				return cell;
+			}
+		};
+		colExcluir.setCellFactory(cellExcluirFactory);
+
 		colIdentificador.setStyle("-fx-alignment: CENTER;");
 		colDhInicial.setStyle("-fx-alignment: CENTER;");
 		colDhFinal.setStyle("-fx-alignment: CENTER;");
@@ -410,8 +471,9 @@ public class ConsultaController implements Initializable, ControlledScreen {
 		colTempMax.setStyle("-fx-alignment: CENTER;");
 		colGraficos.setStyle("-fx-alignment: CENTER;");
 		colRelatorios.setStyle("-fx-alignment: CENTER;");
+		colExcluir.setStyle("-fx-alignment: CENTER;");
 		tblConsulta.getColumns().setAll(colIdentificador, colDhInicial, colDhFinal, colTempoDecorrido, colTempMin,
-				colTempMax, colGraficos, colRelatorios);
+				colTempMax, colGraficos, colRelatorios, colExcluir);
 	}
 
 	public void saveReport(Processo processo) {
@@ -475,6 +537,15 @@ public class ConsultaController implements Initializable, ControlledScreen {
 
 		Thread t = new Thread(reportTask);
 		t.start();
+	}
+
+	private void makeToast(String message) {
+		String toastMsg = message;
+		int toastMsgTime = 5000;
+		int fadeInTime = 600;
+		int fadeOutTime = 600;
+		Stage stage = (Stage) txtIdentificador.getScene().getWindow();
+		Toast.makeToast(stage, toastMsg, toastMsgTime, fadeInTime, fadeOutTime);
 	}
 
 }

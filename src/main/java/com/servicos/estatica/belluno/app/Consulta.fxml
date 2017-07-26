@@ -30,14 +30,15 @@
          </fill></Rectangle>
       <TableView fx:id="tblConsulta" layoutX="29.0" layoutY="257.0" prefHeight="360.0" prefWidth="1150.0">
         <columns>
-          <TableColumn fx:id="colIdentificador" prefWidth="269.0" resizable="false" text="Identificador" />
+          <TableColumn fx:id="colIdentificador" prefWidth="270.0" resizable="false" text="Identificador" />
           <TableColumn fx:id="colDhInicial" prefWidth="170.0" resizable="false" text="Data/hora inicial" />
             <TableColumn fx:id="colDhFinal" prefWidth="170.0" resizable="false" text="Data/hora final" />
             <TableColumn fx:id="colTempoDecorrido" prefWidth="140.0" resizable="false" text="Tempo decorrido" />
             <TableColumn fx:id="colTempMin" prefWidth="90.0" resizable="false" text="Mínima (°C)" />
             <TableColumn fx:id="colTempMax" prefWidth="90.0" resizable="false" text="Máxima (°C)" />
-            <TableColumn fx:id="colGraficos" prefWidth="110.0" resizable="false" text="Gráficos" />
-            <TableColumn fx:id="colRelatorios" prefWidth="110.0" resizable="false" text="Relatórios" />
+            <TableColumn fx:id="colGraficos" prefWidth="73.0" resizable="false" text="Gráficos" />
+            <TableColumn fx:id="colRelatorios" prefWidth="73.0" resizable="false" text="Relatórios" />
+            <TableColumn fx:id="colExcluir" prefWidth="73.0" text="Excluir" />
         </columns>
       </TableView>
       <Separator orientation="VERTICAL" prefHeight="660.0" />
