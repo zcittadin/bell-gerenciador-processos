@@ -11,7 +11,6 @@ import java.util.ResourceBundle;
 import com.servicos.estatica.belluno.dao.LeituraDAO;
 import com.servicos.estatica.belluno.model.Leitura;
 import com.servicos.estatica.belluno.model.Processo;
-import com.servicos.estatica.belluno.properties.MarkLineChartProperty;
 import com.servicos.estatica.belluno.util.HoverDataChart;
 
 import javafx.collections.FXCollections;
