@@ -19,7 +19,6 @@ import com.servicos.estatica.belluno.dao.ProcessoDAO;
 import com.servicos.estatica.belluno.modbus.ModbusRTUService;
 import com.servicos.estatica.belluno.model.Leitura;
 import com.servicos.estatica.belluno.model.Processo;
-import com.servicos.estatica.belluno.properties.MarkLineChartProperty;
 import com.servicos.estatica.belluno.report.builder.ProcessoReportCreator;
 import com.servicos.estatica.belluno.util.Chronometer;
 import com.servicos.estatica.belluno.util.HoverDataChart;
@@ -29,8 +28,6 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -145,14 +142,6 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		modService.openConnection();
 		initModbusReadSlaves();
 		configLineChart();
-		MarkLineChartProperty.markProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				for (Node mark : valueMarks) {
-					mark.setVisible(newValue);
-				}
-			}
-		});
 	}
 
 	@FXML
@@ -357,7 +346,9 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 
 	@FXML
 	public void toggleMark() {
-		MarkLineChartProperty.setMark(chkMarcadores.isSelected());
+		for (Node mark : valueMarks) {
+			mark.setVisible(chkMarcadores.isSelected());
+		}
 	}
 
 	@FXML
@@ -395,10 +386,16 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	}
 
 	private void initProcess() {
+		temperatura = modService.readMultipleRegisters(1, 0, 1);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				lblTemp.setText(temperatura.toString());
+				calculaMinMax();
+			}
+		});
 		plotTemp();
 		imgSwitch.setImage(new Image("/com/servicos/estatica/belluno/style/switch_on.png"));
-		// Tooltip.install(imgSwitch, TOOLTIP_SWITCH_ANDAMENTO);
-		// lblHorario.setText(horasFormatter.format(LocalDateTime.now()));
 		isReady = false;
 		isRunning = true;
 		scanModbusSlaves.play();
@@ -414,14 +411,12 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		scanModbusSlaves.stop();
 		chartAnimation.stop();
 		imgSwitch.setImage(new Image("/com/servicos/estatica/belluno/style/switch_off.png"));
-		// Tooltip.install(imgSwitch, TOOLTIP_SWITCH_FINALIZADO);
 		btNovo.setDisable(false);
 		btReport.setDisable(false);
 		isRunning = false;
 		isFinalized = true;
 		chronoMeter.stop();
 		imgFogo.setVisible(false);
-		// ProcessoStatusManager.setProcessoStatus(NOME_REATOR, isRunning);
 		makeToast("Processo finalizado com sucesso.");
 		processo.setDhFinal(Calendar.getInstance().getTime());
 		processoDAO.updateDataFinal(processo);
@@ -470,15 +465,11 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		final XYChart.Data<String, Number> data = new XYChart.Data<>(dataHoraFormatter.format(LocalDateTime.now()),
 				temperatura);
 		Node mark = new HoverDataChart(1, temperatura);
-		// if (!MarkLineChartProperty.getMark())
-		mark.setVisible(MarkLineChartProperty.getMark());
-		// else {
-		// mark.setVisible(true);
-		// System.out.println("Visível");
-		// }
+		mark.setVisible(chkMarcadores.isSelected());
 		data.setNode(mark);
 		tempSeries.getData().add(data);
 		valueMarks.add(mark);
+
 		saveTemp();
 	}
 
