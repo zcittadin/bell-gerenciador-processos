@@ -92,8 +92,8 @@ public class ProcessoDAO {
 	public List<Processo> findByIdentificadorProcessos(String identificador) {
 		Session session = HibernateUtil.openSession();
 		session.beginTransaction();
-		Query query = session
-				.createQuery("SELECT p FROM Processo p WHERE identificador LIKE '%" + identificador + "%'");
+		Query query = session.createQuery(
+				"SELECT p FROM Processo p WHERE identificador LIKE '%" + identificador + "%' ORDER BY id DESC");
 		List<Processo> list = new ArrayList<>();
 		list = query.getResultList();
 		session.close();
@@ -104,8 +104,8 @@ public class ProcessoDAO {
 	public List<Processo> findByPeriodo(String inicio, String fim) {
 		Session session = HibernateUtil.openSession();
 		session.beginTransaction();
-		Query query = session.createQuery(
-				"SELECT p FROM Processo p WHERE DATE(dhInicial) BETWEEN '" + inicio + "' AND '" + fim + "'");
+		Query query = session.createQuery("SELECT p FROM Processo p WHERE DATE(dhInicial) BETWEEN '" + inicio
+				+ "' AND '" + fim + "' ORDER BY id DESC");
 		List<Processo> list = new ArrayList<>();
 		list = query.getResultList();
 		session.close();
