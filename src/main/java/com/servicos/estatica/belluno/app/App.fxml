@@ -58,7 +58,7 @@
                      </cursor>
                   </ImageView>
                   <Clock layoutX="11.0" layoutY="14.0" lcdDesign="BLUE" prefHeight="61.0" prefWidth="136.0" running="true" secondsVisible="true" skinType="LCD" />
-                  <Button fx:id="btInicio" layoutX="29.0" layoutY="125.0" mnemonicParsing="false" onAction="#openInicial" prefHeight="37.0" prefWidth="100.0" text="Início">
+                  <Button fx:id="btInicio" layoutY="125.0" mnemonicParsing="false" onAction="#openInicial" prefHeight="37.0" prefWidth="158.0" text="Início">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -66,7 +66,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="btConsultas" layoutX="29.0" layoutY="164.0" mnemonicParsing="false" onAction="#openConsultas" prefHeight="37.0" prefWidth="100.0" text="Consultas">
+                  <Button fx:id="btConsultas" layoutY="164.0" mnemonicParsing="false" onAction="#openConsultas" prefHeight="37.0" prefWidth="158.0" text="Consultas">
                      <font>
                         <Font size="16.0" />
                      </font>

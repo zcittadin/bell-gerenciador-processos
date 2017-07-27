@@ -10,6 +10,8 @@ import com.servicos.estatica.belluno.properties.CurrentScreenProperty;
 import com.servicos.estatica.belluno.util.EstaticaInfoUtil;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -43,7 +46,9 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 	@FXML
 	private ImageView imgExit;
 	@FXML
-	private Button btStyleClock;
+	private Button btInicio;
+	@FXML
+	private Button btConsultas;
 	@FXML
 	private Clock clock;
 
@@ -54,7 +59,29 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		
+		btInicio.hoverProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if(newValue)
+					btInicio.setStyle("-fx-background-color: #000000;-fx-text-fill: #FFFFFF;");
+				else
+					btInicio.setStyle(null);
+				
+			}
+		});
+		
+		btConsultas.hoverProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if(newValue)
+					btConsultas.setStyle("-fx-background-color: #000000;-fx-text-fill: #FFFFFF;");
+				else
+					btConsultas.setStyle(null);
+				
+			}
+		});
+		
 		initEstaticaInfo();
 		
 		imgCliente.setImage(new Image("/com/servicos/estatica/belluno/style/belluno.png"));
