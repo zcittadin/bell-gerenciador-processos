@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.servicos.estatica.belluno.properties.CurrentScreenProperty;
+import com.servicos.estatica.belluno.shared.ProcessoStatusManager;
 import com.servicos.estatica.belluno.util.EstaticaInfoUtil;
 
 import javafx.application.Platform;
@@ -132,6 +133,8 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 
 	@FXML
 	private void exit() {
+		if (ProcessoStatusManager.verifyProcessoRunning())
+			return;
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Confirmar encerramento");
 		alert.setHeaderText("Deseja realmente sair do sistema?");

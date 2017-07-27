@@ -2,6 +2,7 @@ package com.servicos.estatica.belluno.app;
 
 import java.util.Optional;
 
+import com.servicos.estatica.belluno.shared.ProcessoStatusManager;
 import com.servicos.estatica.belluno.util.HibernateUtil;
 
 import javafx.application.Application;
@@ -29,8 +30,8 @@ public class App extends Application {
 			@Override
 			public void handle(WindowEvent event) {
 				event.consume();
-				// if (ProcessoStatusManager.verifyProcessoRunning())
-				// return;
+				if (ProcessoStatusManager.verifyProcessoRunning())
+					return;
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Confirmar encerramento");
 				alert.setHeaderText("Deseja realmente sair do sistema?");
@@ -42,7 +43,7 @@ public class App extends Application {
 		});
 		stage.show();
 	}
-	
+
 	@Override
 	public void stop() throws Exception {
 		HibernateUtil.closeSessionFactory();

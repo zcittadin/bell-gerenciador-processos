@@ -20,6 +20,7 @@ import com.servicos.estatica.belluno.modbus.ModbusRTUService;
 import com.servicos.estatica.belluno.model.Leitura;
 import com.servicos.estatica.belluno.model.Processo;
 import com.servicos.estatica.belluno.report.builder.ProcessoReportCreator;
+import com.servicos.estatica.belluno.shared.ProcessoStatusManager;
 import com.servicos.estatica.belluno.util.Chronometer;
 import com.servicos.estatica.belluno.util.HoverDataChart;
 import com.servicos.estatica.belluno.util.Toast;
@@ -108,6 +109,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private static Boolean isFinalized = false;
 	private static Boolean isAdding = false;
 
+	private static String PROC_KEY = "proc1";
 	private static String TOOLTIP_CSS = "-fx-font-size: 8pt; -fx-font-weight: bold; -fx-font-style: normal; ";
 	private Tooltip tooltipNovo = new Tooltip("Clique para cadastrar um novo processo");
 	private Tooltip tooltipSalvar = new Tooltip("Salvar processo");
@@ -405,6 +407,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		imgFogo.setVisible(true);
 		processo.setDhInicial(Calendar.getInstance().getTime());
 		processoDAO.updateDataInicial(processo);
+		ProcessoStatusManager.setProcessoStatus(PROC_KEY, true);
 	}
 
 	private void finalizeProcess() {
@@ -420,6 +423,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		makeToast("Processo finalizado com sucesso.");
 		processo.setDhFinal(Calendar.getInstance().getTime());
 		processoDAO.updateDataFinal(processo);
+		ProcessoStatusManager.setProcessoStatus(PROC_KEY, false);
 	}
 
 	private void saveTemp() {
