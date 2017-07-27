@@ -27,7 +27,7 @@
             </NumberAxis>
         </yAxis>
       </LineChart>
-      <Button fx:id="btVoltar" layoutX="581.0" layoutY="460.0" mnemonicParsing="false" onAction="#voltar" text="Voltar">
+      <Button fx:id="btVoltar" layoutX="563.0" layoutY="473.0" mnemonicParsing="false" onAction="#voltar" prefHeight="25.0" prefWidth="84.0" text="Voltar">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

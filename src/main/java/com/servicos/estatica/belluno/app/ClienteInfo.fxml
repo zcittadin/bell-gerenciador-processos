@@ -18,7 +18,7 @@
             <Image url="@../style/belluno.png" />
          </image>
       </ImageView>
-      <Button fx:id="btVoltar" layoutX="179.0" layoutY="341.0" mnemonicParsing="false" onAction="#voltar" text="Voltar">
+      <Button fx:id="btVoltar" layoutX="162.0" layoutY="351.0" mnemonicParsing="false" onAction="#voltar" prefHeight="25.0" prefWidth="84.0" text="Voltar">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

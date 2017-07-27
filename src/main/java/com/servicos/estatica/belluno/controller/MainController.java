@@ -23,9 +23,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import zan.inc.custom.components.ImageViewResizer;
@@ -41,6 +42,8 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 	private AnchorPane mainPane;
 	@FXML
 	private Pane centralPane;
+	@FXML
+	private Rectangle rectClock;
 	@FXML
 	private ImageView imgCliente;
 	@FXML
@@ -59,31 +62,32 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
+		rectClock.setFill(Color.TRANSPARENT);
 		btInicio.hoverProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				if(newValue)
+				if (newValue)
 					btInicio.setStyle("-fx-background-color: #000000;-fx-text-fill: #FFFFFF;");
 				else
 					btInicio.setStyle(null);
-				
+
 			}
 		});
-		
+
 		btConsultas.hoverProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				if(newValue)
+				if (newValue)
 					btConsultas.setStyle("-fx-background-color: #000000;-fx-text-fill: #FFFFFF;");
 				else
 					btConsultas.setStyle(null);
-				
+
 			}
 		});
-		
+
 		initEstaticaInfo();
-		
+
 		imgCliente.setImage(new Image("/com/servicos/estatica/belluno/style/belluno.png"));
 		imgClienteResizer = new ImageViewResizer(imgCliente, 126, 70);
 		imgClienteResizer.setLayoutX(16);
@@ -101,7 +105,7 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 		centralPane.getChildren().addAll(mainContainer);
 
 	}
-	
+
 	@FXML
 	private void openInicial() {
 		mainContainer.setScreen(screenInicioID);
@@ -125,7 +129,7 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 		stage.setResizable(Boolean.FALSE);
 		stage.showAndWait();
 	}
-	
+
 	@FXML
 	private void exit() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);

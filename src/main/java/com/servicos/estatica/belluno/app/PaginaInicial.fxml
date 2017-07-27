@@ -106,12 +106,12 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="724.0" layoutY="34.0" text="Data/hora inicial" textFill="WHITE">
+      <Label layoutX="724.0" layoutY="34.0" text="Horário inicial" textFill="WHITE">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Line endX="165.0" layoutX="842.0" layoutY="45.0">
+      <Line endX="181.0" layoutX="826.0" layoutY="45.0">
          <stroke>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
