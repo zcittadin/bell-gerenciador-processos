@@ -59,7 +59,7 @@
       <RadioButton fx:id="rdUltimos" layoutX="377.0" layoutY="80.0" mnemonicParsing="false" onAction="#selectUltimos" selected="true" text="Últimos processos" textFill="WHITE" />
       <RadioButton fx:id="rdPeriodo" layoutX="377.0" layoutY="116.0" mnemonicParsing="false" onAction="#selectPorPeriodo" text="Por período" textFill="WHITE" />
       <RadioButton fx:id="rdIdentificador" layoutX="377.0" layoutY="152.0" mnemonicParsing="false" onAction="#selectPorIdentificador" text="Por identificador" textFill="WHITE" />
-      <Button fx:id="btBuscar" layoutX="568.0" layoutY="205.0" mnemonicParsing="false" onAction="#consultar" prefHeight="25.0" prefWidth="84.0" text="Buscar">
+      <Button fx:id="btBuscar" layoutX="564.0" layoutY="206.0" mnemonicParsing="false" onAction="#consultar" prefHeight="25.0" prefWidth="92.0" styleClass="btStyleSearch" stylesheets="@../style/style.css" text="Pesquisar">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

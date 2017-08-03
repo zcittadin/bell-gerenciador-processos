@@ -19,16 +19,17 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" prefHeight="660.0" prefWidth="1208.0" styleClass="myGradient" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.servicos.estatica.belluno.controller.PaginaInicialController">
+<AnchorPane fx:id="mainPane" prefHeight="660.0" prefWidth="1208.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.servicos.estatica.belluno.controller.PaginaInicialController">
    <children>
+      <AnchorPane prefHeight="660.0" prefWidth="1208.0" styleClass="myGradient" stylesheets="@../style/style.css" />
       <ImageView fx:id="imgForno" fitHeight="134.0" fitWidth="207.0" layoutX="359.0" layoutY="16.0" pickOnBounds="true">
          <image>
             <Image url="@../style/forno.png" />
          </image>
       </ImageView>
-      <LineChart fx:id="chartTemp" createSymbols="false" layoutX="14.0" layoutY="178.0" legendVisible="false" prefHeight="429.0" prefWidth="1184.0" title="Temperatura x tempo">
+      <LineChart fx:id="chartTemp" createSymbols="false" layoutX="14.0" layoutY="178.0" legendVisible="false" prefHeight="429.0" prefWidth="1184.0" stylesheets="@../style/style.css" title="Temperatura x tempo">
         <xAxis>
-          <CategoryAxis side="BOTTOM" tickLabelFill="WHITE" fx:id="xAxis">
+          <CategoryAxis gapStartAndEnd="false" side="BOTTOM" tickLabelFill="WHITE" fx:id="xAxis">
                <tickLabelFont>
                   <Font size="10.0" />
                </tickLabelFont>
@@ -76,12 +77,12 @@
       <Label layoutX="340.0" layoutY="15.0" text="On" textFill="WHITE" />
       <Label layoutX="340.0" layoutY="37.0" text="Off" textFill="WHITE" />
       <ImageView fx:id="imgFogo" fitHeight="37.0" fitWidth="68.0" layoutX="429.0" layoutY="72.0" pickOnBounds="true" visible="false">
-         <image>
-            <Image url="@../../../../../../../../../../Desktop/fire.gif" />
-         </image>
          <effect>
             <Glow level="1.0" />
          </effect>
+         <image>
+            <Image url="@../../../../../../../../../../Desktop/fire.gif" />
+         </image>
       </ImageView>
       <Label fx:id="lblTemp" alignment="CENTER" layoutX="566.0" layoutY="38.0" prefHeight="37.0" prefWidth="110.0" styleClass="headerGradient" stylesheets="@../style/style.css" text="000.0" textFill="RED">
          <font>
