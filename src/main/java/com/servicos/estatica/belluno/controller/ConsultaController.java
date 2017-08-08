@@ -400,19 +400,19 @@ public class ConsultaController implements Initializable, ControlledScreen {
 					}
 				});
 		colTempMin.setCellValueFactory(
-				new Callback<TableColumn.CellDataFeatures<Processo, Double>, ObservableValue<Double>>() {
-					public ObservableValue<Double> call(CellDataFeatures<Processo, Double> cell) {
+				new Callback<TableColumn.CellDataFeatures<Processo, Integer>, ObservableValue<Integer>>() {
+					public ObservableValue<Integer> call(CellDataFeatures<Processo, Integer> cell) {
 						final Processo p = cell.getValue();
-						final SimpleObjectProperty<Double> simpleObject = new SimpleObjectProperty<Double>(
+						final SimpleObjectProperty<Integer> simpleObject = new SimpleObjectProperty<Integer>(
 								p.getTempMin());
 						return simpleObject;
 					}
 				});
 		colTempMax.setCellValueFactory(
-				new Callback<TableColumn.CellDataFeatures<Processo, Double>, ObservableValue<Double>>() {
-					public ObservableValue<Double> call(CellDataFeatures<Processo, Double> cell) {
+				new Callback<TableColumn.CellDataFeatures<Processo, Integer>, ObservableValue<Integer>>() {
+					public ObservableValue<Integer> call(CellDataFeatures<Processo, Integer> cell) {
 						final Processo p = cell.getValue();
-						final SimpleObjectProperty<Double> simpleObject = new SimpleObjectProperty<Double>(
+						final SimpleObjectProperty<Integer> simpleObject = new SimpleObjectProperty<Integer>(
 								p.getTempMax());
 						return simpleObject;
 					}

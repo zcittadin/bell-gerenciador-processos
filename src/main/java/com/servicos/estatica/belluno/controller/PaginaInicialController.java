@@ -102,9 +102,11 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private static DateTimeFormatter dataHoraFormatter = DateTimeFormatter.ofPattern("HH:mm:ss - dd/MM/yy");
 
 	private static Double temperatura = new Double(0);
-	private static Integer plottedTemp = new Integer(0);
+	private static Double setPoint = new Double(0);
 	private static Double tempMin = new Double(1900);
 	private static Double tempMax = new Double(0);
+	private static Integer plottedTemp = new Integer(0);
+	private static Integer plottedSp = new Integer(0);
 	private static Boolean isReady = false;
 	private static Boolean isRunning = false;
 	private static Boolean isFinalized = false;
@@ -391,6 +393,8 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private void initProcess() {
 		temperatura = roundToHalf(modService.readMultipleRegisters(1, 1, 1) / 10);
 		plottedTemp = temperatura.intValue();
+		setPoint = roundToHalf(modService.readMultipleRegisters(1, 0, 1) / 10);
+		plottedSp = setPoint.intValue();
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -429,7 +433,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	}
 
 	private void saveTemp() {
-		Leitura leitura = new Leitura(null, processo, Calendar.getInstance().getTime(), temperatura, 250);
+		Leitura leitura = new Leitura(null, processo, Calendar.getInstance().getTime(), plottedTemp, plottedSp);
 		leituras.add(leitura);
 		processo.setLeituras(leituras);
 		leituraDAO.saveLeitura(leitura);
@@ -440,6 +444,8 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 			public void handle(ActionEvent event) {
 				temperatura = roundToHalf(modService.readMultipleRegisters(1, 1, 1) / 10);
 				plottedTemp = temperatura.intValue();
+				setPoint = roundToHalf(modService.readMultipleRegisters(1, 0, 1) / 10);
+				plottedSp = setPoint.intValue();
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
@@ -494,14 +500,16 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private void calculaMinMax() {
 		if (tempMin > temperatura) {
 			tempMin = temperatura;
-			lblTempMin.setText(tempMin.toString());
-			processo.setTempMin(tempMin);
+			Integer i = tempMin.intValue();
+			lblTempMin.setText(i.toString());
+			processo.setTempMin(tempMin.intValue());
 			processoDAO.updateTemperaturaMin(processo);
 		}
 		if (tempMax < temperatura) {
-			tempMax = temperatura;
-			lblTempMax.setText(tempMax.toString());
-			processo.setTempMax(tempMax);
+			tempMax = roundToHalf(temperatura);
+			Integer i = tempMax.intValue();
+			lblTempMax.setText(i.toString());
+			processo.setTempMax(tempMax.intValue());
 			processoDAO.updateTemperaturaMax(processo);
 		}
 	}

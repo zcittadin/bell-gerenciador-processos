@@ -29,9 +29,9 @@ public class Processo implements Serializable {
 	@Column(name = "identificador")
 	private String identificador;
 	@Column(name = "t_max")
-	private double tempMax;
+	private Integer tempMax;
 	@Column(name = "t_min")
-	private double tempMin;
+	private Integer tempMin;
 	@Column(name = "dh_inicial")
 	private Date dhInicial;
 	@Column(name = "dh_final")
@@ -41,7 +41,7 @@ public class Processo implements Serializable {
 
 	}
 
-	public Processo(Long id, List<Leitura> leituras, String identificador, double tempMax, double tempMin,
+	public Processo(Long id, List<Leitura> leituras, String identificador, Integer tempMax, Integer tempMin,
 			Date dhInicial, Date dhFinal) {
 		this.id = id;
 		this.leituras = leituras;
@@ -84,19 +84,19 @@ public class Processo implements Serializable {
 		this.identificador = identificador;
 	}
 
-	public double getTempMax() {
+	public Integer getTempMax() {
 		return tempMax;
 	}
 
-	public void setTempMax(double tempMax) {
+	public void setTempMax(Integer tempMax) {
 		this.tempMax = tempMax;
 	}
 
-	public double getTempMin() {
+	public Integer getTempMin() {
 		return tempMin;
 	}
 
-	public void setTempMin(double tempMin) {
+	public void setTempMin(Integer tempMin) {
 		this.tempMin = tempMin;
 	}
 
