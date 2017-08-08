@@ -102,6 +102,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private static DateTimeFormatter dataHoraFormatter = DateTimeFormatter.ofPattern("HH:mm:ss - dd/MM/yy");
 
 	private static Double temperatura = new Double(0);
+	private static Integer plottedTemp = new Integer(0);
 	private static Double tempMin = new Double(1900);
 	private static Double tempMax = new Double(0);
 	private static Boolean isReady = false;
@@ -140,7 +141,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	public void initialize(URL location, ResourceBundle resources) {
 		initTooltips();
 		imgFogo.setImage(new Image("/com/servicos/estatica/belluno/style/fire.gif"));
-		modService.setConnectionParams("COM9", 9600);
+		modService.setConnectionParams("COM7", 9600);
 		modService.openConnection();
 		initModbusReadSlaves();
 		configLineChart();
@@ -388,11 +389,12 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	}
 
 	private void initProcess() {
-		temperatura = modService.readMultipleRegisters(1, 0, 1);
+		temperatura = roundToHalf(modService.readMultipleRegisters(1, 1, 1) / 10);
+		plottedTemp = temperatura.intValue();
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				lblTemp.setText(temperatura.toString());
+				lblTemp.setText(plottedTemp.toString());
 				calculaMinMax();
 			}
 		});
@@ -436,11 +438,12 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private void initModbusReadSlaves() {
 		scanModbusSlaves = new Timeline(new KeyFrame(Duration.millis(3000), new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				temperatura = modService.readMultipleRegisters(1, 0, 1);
+				temperatura = roundToHalf(modService.readMultipleRegisters(1, 1, 1) / 10);
+				plottedTemp = temperatura.intValue();
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
-						lblTemp.setText(temperatura.toString());
+						lblTemp.setText(plottedTemp.toString());
 						calculaMinMax();
 					}
 				});
@@ -449,11 +452,15 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		scanModbusSlaves.setCycleCount(Timeline.INDEFINITE);
 	}
 
+	public static double roundToHalf(double d) {
+		return (Math.ceil(d * 2) / 2);
+	}
+
 	private void configLineChart() {
 		yAxis.setAutoRanging(false);
 		yAxis.setLowerBound(0);
-		yAxis.setUpperBound(1050);
-		yAxis.setTickUnit(100);
+		yAxis.setUpperBound(1200);
+		yAxis.setTickUnit(200);
 
 		chartAnimation = new Timeline();
 		chartAnimation.getKeyFrames().add(new KeyFrame(Duration.millis(3000), (ActionEvent actionEvent) -> plotTemp()));
@@ -467,8 +474,8 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 
 	private void plotTemp() {
 		final XYChart.Data<String, Number> data = new XYChart.Data<>(dataHoraFormatter.format(LocalDateTime.now()),
-				temperatura);
-		Node mark = new HoverDataChart(1, temperatura);
+				plottedTemp);
+		Node mark = new HoverDataChart(1, plottedTemp);
 		mark.setVisible(chkMarcadores.isSelected());
 		data.setNode(mark);
 		tempSeries.getData().add(data);
