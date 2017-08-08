@@ -22,6 +22,7 @@ import com.servicos.estatica.belluno.model.Processo;
 import com.servicos.estatica.belluno.report.builder.ProcessoReportCreator;
 import com.servicos.estatica.belluno.shared.ProcessoStatusManager;
 import com.servicos.estatica.belluno.util.Chronometer;
+import com.servicos.estatica.belluno.util.FxDialogs;
 import com.servicos.estatica.belluno.util.HoverDataChart;
 import com.servicos.estatica.belluno.util.Toast;
 
@@ -388,6 +389,14 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	@FXML
 	public void switchIsPressing() {
 		imgSwitch.setCursor(Cursor.CLOSED_HAND);
+	}
+
+	@FXML
+	private void adjSetPoint() {
+		String sp = FxDialogs.showNumberInput("Set-point", "", "Digite o set-point:", "");
+		if (sp != null && !"".equals(sp)) {
+			modService.writeSingleRegister(1, 0, Integer.parseInt(sp) * 10);
+		}
 	}
 
 	private void initProcess() {

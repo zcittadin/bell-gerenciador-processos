@@ -162,5 +162,10 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
+      <Button fx:id="btSetPoint" layoutX="532.0" layoutY="18.0" mnemonicParsing="false" onAction="#adjSetPoint" prefHeight="28.0" prefWidth="32.0" styleClass="btSetPoint" stylesheets="@../style/style.css" visible="false">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </AnchorPane>

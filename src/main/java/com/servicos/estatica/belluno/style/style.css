@@ -44,3 +44,7 @@
 .btStyleSearch {
   -fx-graphic: url('zoom.png');
 }
+
+.btSetPoint {
+  -fx-graphic: url('pencil.png');
+}
