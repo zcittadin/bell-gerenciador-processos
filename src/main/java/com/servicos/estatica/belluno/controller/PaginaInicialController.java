@@ -480,7 +480,6 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		data.setNode(mark);
 		tempSeries.getData().add(data);
 		valueMarks.add(mark);
-
 		saveTemp();
 	}
 
