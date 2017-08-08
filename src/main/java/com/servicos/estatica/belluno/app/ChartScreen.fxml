@@ -13,9 +13,9 @@
    <children>
       <LineChart fx:id="chartTemp" createSymbols="false" layoutX="13.0" layoutY="15.0" legendVisible="false" prefHeight="429.0" prefWidth="1184.0" title="Temperatura x tempo">
         <xAxis>
-          <CategoryAxis side="BOTTOM" tickLabelFill="WHITE" fx:id="xAxis">
+          <CategoryAxis gapStartAndEnd="false" side="BOTTOM" tickLabelFill="WHITE" fx:id="xAxis">
                <tickLabelFont>
-                  <Font size="10.0" />
+                  <Font size="12.0" />
                </tickLabelFont>
             </CategoryAxis>
         </xAxis>

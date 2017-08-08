@@ -97,7 +97,6 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	@FXML
 	private CheckBox chkMarcadores;
 
-	private static Timeline chartAnimation;
 	private static Timeline scanModbusSlaves;
 	private static XYChart.Series<String, Number> tempSeries;
 	private static DateTimeFormatter dataHoraFormatter = DateTimeFormatter.ofPattern("HH:mm:ss - dd/MM/yy");
@@ -108,6 +107,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private static Double tempMax = new Double(0);
 	private static Integer plottedTemp = new Integer(0);
 	private static Integer plottedSp = new Integer(0);
+	private static Integer scanInterval = new Integer(0);
 	private static Boolean isReady = false;
 	private static Boolean isRunning = false;
 	private static Boolean isFinalized = false;
@@ -271,7 +271,6 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 				txtProcesso.setText("");
 				txtProcesso.setDisable(true);
 				scanModbusSlaves.stop();
-				chartAnimation.stop();
 				clearLineChart();
 				leituraDAO.removeLeituras(processo);
 				leituras.clear();
@@ -416,7 +415,6 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		isReady = false;
 		isRunning = true;
 		scanModbusSlaves.play();
-		chartAnimation.play();
 		chronoMeter.start(lblChrono);
 		lblDhInicial.setText(dataHoraFormatter.format(LocalDateTime.now()));
 		imgFogo.setVisible(true);
@@ -427,7 +425,6 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 
 	private void finalizeProcess() {
 		scanModbusSlaves.stop();
-		chartAnimation.stop();
 		imgSwitch.setImage(new Image("/com/servicos/estatica/belluno/style/switch_off.png"));
 		btNovo.setDisable(false);
 		btReport.setDisable(false);
@@ -449,7 +446,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	}
 
 	private void initModbusReadSlaves() {
-		scanModbusSlaves = new Timeline(new KeyFrame(Duration.millis(3000), new EventHandler<ActionEvent>() {
+		scanModbusSlaves = new Timeline(new KeyFrame(Duration.millis(30000), new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				temperatura = roundToHalf(modService.readMultipleRegisters(1, 1, 1) / 10);
 				plottedTemp = temperatura.intValue();
@@ -462,6 +459,11 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 						calculaMinMax();
 					}
 				});
+				scanInterval++;
+				if (scanInterval == 120) {
+					plotTemp();
+					scanInterval = 0;
+				}
 			}
 		}));
 		scanModbusSlaves.setCycleCount(Timeline.INDEFINITE);
@@ -476,15 +478,9 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		yAxis.setLowerBound(0);
 		yAxis.setUpperBound(1200);
 		yAxis.setTickUnit(200);
-
-		chartAnimation = new Timeline();
-		chartAnimation.getKeyFrames().add(new KeyFrame(Duration.millis(3000), (ActionEvent actionEvent) -> plotTemp()));
-		chartAnimation.setCycleCount(Animation.INDEFINITE);
-
 		tempSeries = new XYChart.Series<String, Number>();
 		plotValuesList.add(tempSeries);
 		chartTemp.setData(plotValuesList);
-
 	}
 
 	private void plotTemp() {

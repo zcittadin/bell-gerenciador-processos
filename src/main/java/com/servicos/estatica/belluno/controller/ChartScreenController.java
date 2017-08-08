@@ -61,8 +61,8 @@ public class ChartScreenController implements Initializable {
 	private void configLineChart() {
 		yAxis.setAutoRanging(false);
 		yAxis.setLowerBound(0);
-		yAxis.setUpperBound(1050);
-		yAxis.setTickUnit(100);
+		yAxis.setUpperBound(1200);
+		yAxis.setTickUnit(200);
 		tempSeries = new XYChart.Series<String, Number>();
 		plotValuesList.add(tempSeries);
 		chartTemp.setData(plotValuesList);
