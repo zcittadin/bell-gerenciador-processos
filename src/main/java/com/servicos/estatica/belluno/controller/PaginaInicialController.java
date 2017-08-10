@@ -13,9 +13,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import org.quartz.CronScheduleBuilder;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerFactory;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.quartz.impl.StdSchedulerFactory;
+
 import com.servicos.estatica.belluno.app.ControlledScreen;
 import com.servicos.estatica.belluno.dao.LeituraDAO;
 import com.servicos.estatica.belluno.dao.ProcessoDAO;
+import com.servicos.estatica.belluno.mail.MailJob;
 import com.servicos.estatica.belluno.modbus.ModbusRTUService;
 import com.servicos.estatica.belluno.model.Leitura;
 import com.servicos.estatica.belluno.model.Processo;
@@ -26,7 +36,6 @@ import com.servicos.estatica.belluno.util.FxDialogs;
 import com.servicos.estatica.belluno.util.HoverDataChart;
 import com.servicos.estatica.belluno.util.Toast;
 
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -128,6 +137,9 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private static List<Leitura> leituras = new ArrayList<>();
 	private static Processo processo;
 
+	SchedulerFactory schedFact = null;
+	Scheduler sched = null;
+
 	final Chronometer chronoMeter = new Chronometer();
 	private static LeituraDAO leituraDAO = new LeituraDAO();
 	private static ProcessoDAO processoDAO = new ProcessoDAO();
@@ -148,6 +160,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		modService.openConnection();
 		initModbusReadSlaves();
 		configLineChart();
+		configureMailJob();
 	}
 
 	@FXML
@@ -481,6 +494,23 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		tempSeries = new XYChart.Series<String, Number>();
 		plotValuesList.add(tempSeries);
 		chartTemp.setData(plotValuesList);
+	}
+
+	private void configureMailJob() {
+		try {
+			schedFact = new StdSchedulerFactory();
+			sched = schedFact.getScheduler();
+			sched.getContext().put("contagem", 123);
+			JobDetail job = JobBuilder.newJob(MailJob.class).withIdentity("myJob", "group1").build();
+			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("myTrigger", "group1")
+					.withSchedule(CronScheduleBuilder.cronSchedule("0 0 8-12,14-17 ? * MON-FRI")).build();
+			// .withSchedule(CronScheduleBuilder.cronSchedule("0 19 8 ? *
+			// MON-FRI")).build();
+			sched.scheduleJob(job, trigger);
+		} catch (Exception e) {
+			System.out.println("Erro ao enviar e-mail.");
+			e.printStackTrace();
+		}
 	}
 
 	private void plotTemp() {
