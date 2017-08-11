@@ -15,9 +15,11 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import com.servicos.estatica.belluno.model.Processo;
+
 public class ProducaoMailService {
 
-	public void sendMailReport(Integer contagem) {
+	public void sendMailReport(Processo processo) {
 		Properties props = new Properties();
 
 		// Parâmetros de conexão com servidor Gmail
@@ -38,21 +40,21 @@ public class ProducaoMailService {
 		try {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("zct.automacao@gmail.com"));
-			message.setSubject("Produção parcial Colatech");
+			message.setSubject("Relatório de parcial");
 
-			// Address[] toUser =
-			// InternetAddress.parse("z_cittadin@hotmail.com");
-			Address[] toUser = InternetAddress.parse(
-					"z_cittadin@hotmail.com, eduardo@estatica-metrologia.com.br, cesar@lsy.com.br, jaison@colatech.com.br");
+			Address[] toUser = InternetAddress.parse("z_cittadin@hotmail.com");
+			// Address[] toUser = InternetAddress.parse(
+			// "z_cittadin@hotmail.com, eduardo@estatica-metrologia.com.br,
+			// cesar@lsy.com.br, jaison@colatech.com.br");
 			// .parse("seuamigo@gmail.com, seucolega@hotmail.com,
 			// seuparente@yahoo.com.br");
 			message.setRecipients(Message.RecipientType.TO, toUser);
 
 			BodyPart messageBodyPart = new MimeBodyPart();
 			StringBuilder builder = new StringBuilder();
-			builder.append("<p>Olá.</p>");
-			builder.append("<p>Foram produzidas " + contagem + " sacas até a última hora.</p>");
-			builder.append("<p>Início dos registros: 07:15 - 06/07/2017</p>");
+			builder.append("<p>Segue as leituras para o processo " + processo.getIdentificador() + "</p>");
+			builder.append("<p>Foram produzidas " + processo + " sacas até a última hora.</p>");
+			builder.append("<p>Início dos registros: " + processo.getDhInicial().toString() + "</p>");
 			String msg = builder.toString();
 			messageBodyPart.setText(msg);
 			messageBodyPart.setContent(msg, "text/html; charset=utf-8");

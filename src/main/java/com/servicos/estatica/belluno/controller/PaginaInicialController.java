@@ -208,6 +208,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 				leituras.clear();
 				processo = new Processo(null, leituras, txtProcesso.getText(), 0, 0, null, null);
 				processoDAO.saveProcesso(processo);
+				sched.getContext().put("processo", processo);
 				return null;
 			}
 		};
@@ -459,12 +460,32 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	}
 
 	private void initModbusReadSlaves() {
-		scanModbusSlaves = new Timeline(new KeyFrame(Duration.millis(30000), new EventHandler<ActionEvent>() {
+		scanModbusSlaves = new Timeline(new KeyFrame(Duration.millis(3000), new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				temperatura = roundToHalf(modService.readMultipleRegisters(1, 1, 1) / 10);
-				plottedTemp = temperatura.intValue();
-				setPoint = roundToHalf(modService.readMultipleRegisters(1, 0, 1) / 10);
-				plottedSp = setPoint.intValue();
+				Task<Void> modbusTask = new Task<Void>() {
+					@Override
+					protected Void call() throws Exception {
+						temperatura = roundToHalf(modService.readMultipleRegisters(1, 1, 1) / 10);
+						plottedTemp = temperatura.intValue();
+						setPoint = roundToHalf(modService.readMultipleRegisters(1, 0, 1) / 10);
+						plottedSp = setPoint.intValue();
+						return null;
+					}
+				};
+				modbusTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+					@Override
+					public void handle(WorkerStateEvent arg0) {
+
+					}
+				});
+				modbusTask.setOnFailed(new EventHandler<WorkerStateEvent>() {
+					@Override
+					public void handle(WorkerStateEvent arg0) {
+
+					}
+				});
+				Thread t = new Thread(modbusTask);
+				t.start();
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
@@ -472,11 +493,11 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 						calculaMinMax();
 					}
 				});
-				scanInterval++;
-				if (scanInterval == 120) {
-					plotTemp();
-					scanInterval = 0;
-				}
+				// scanInterval++;
+				// if (scanInterval == 120) {
+				plotTemp();
+				// scanInterval = 0;
+				// }
 			}
 		}));
 		scanModbusSlaves.setCycleCount(Timeline.INDEFINITE);
@@ -500,13 +521,14 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		try {
 			schedFact = new StdSchedulerFactory();
 			sched = schedFact.getScheduler();
-			sched.getContext().put("contagem", 123);
+//			sched.getContext().put("processo", processo);
 			JobDetail job = JobBuilder.newJob(MailJob.class).withIdentity("myJob", "group1").build();
 			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("myTrigger", "group1")
 					.withSchedule(CronScheduleBuilder.cronSchedule("0 0 8-12,14-17 ? * MON-FRI")).build();
 			// .withSchedule(CronScheduleBuilder.cronSchedule("0 19 8 ? *
 			// MON-FRI")).build();
 			sched.scheduleJob(job, trigger);
+			sched.start();
 		} catch (Exception e) {
 			System.out.println("Erro ao enviar e-mail.");
 			e.printStackTrace();

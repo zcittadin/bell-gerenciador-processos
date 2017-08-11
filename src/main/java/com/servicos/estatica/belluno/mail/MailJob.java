@@ -6,6 +6,8 @@ import org.quartz.JobExecutionException;
 import org.quartz.SchedulerContext;
 import org.quartz.SchedulerException;
 
+import com.servicos.estatica.belluno.model.Processo;
+
 public class MailJob implements Job {
 
 	@Override
@@ -13,13 +15,12 @@ public class MailJob implements Job {
 		SchedulerContext schedulerContext = null;
 		try {
 			schedulerContext = context.getScheduler().getContext();
+			Processo processo = (Processo) schedulerContext.get("processo");
+			ProducaoMailService mailService = new ProducaoMailService();
+			mailService.sendMailReport(processo);
 		} catch (SchedulerException e) {
 			e.printStackTrace();
 		}
-		Integer contagem = (Integer) schedulerContext.get("contagem");
-		ProducaoMailService mailService = new ProducaoMailService();
-		mailService.sendMailReport(contagem);
-		// System.out.println("Job de envio de e-mail... " + contagem);
 	}
 
 }
