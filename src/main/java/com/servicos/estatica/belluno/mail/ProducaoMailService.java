@@ -95,12 +95,15 @@ public class ProducaoMailService {
 		builder.append("</tr>");
 		builder.append("<tr>");
 		builder.append(
-				"<td style=\"vertical-align: top; text-align:left;color:#000000;font-size:12px;font-family:helvetica, arial; text-align:left\"> ");
+				"<td style=\"vertical-align: top; text-align:left;color:#000000;font-size:12px;font-family:helvetica, arial; text-align:left\">");
 		builder.append(
 				"<span style=\"margin-right:5px;color:#000000;font-size:15px;font-family:helvetica, arial\">Carbon&#xED;fera Belluno Ltda.</span>");
 		builder.append("<br><br> Rod. SC 445, Km 05 - s/n, Crici&uacute;ma - SC, CEP 88810-300<br><br>");
+		builder.append("</td></tr>");
+		builder.append("</table>");
 		builder.append(
 				"<p style=\"text-align:left;color:#aaaaaa;font-size:10px;font-family:helvetica, arial\">E-mail enviado automaticamente. Favor não responder.</p>");
+		builder.append("<br><br>");
 
 	}
 
