@@ -17,6 +17,7 @@ import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
@@ -116,7 +117,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private static Double tempMax = new Double(0);
 	private static Integer plottedTemp = new Integer(0);
 	private static Integer plottedSp = new Integer(0);
-	private static Integer scanInterval = new Integer(0);
+	// private static Integer scanInterval = new Integer(0);
 	private static Boolean isReady = false;
 	private static Boolean isRunning = false;
 	private static Boolean isFinalized = false;
@@ -208,7 +209,6 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 				leituras.clear();
 				processo = new Processo(null, leituras, txtProcesso.getText(), 0, 0, null, null);
 				processoDAO.saveProcesso(processo);
-				sched.getContext().put("processo", processo);
 				return null;
 			}
 		};
@@ -220,6 +220,11 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 				btCancelar.setDisable(false);
 				lblTemp.setText("000.0");
 				lblChrono.setText("00:00:00");
+				try {
+					sched.getContext().put("processo", processo);
+				} catch (SchedulerException e) {
+					e.printStackTrace();
+				}
 				makeToast("Processo salvo com sucesso.");
 			}
 		});
@@ -521,12 +526,9 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		try {
 			schedFact = new StdSchedulerFactory();
 			sched = schedFact.getScheduler();
-//			sched.getContext().put("processo", processo);
 			JobDetail job = JobBuilder.newJob(MailJob.class).withIdentity("myJob", "group1").build();
 			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("myTrigger", "group1")
-					.withSchedule(CronScheduleBuilder.cronSchedule("0 0 8-12,14-17 ? * MON-FRI")).build();
-			// .withSchedule(CronScheduleBuilder.cronSchedule("0 19 8 ? *
-			// MON-FRI")).build();
+					.withSchedule(CronScheduleBuilder.cronSchedule("0 45 8-12,14-17 ? * MON-FRI")).build();
 			sched.scheduleJob(job, trigger);
 			sched.start();
 		} catch (Exception e) {
