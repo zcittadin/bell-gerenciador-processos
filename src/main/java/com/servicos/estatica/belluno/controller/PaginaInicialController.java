@@ -138,13 +138,17 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private static List<Leitura> leituras = new ArrayList<>();
 	private static Processo processo;
 
-	SchedulerFactory schedFact = null;
+	SchedulerFactory schedFact = new StdSchedulerFactory();
 	Scheduler sched = null;
 
 	final Chronometer chronoMeter = new Chronometer();
 	private static LeituraDAO leituraDAO = new LeituraDAO();
 	private static ProcessoDAO processoDAO = new ProcessoDAO();
-	private static ModbusRTUService modService = new ModbusRTUService();
+	private static ModbusRTUService modService;
+
+	// private PaginaInicialController paginaInicialController = new
+	// PaginaInicialController();
+	// private ConsultaController consultaController = new ConsultaController();
 
 	ScreensController myController;
 
@@ -157,11 +161,11 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	public void initialize(URL location, ResourceBundle resources) {
 		initTooltips();
 		imgFogo.setImage(new Image("/com/servicos/estatica/belluno/style/fire.gif"));
+		modService = new ModbusRTUService();
 		modService.setConnectionParams("COM7", 9600);
 		modService.openConnection();
-		initModbusReadSlaves();
+		configModbusReadSlaves();
 		configLineChart();
-		configureMailJob();
 	}
 
 	@FXML
@@ -220,11 +224,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 				btCancelar.setDisable(false);
 				lblTemp.setText("000.0");
 				lblChrono.setText("00:00:00");
-				try {
-					sched.getContext().put("processo", processo);
-				} catch (SchedulerException e) {
-					e.printStackTrace();
-				}
+				configureMailJob();
 				makeToast("Processo salvo com sucesso.");
 			}
 		});
@@ -444,6 +444,11 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 
 	private void finalizeProcess() {
 		scanModbusSlaves.stop();
+		try {
+			sched.shutdown();
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+		}
 		imgSwitch.setImage(new Image("/com/servicos/estatica/belluno/style/switch_off.png"));
 		btNovo.setDisable(false);
 		btReport.setDisable(false);
@@ -464,7 +469,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		leituraDAO.saveLeitura(leitura);
 	}
 
-	private void initModbusReadSlaves() {
+	private void configModbusReadSlaves() {
 		scanModbusSlaves = new Timeline(new KeyFrame(Duration.millis(3000), new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				Task<Void> modbusTask = new Task<Void>() {
@@ -524,11 +529,11 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 
 	private void configureMailJob() {
 		try {
-			schedFact = new StdSchedulerFactory();
 			sched = schedFact.getScheduler();
+			sched.getContext().put("processo", processo);
 			JobDetail job = JobBuilder.newJob(MailJob.class).withIdentity("myJob", "group1").build();
 			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("myTrigger", "group1")
-					.withSchedule(CronScheduleBuilder.cronSchedule("0 45 8-12,14-17 ? * MON-FRI")).build();
+					.withSchedule(CronScheduleBuilder.cronSchedule("0 0 8-12,14-17 ? * MON-FRI")).build();
 			sched.scheduleJob(job, trigger);
 			sched.start();
 		} catch (Exception e) {

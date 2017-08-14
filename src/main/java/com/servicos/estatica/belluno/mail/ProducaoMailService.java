@@ -1,5 +1,6 @@
 package com.servicos.estatica.belluno.mail;
 
+import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 import javax.mail.Address;
@@ -53,8 +54,8 @@ public class ProducaoMailService {
 			BodyPart messageBodyPart = new MimeBodyPart();
 			StringBuilder builder = new StringBuilder();
 			builder.append("<p>Segue as leituras para o processo " + processo.getIdentificador() + "</p>");
-//			builder.append("<p>Foram produzidas " + processo + " sacas até a última hora.</p>");
-			builder.append("<p>Início dos registros: " + processo.getDhInicial().toString() + "</p>");
+			builder.append("<p>Início dos registros: "
+					+ new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss").format(processo.getDhInicial()) + "</p>");
 			String msg = builder.toString();
 			messageBodyPart.setText(msg);
 			messageBodyPart.setContent(msg, "text/html; charset=utf-8");
