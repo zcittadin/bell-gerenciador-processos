@@ -1,7 +1,6 @@
 package com.servicos.estatica.belluno.mail;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Address;
@@ -43,7 +42,7 @@ public class ProducaoMailService {
 		try {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("zct.automacao@gmail.com"));
-			message.setSubject("Relatório de parcial");
+			message.setSubject("Produção de coque: relatório de parcial");
 
 			Address[] toUser = InternetAddress.parse("z_cittadin@hotmail.com");
 			// Address[] toUser = InternetAddress.parse(
@@ -58,13 +57,13 @@ public class ProducaoMailService {
 			builder.append("<style>table, th, td {border: 1px solid black;border-collapse: collapse;}");
 			builder.append("th, td {padding: 5px;}");
 			builder.append("th {text-align: left;}</style>");
-			builder.append("<h2>Segue as leituras para o processo " + processo.getIdentificador() + "</h2>");
+			builder.append("<h3>A seguir são apresentados os registros de temperatura para o processo: "
+					+ processo.getIdentificador() + "</h3>");
 			builder.append("<p>Início dos registros: "
 					+ new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss").format(processo.getDhInicial()) + "</p>");
-			List<Leitura> lista = processo.getLeituras();
-			if (lista != null || !lista.isEmpty()) {
+			if (processo.getLeituras() != null || !processo.getLeituras().isEmpty()) {
 				builder.append("<table style=\"width:100%\"><tr><th>Horário</th><th>Temperatura</th></tr>");
-				for (Leitura leitura : lista) {
+				for (Leitura leitura : processo.getLeituras()) {
 					builder.append("<tr><td>" + new SimpleDateFormat("HH:mm:ss").format(leitura.getDtProc()) + "</td>");
 					builder.append("<td>" + leitura.getTemp() + "</td></tr>");
 				}

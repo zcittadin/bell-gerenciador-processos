@@ -146,10 +146,6 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private static ProcessoDAO processoDAO = new ProcessoDAO();
 	private static ModbusRTUService modService;
 
-	// private PaginaInicialController paginaInicialController = new
-	// PaginaInicialController();
-	// private ConsultaController consultaController = new ConsultaController();
-
 	ScreensController myController;
 
 	@Override
