@@ -1,6 +1,7 @@
 package com.servicos.estatica.belluno.mail;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Address;
@@ -16,6 +17,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import com.servicos.estatica.belluno.model.Leitura;
 import com.servicos.estatica.belluno.model.Processo;
 
 public class ProducaoMailService {
@@ -53,9 +55,23 @@ public class ProducaoMailService {
 
 			BodyPart messageBodyPart = new MimeBodyPart();
 			StringBuilder builder = new StringBuilder();
-			builder.append("<p>Segue as leituras para o processo " + processo.getIdentificador() + "</p>");
+			builder.append("<style>table, th, td {border: 1px solid black;border-collapse: collapse;}");
+			builder.append("th, td {padding: 5px;}");
+			builder.append("th {text-align: left;}</style>");
+			builder.append("<h2>Segue as leituras para o processo " + processo.getIdentificador() + "</h2>");
 			builder.append("<p>Início dos registros: "
 					+ new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss").format(processo.getDhInicial()) + "</p>");
+			List<Leitura> lista = processo.getLeituras();
+			if (lista != null || !lista.isEmpty()) {
+				builder.append("<table style=\"width:100%\"><tr><th>Horário</th><th>Temperatura</th></tr>");
+				for (Leitura leitura : lista) {
+					builder.append("<tr><td>" + new SimpleDateFormat("HH:mm:ss").format(leitura.getDtProc()) + "</td>");
+					builder.append("<td>" + leitura.getTemp() + "</td></tr>");
+				}
+				builder.append("</table>");
+			}
+			builder.append("<br>");
+			makeFooter(builder);
 			String msg = builder.toString();
 			messageBodyPart.setText(msg);
 			messageBodyPart.setContent(msg, "text/html; charset=utf-8");
@@ -69,6 +85,23 @@ public class ProducaoMailService {
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	private void makeFooter(StringBuilder builder) {
+		builder.append("<table width=\"351\" cellspacing=\"0\" cellpadding=\"0\">");
+		builder.append("<tr>");
+		builder.append(
+				"<td style=\"text-align:left;padding-bottom:10px\"><img style=\"border:none\" src=\"https://s1g.s3.amazonaws.com/e8a1c0bcf0416ff133189ac8cb69d534.jpg\"></td> ");
+		builder.append("</tr>");
+		builder.append("<tr>");
+		builder.append(
+				"<td style=\"vertical-align: top; text-align:left;color:#000000;font-size:12px;font-family:helvetica, arial; text-align:left\"> ");
+		builder.append(
+				"<span style=\"margin-right:5px;color:#000000;font-size:15px;font-family:helvetica, arial\">Carbon&#xED;fera Belluno Ltda.</span>");
+		builder.append("<br><br> Rod. SC 445, Km 05 - s/n, Crici&uacute;ma - SC, CEP 88810-300<br><br>");
+		builder.append(
+				"<p style=\"text-align:left;color:#aaaaaa;font-size:10px;font-family:helvetica, arial\">E-mail enviado automaticamente. Favor não responder.</p>");
+
 	}
 
 }

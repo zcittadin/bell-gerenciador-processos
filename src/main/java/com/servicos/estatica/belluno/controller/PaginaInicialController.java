@@ -533,7 +533,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 			sched.getContext().put("processo", processo);
 			JobDetail job = JobBuilder.newJob(MailJob.class).withIdentity("myJob", "group1").build();
 			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("myTrigger", "group1")
-					.withSchedule(CronScheduleBuilder.cronSchedule("0 0 8-12,14-17 ? * MON-FRI")).build();
+					.withSchedule(CronScheduleBuilder.cronSchedule("0 1-59 8-12,14-17 ? * MON-FRI")).build();
 			sched.scheduleJob(job, trigger);
 			sched.start();
 		} catch (Exception e) {
