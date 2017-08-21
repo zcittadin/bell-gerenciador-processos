@@ -117,7 +117,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private static Double tempMax = new Double(0);
 	private static Integer plottedTemp = new Integer(0);
 	private static Integer plottedSp = new Integer(0);
-	// private static Integer scanInterval = new Integer(0);
+	private static Integer scanInterval = new Integer(0);
 	private static Boolean isReady = false;
 	private static Boolean isRunning = false;
 	private static Boolean isFinalized = false;
@@ -158,7 +158,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		initTooltips();
 		imgFogo.setImage(new Image("/com/servicos/estatica/belluno/style/fire.gif"));
 		modService = new ModbusRTUService();
-		modService.setConnectionParams("COM7", 9600);
+		modService.setConnectionParams("COM5", 9600);
 		modService.openConnection();
 		configModbusReadSlaves();
 		configLineChart();
@@ -239,7 +239,6 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		Thread t = new Thread(saveTask);
 		t.start();
 		isReady = true;
-
 	}
 
 	@FXML
@@ -466,7 +465,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	}
 
 	private void configModbusReadSlaves() {
-		scanModbusSlaves = new Timeline(new KeyFrame(Duration.millis(3000), new EventHandler<ActionEvent>() {
+		scanModbusSlaves = new Timeline(new KeyFrame(Duration.millis(30000), new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				Task<Void> modbusTask = new Task<Void>() {
 					@Override
@@ -481,29 +480,28 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 				modbusTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 					@Override
 					public void handle(WorkerStateEvent arg0) {
-
+						Platform.runLater(new Runnable() {
+							@Override
+							public void run() {
+								lblTemp.setText(plottedTemp.toString());
+								calculaMinMax();
+							}
+						});
 					}
 				});
 				modbusTask.setOnFailed(new EventHandler<WorkerStateEvent>() {
 					@Override
 					public void handle(WorkerStateEvent arg0) {
-
+						System.out.println("Slave não responde.");
 					}
 				});
 				Thread t = new Thread(modbusTask);
 				t.start();
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						lblTemp.setText(plottedTemp.toString());
-						calculaMinMax();
-					}
-				});
-				// scanInterval++;
-				// if (scanInterval == 120) {
-				plotTemp();
-				// scanInterval = 0;
-				// }
+				scanInterval++;
+				if (scanInterval == 120) {
+					plotTemp();
+					scanInterval = 0;
+				}
 			}
 		}));
 		scanModbusSlaves.setCycleCount(Timeline.INDEFINITE);
@@ -529,7 +527,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 			sched.getContext().put("processo", processo);
 			JobDetail job = JobBuilder.newJob(MailJob.class).withIdentity("myJob", "group1").build();
 			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("myTrigger", "group1")
-					.withSchedule(CronScheduleBuilder.cronSchedule("0 1-59 8-12,13-17 ? * MON-FRI")).build();
+					.withSchedule(CronScheduleBuilder.cronSchedule("0 0 0,4,8,12,16,20 ? * MON-SUN")).build();
 			sched.scheduleJob(job, trigger);
 			sched.start();
 		} catch (Exception e) {

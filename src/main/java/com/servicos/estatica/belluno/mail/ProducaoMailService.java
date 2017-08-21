@@ -44,10 +44,10 @@ public class ProducaoMailService {
 			message.setFrom(new InternetAddress("zct.automacao@gmail.com"));
 			message.setSubject("Produção de coque: relatório de parcial");
 
-			Address[] toUser = InternetAddress.parse("z_cittadin@hotmail.com");
-			// Address[] toUser = InternetAddress.parse(
-			// "z_cittadin@hotmail.com, eduardo@estatica-metrologia.com.br,
-			// cesar@lsy.com.br, jaison@colatech.com.br");
+			// Address[] toUser =
+			// InternetAddress.parse("z_cittadin@hotmail.com");
+			Address[] toUser = InternetAddress.parse(
+					"z_cittadin@hotmail.com, eduardo@estatica-metrologia.com.br, cesar@lsy.com.br, sidnei@cbelluno.com.br");
 			// .parse("seuamigo@gmail.com, seucolega@hotmail.com,
 			// seuparente@yahoo.com.br");
 			message.setRecipients(Message.RecipientType.TO, toUser);

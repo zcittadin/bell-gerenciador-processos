@@ -84,7 +84,7 @@
             <Image url="@../../../../../../../../../../Desktop/fire.gif" />
          </image>
       </ImageView>
-      <Label fx:id="lblTemp" alignment="CENTER" layoutX="566.0" layoutY="38.0" prefHeight="37.0" prefWidth="110.0" styleClass="headerGradient" stylesheets="@../style/style.css" text="000.0" textFill="RED">
+      <Label fx:id="lblTemp" alignment="CENTER" layoutX="566.0" layoutY="38.0" prefHeight="37.0" prefWidth="110.0" styleClass="headerGradient" stylesheets="@../style/style.css" text="000.0" textFill="LIME">
          <font>
             <Font name="DSEG7 Classic-Bold" size="20.0" />
          </font>
