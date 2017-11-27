@@ -48,3 +48,19 @@
 .btSetPoint {
   -fx-graphic: url('pencil.png');
 }
+
+.btUtilizar {
+  -fx-graphic: url('Apply.png');
+}
+
+.btCancel {
+  -fx-graphic: url('Cancel.png');
+}
+
+.btDelete {
+  -fx-graphic: url('delete.png');
+}
+
+.btSave {
+  -fx-graphic: url('Save.png');
+}

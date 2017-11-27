@@ -79,7 +79,15 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="btConsultas" layoutY="164.0" mnemonicParsing="false" onAction="#openConsultas" prefHeight="37.0" prefWidth="158.0" text="Consultas">
+                  <Button fx:id="btConsultas" layoutY="201.0" mnemonicParsing="false" onAction="#openConsultas" prefHeight="37.0" prefWidth="158.0" text="Consultas">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button fx:id="btControle" layoutY="163.0" mnemonicParsing="false" onAction="#openControle" prefHeight="37.0" prefWidth="158.0" text="Controle">
                      <font>
                         <Font size="16.0" />
                      </font>

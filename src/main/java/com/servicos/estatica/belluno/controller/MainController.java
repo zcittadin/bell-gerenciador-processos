@@ -36,6 +36,8 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 
 	public static String screenInicioID = "inicio";
 	public static String screenInicioFile = "/com/servicos/estatica/belluno/app/PaginaInicial.fxml";
+	public static String screenControleID = "controle";
+	public static String screenControleFile = "/com/servicos/estatica/belluno/app/Controle.fxml";
 	public static String screenConsultaID = "consulta";
 	public static String screenConsultaFile = "/com/servicos/estatica/belluno/app/Consulta.fxml";
 
@@ -52,6 +54,8 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 	@FXML
 	private Button btInicio;
 	@FXML
+	private Button btControle;
+	@FXML
 	private Button btConsultas;
 	@FXML
 	private Clock clock;
@@ -65,6 +69,7 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 
 		rectClock.setFill(Color.TRANSPARENT);
+
 		btInicio.hoverProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -72,6 +77,17 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 					btInicio.setStyle("-fx-background-color: #000000;-fx-text-fill: #FFFFFF;");
 				else
 					btInicio.setStyle(null);
+
+			}
+		});
+
+		btControle.hoverProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if (newValue)
+					btControle.setStyle("-fx-background-color: #000000;-fx-text-fill: #FFFFFF;");
+				else
+					btControle.setStyle(null);
 
 			}
 		});
@@ -99,6 +115,7 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 		mainPane.getChildren().addAll(imgClienteResizer, imgExitResizer);
 
 		mainContainer.loadScreen(screenInicioID, screenInicioFile);
+		mainContainer.loadScreen(screenControleID, screenControleFile);
 		mainContainer.loadScreen(screenConsultaID, screenConsultaFile);
 		CurrentScreenProperty.setScreen(screenInicioID);
 
@@ -110,6 +127,11 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 	@FXML
 	private void openInicial() {
 		mainContainer.setScreen(screenInicioID);
+	}
+
+	@FXML
+	private void openControle() {
+		mainContainer.setScreen(screenControleID);
 	}
 
 	@FXML
