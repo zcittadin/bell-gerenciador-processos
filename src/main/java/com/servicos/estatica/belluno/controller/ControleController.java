@@ -214,76 +214,76 @@ public class ControleController implements Initializable, ControlledScreen {
 		cicloControle.setQuartoTotal(Integer.parseInt(txtQuartoTotal.getText()));
 
 		if (chkPrimeiro.isSelected()) {
-			cicloControle.setPrimeiroFixo('S');
+			cicloControle.setPrimeiroFixo("S");
 			if (rdPrimeiroAberto.isSelected()) {
-				cicloControle.setPrimeiroSempreAberto('S');
-				cicloControle.setPrimeiroSempreFechado('N');
+				cicloControle.setPrimeiroSempreAberto("S");
+				cicloControle.setPrimeiroSempreFechado("N");
 			}
 			if (rdPrimeiroFechado.isSelected()) {
-				cicloControle.setPrimeiroSempreAberto('N');
-				cicloControle.setPrimeiroSempreFechado('S');
+				cicloControle.setPrimeiroSempreAberto("N");
+				cicloControle.setPrimeiroSempreFechado("S");
 			}
 		} else {
-			cicloControle.setPrimeiroFixo('N');
+			cicloControle.setPrimeiroFixo("N");
 			cicloControle.setPrimeiroAberto(Integer.parseInt(txtPrimeiroAberto.getText()));
 			cicloControle.setPrimeiroFechado(Integer.parseInt(txtPrimeiroFechado.getText()));
 		}
 
 		if (chkSegundo.isSelected()) {
-			cicloControle.setSegundoFixo('S');
+			cicloControle.setSegundoFixo("S");
 			if (rdSegundoAberto.isSelected()) {
-				cicloControle.setSegundoSempreAberto('S');
-				cicloControle.setSegundoSempreFechado('N');
+				cicloControle.setSegundoSempreAberto("S");
+				cicloControle.setSegundoSempreFechado("N");
 			}
 			if (rdSegundoFechado.isSelected()) {
-				cicloControle.setSegundoSempreAberto('N');
-				cicloControle.setSegundoSempreFechado('S');
+				cicloControle.setSegundoSempreAberto("N");
+				cicloControle.setSegundoSempreFechado("S");
 			}
 		} else {
-			cicloControle.setSegundoFixo('N');
+			cicloControle.setSegundoFixo("N");
 			cicloControle.setSegundoAberto(Integer.parseInt(txtSegundoAberto.getText()));
 			cicloControle.setSegundoFechado(Integer.parseInt(txtSegundoFechado.getText()));
 		}
 
 		if (chkTerceiro.isSelected()) {
-			cicloControle.setTerceiroFixo('S');
+			cicloControle.setTerceiroFixo("S");
 			if (rdTerceiroAberto.isSelected()) {
-				cicloControle.setTerceiroSempreAberto('S');
-				cicloControle.setTerceiroSempreFechado('N');
+				cicloControle.setTerceiroSempreAberto("S");
+				cicloControle.setTerceiroSempreFechado("N");
 			}
 			if (rdTerceiroFechado.isSelected()) {
-				cicloControle.setTerceiroSempreAberto('N');
-				cicloControle.setTerceiroSempreFechado('S');
+				cicloControle.setTerceiroSempreAberto("N");
+				cicloControle.setTerceiroSempreFechado("S");
 			}
 		} else {
-			cicloControle.setTerceiroFixo('N');
+			cicloControle.setTerceiroFixo("N");
 			cicloControle.setTerceiroAberto(Integer.parseInt(txtTerceiroAberto.getText()));
 			cicloControle.setTerceiroFechado(Integer.parseInt(txtTerceiroFechado.getText()));
 		}
 
 		if (chkQuarto.isSelected()) {
-			cicloControle.setQuartoFixo('S');
+			cicloControle.setQuartoFixo("S");
 			if (rdQuartoAberto.isSelected()) {
-				cicloControle.setQuartoSempreAberto('S');
-				cicloControle.setQuartoSempreFechado('N');
+				cicloControle.setQuartoSempreAberto("S");
+				cicloControle.setQuartoSempreFechado("N");
 			}
 			if (rdQuartoFechado.isSelected()) {
-				cicloControle.setQuartoSempreAberto('N');
-				cicloControle.setQuartoSempreFechado('S');
+				cicloControle.setQuartoSempreAberto("N");
+				cicloControle.setQuartoSempreFechado("S");
 			}
 		} else {
-			cicloControle.setQuartoFixo('N');
+			cicloControle.setQuartoFixo("N");
 			cicloControle.setQuartoAberto(Integer.parseInt(txtQuartoAberto.getText()));
 			cicloControle.setQuartoFechado(Integer.parseInt(txtQuartoFechado.getText()));
 		}
 
 		if (rdFinalAberto.isSelected()) {
-			cicloControle.setFinalAberto('S');
-			cicloControle.setFinalFechado('N');
+			cicloControle.setFinalAberto("S");
+			cicloControle.setFinalFechado("N");
 		}
 		if (rdFinalFechado.isSelected()) {
-			cicloControle.setFinalAberto('N');
-			cicloControle.setFinalFechado('S');
+			cicloControle.setFinalAberto("N");
+			cicloControle.setFinalFechado("S");
 		}
 
 		cicloControle.setIdentificador(txtIdentificador.getText());
@@ -299,13 +299,13 @@ public class ControleController implements Initializable, ControlledScreen {
 		txtQuartoTotal.setText(cicloControle.getQuartoTotal().toString());
 		txtIdentificador.setText(cicloControle.getIdentificador());
 
-		if (cicloControle.getPrimeiroFixo() == 'S') {
+		if ("S".equals(cicloControle.getPrimeiroFixo())) {
 			chkPrimeiro.setSelected(true);
 			rdPrimeiroAberto.setDisable(false);
 			rdPrimeiroFechado.setDisable(false);
 			txtPrimeiroAberto.setDisable(true);
 			txtPrimeiroFechado.setDisable(true);
-			if (cicloControle.getPrimeiroSempreAberto() == 'S') {
+			if ("S".equals(cicloControle.getPrimeiroSempreAberto())) {
 				rdPrimeiroAberto.setSelected(true);
 				rdPrimeiroFechado.setSelected(false);
 			} else {
@@ -322,13 +322,13 @@ public class ControleController implements Initializable, ControlledScreen {
 			txtPrimeiroFechado.setText(cicloControle.getPrimeiroFechado().toString());
 		}
 
-		if (cicloControle.getSegundoFixo() == 'S') {
+		if ("S".equals(cicloControle.getSegundoFixo())) {
 			chkSegundo.setSelected(true);
 			rdSegundoAberto.setDisable(false);
 			rdSegundoFechado.setDisable(false);
 			txtSegundoAberto.setDisable(true);
 			txtSegundoFechado.setDisable(true);
-			if (cicloControle.getSegundoSempreAberto() == 'S') {
+			if ("S".equals(cicloControle.getSegundoSempreAberto())) {
 				rdSegundoAberto.setSelected(true);
 				rdSegundoFechado.setSelected(false);
 			} else {
@@ -345,13 +345,13 @@ public class ControleController implements Initializable, ControlledScreen {
 			txtSegundoFechado.setText(cicloControle.getSegundoFechado().toString());
 		}
 
-		if (cicloControle.getTerceiroFixo() == 'S') {
+		if ("S".equals(cicloControle.getTerceiroFixo())) {
 			chkTerceiro.setSelected(true);
 			rdTerceiroAberto.setDisable(false);
 			rdTerceiroFechado.setDisable(false);
 			txtTerceiroAberto.setDisable(true);
 			txtTerceiroFechado.setDisable(true);
-			if (cicloControle.getTerceiroSempreAberto() == 'S') {
+			if ("S".equals(cicloControle.getTerceiroSempreAberto())) {
 				rdTerceiroAberto.setSelected(true);
 				rdTerceiroFechado.setSelected(false);
 			} else {
@@ -368,13 +368,13 @@ public class ControleController implements Initializable, ControlledScreen {
 			txtTerceiroFechado.setText(cicloControle.getTerceiroFechado().toString());
 		}
 
-		if (cicloControle.getQuartoFixo() == 'S') {
+		if ("S".equals(cicloControle.getQuartoFixo())) {
 			chkQuarto.setSelected(true);
 			rdQuartoAberto.setDisable(false);
 			rdQuartoFechado.setDisable(false);
 			txtQuartoAberto.setDisable(true);
 			txtQuartoFechado.setDisable(true);
-			if (cicloControle.getQuartoSempreAberto() == 'S') {
+			if ("S".equals(cicloControle.getQuartoSempreAberto())) {
 				rdQuartoAberto.setSelected(true);
 				rdQuartoFechado.setSelected(false);
 			} else {
@@ -391,7 +391,7 @@ public class ControleController implements Initializable, ControlledScreen {
 			txtQuartoFechado.setText(cicloControle.getQuartoFechado().toString());
 		}
 
-		if (cicloControle.getFinalAberto() == 'S') {
+		if ("S".equals(cicloControle.getFinalAberto())) {
 			rdFinalAberto.setSelected(true);
 			rdFinalFechado.setSelected(false);
 		} else {

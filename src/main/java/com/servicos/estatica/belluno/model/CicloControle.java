@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name = "controle")
 public class CicloControle implements Serializable {
 
-	private static final long serialVersionUID = 2996529224210643219L;
+	private static final long serialVersionUID = 6388677275854872195L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,33 +44,33 @@ public class CicloControle implements Serializable {
 	@Column(name = "quarto_fechado")
 	private Integer quartoFechado;
 	@Column(name = "primeiro_fixo")
-	private char primeiroFixo;
+	private String primeiroFixo;
 	@Column(name = "segundo_fixo")
-	private char segundoFixo;
+	private String segundoFixo;
 	@Column(name = "terceiro_fixo")
-	private char terceiroFixo;
+	private String terceiroFixo;
 	@Column(name = "quarto_fixo")
-	private char quartoFixo;
+	private String quartoFixo;
 	@Column(name = "primeiro_sempre_aberto")
-	private char primeiroSempreAberto;
+	private String primeiroSempreAberto;
 	@Column(name = "primeiro_sempre_fechado")
-	private char primeiroSempreFechado;
+	private String primeiroSempreFechado;
 	@Column(name = "segundo_sempre_aberto")
-	private char segundoSempreAberto;
+	private String segundoSempreAberto;
 	@Column(name = "segundo_sempre_fechado")
-	private char segundoSempreFechado;
+	private String segundoSempreFechado;
 	@Column(name = "terceiro_sempre_aberto")
-	private char terceiroSempreAberto;
+	private String terceiroSempreAberto;
 	@Column(name = "terceiro_sempre_fechado")
-	private char terceiroSempreFechado;
+	private String terceiroSempreFechado;
 	@Column(name = "quarto_sempre_aberto")
-	private char quartoSempreAberto;
+	private String quartoSempreAberto;
 	@Column(name = "quarto_sempre_fechado")
-	private char quartoSempreFechado;
+	private String quartoSempreFechado;
 	@Column(name = "final_aberto")
-	private char finalAberto;
+	private String finalAberto;
 	@Column(name = "final_fechado")
-	private char finalFechado;
+	private String finalFechado;
 	@Column(name = "identificador")
 	private String identificador;
 
@@ -81,10 +81,11 @@ public class CicloControle implements Serializable {
 	public CicloControle(Long id, Integer primeiroTotal, Integer segundoTotal, Integer terceiroTotal,
 			Integer quartoTotal, Integer primeiroAberto, Integer segundoAberto, Integer terceiroAberto,
 			Integer quartoAberto, Integer primeiroFechado, Integer segundoFechado, Integer terceiroFechado,
-			Integer quartoFechado, char primeiroFixo, char segundoFixo, char terceiroFixo, char quartoFixo,
-			char primeiroSempreAberto, char primeiroSempreFechado, char segundoSempreAberto, char segundoSempreFechado,
-			char terceiroSempreAberto, char terceiroSempreFechado, char quartoSempreAberto, char quartoSempreFechado,
-			char finalAberto, char finalFechado, String identificador) {
+			Integer quartoFechado, String primeiroFixo, String segundoFixo, String terceiroFixo, String quartoFixo,
+			String primeiroSempreAberto, String primeiroSempreFechado, String segundoSempreAberto,
+			String segundoSempreFechado, String terceiroSempreAberto, String terceiroSempreFechado,
+			String quartoSempreAberto, String quartoSempreFechado, String finalAberto, String finalFechado,
+			String identificador) {
 		this.id = id;
 		this.primeiroTotal = primeiroTotal;
 		this.segundoTotal = segundoTotal;
@@ -219,83 +220,83 @@ public class CicloControle implements Serializable {
 		this.quartoFechado = quartoFechado;
 	}
 
-	public char getPrimeiroSempreAberto() {
+	public String getPrimeiroSempreAberto() {
 		return primeiroSempreAberto;
 	}
 
-	public void setPrimeiroSempreAberto(char primeiroSempreAberto) {
+	public void setPrimeiroSempreAberto(String primeiroSempreAberto) {
 		this.primeiroSempreAberto = primeiroSempreAberto;
 	}
 
-	public char getPrimeiroSempreFechado() {
+	public String getPrimeiroSempreFechado() {
 		return primeiroSempreFechado;
 	}
 
-	public void setPrimeiroSempreFechado(char primeiroSempreFechado) {
+	public void setPrimeiroSempreFechado(String primeiroSempreFechado) {
 		this.primeiroSempreFechado = primeiroSempreFechado;
 	}
 
-	public char getSegundoSempreAberto() {
+	public String getSegundoSempreAberto() {
 		return segundoSempreAberto;
 	}
 
-	public void setSegundoSempreAberto(char segundoSempreAberto) {
+	public void setSegundoSempreAberto(String segundoSempreAberto) {
 		this.segundoSempreAberto = segundoSempreAberto;
 	}
 
-	public char getSegundoSempreFechado() {
+	public String getSegundoSempreFechado() {
 		return segundoSempreFechado;
 	}
 
-	public void setSegundoSempreFechado(char segundoSempreFechado) {
+	public void setSegundoSempreFechado(String segundoSempreFechado) {
 		this.segundoSempreFechado = segundoSempreFechado;
 	}
 
-	public char getTerceiroSempreAberto() {
+	public String getTerceiroSempreAberto() {
 		return terceiroSempreAberto;
 	}
 
-	public void setTerceiroSempreAberto(char terceiroSempreAberto) {
+	public void setTerceiroSempreAberto(String terceiroSempreAberto) {
 		this.terceiroSempreAberto = terceiroSempreAberto;
 	}
 
-	public char getTerceiroSempreFechado() {
+	public String getTerceiroSempreFechado() {
 		return terceiroSempreFechado;
 	}
 
-	public void setTerceiroSempreFechado(char terceiroSempreFechado) {
+	public void setTerceiroSempreFechado(String terceiroSempreFechado) {
 		this.terceiroSempreFechado = terceiroSempreFechado;
 	}
 
-	public char getQuartoSempreAberto() {
+	public String getQuartoSempreAberto() {
 		return quartoSempreAberto;
 	}
 
-	public void setQuartoSempreAberto(char quartoSempreAberto) {
+	public void setQuartoSempreAberto(String quartoSempreAberto) {
 		this.quartoSempreAberto = quartoSempreAberto;
 	}
 
-	public char getQuartoSempreFechado() {
+	public String getQuartoSempreFechado() {
 		return quartoSempreFechado;
 	}
 
-	public void setQuartoSempreFechado(char quartoSempreFechado) {
+	public void setQuartoSempreFechado(String quartoSempreFechado) {
 		this.quartoSempreFechado = quartoSempreFechado;
 	}
 
-	public char getFinalAberto() {
+	public String getFinalAberto() {
 		return finalAberto;
 	}
 
-	public void setFinalAberto(char finalAberto) {
+	public void setFinalAberto(String finalAberto) {
 		this.finalAberto = finalAberto;
 	}
 
-	public char getFinalFechado() {
+	public String getFinalFechado() {
 		return finalFechado;
 	}
 
-	public void setFinalFechado(char finalFechado) {
+	public void setFinalFechado(String finalFechado) {
 		this.finalFechado = finalFechado;
 	}
 
@@ -307,35 +308,35 @@ public class CicloControle implements Serializable {
 		this.identificador = identificador;
 	}
 
-	public char getPrimeiroFixo() {
+	public String getPrimeiroFixo() {
 		return primeiroFixo;
 	}
 
-	public void setPrimeiroFixo(char primeiroFixo) {
+	public void setPrimeiroFixo(String primeiroFixo) {
 		this.primeiroFixo = primeiroFixo;
 	}
 
-	public char getSegundoFixo() {
+	public String getSegundoFixo() {
 		return segundoFixo;
 	}
 
-	public void setSegundoFixo(char segundoFixo) {
+	public void setSegundoFixo(String segundoFixo) {
 		this.segundoFixo = segundoFixo;
 	}
 
-	public char getTerceiroFixo() {
+	public String getTerceiroFixo() {
 		return terceiroFixo;
 	}
 
-	public void setTerceiroFixo(char terceiroFixo) {
+	public void setTerceiroFixo(String terceiroFixo) {
 		this.terceiroFixo = terceiroFixo;
 	}
 
-	public char getQuartoFixo() {
+	public String getQuartoFixo() {
 		return quartoFixo;
 	}
 
-	public void setQuartoFixo(char quartoFixo) {
+	public void setQuartoFixo(String quartoFixo) {
 		this.quartoFixo = quartoFixo;
 	}
 
