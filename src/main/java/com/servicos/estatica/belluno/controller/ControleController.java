@@ -173,10 +173,11 @@ public class ControleController implements Initializable, ControlledScreen {
 					cicloControle = new CicloControle();
 					prepareCicloControle();
 					controleDAO.saveCicloControle(cicloControle);
-					toastMsg = "Ciclo de controle salvo com sucesso";
+					toastMsg = "Ciclo de controle salvo com sucesso.";
 				} else {
-					// materiaDAO.updateMateria(materia);
-					toastMsg = "Ciclo de controle atualizado com sucesso";
+					prepareCicloControle();
+					controleDAO.updateCicloControle(cicloControle);
+					toastMsg = "Ciclo de controle atualizado com sucesso.";
 				}
 				return null;
 			}
@@ -215,6 +216,8 @@ public class ControleController implements Initializable, ControlledScreen {
 
 		if (chkPrimeiro.isSelected()) {
 			cicloControle.setPrimeiroFixo("S");
+			cicloControle.setPrimeiroAberto(null);
+			cicloControle.setPrimeiroFechado(null);
 			if (rdPrimeiroAberto.isSelected()) {
 				cicloControle.setPrimeiroSempreAberto("S");
 				cicloControle.setPrimeiroSempreFechado("N");
@@ -227,10 +230,14 @@ public class ControleController implements Initializable, ControlledScreen {
 			cicloControle.setPrimeiroFixo("N");
 			cicloControle.setPrimeiroAberto(Integer.parseInt(txtPrimeiroAberto.getText()));
 			cicloControle.setPrimeiroFechado(Integer.parseInt(txtPrimeiroFechado.getText()));
+			cicloControle.setPrimeiroSempreAberto(null);
+			cicloControle.setPrimeiroSempreFechado(null);
 		}
 
 		if (chkSegundo.isSelected()) {
 			cicloControle.setSegundoFixo("S");
+			cicloControle.setSegundoAberto(null);
+			cicloControle.setSegundoFechado(null);
 			if (rdSegundoAberto.isSelected()) {
 				cicloControle.setSegundoSempreAberto("S");
 				cicloControle.setSegundoSempreFechado("N");
@@ -243,10 +250,14 @@ public class ControleController implements Initializable, ControlledScreen {
 			cicloControle.setSegundoFixo("N");
 			cicloControle.setSegundoAberto(Integer.parseInt(txtSegundoAberto.getText()));
 			cicloControle.setSegundoFechado(Integer.parseInt(txtSegundoFechado.getText()));
+			cicloControle.setSegundoSempreAberto(null);
+			cicloControle.setSegundoSempreFechado(null);
 		}
 
 		if (chkTerceiro.isSelected()) {
 			cicloControle.setTerceiroFixo("S");
+			cicloControle.setTerceiroAberto(null);
+			cicloControle.setTerceiroFechado(null);
 			if (rdTerceiroAberto.isSelected()) {
 				cicloControle.setTerceiroSempreAberto("S");
 				cicloControle.setTerceiroSempreFechado("N");
@@ -259,10 +270,14 @@ public class ControleController implements Initializable, ControlledScreen {
 			cicloControle.setTerceiroFixo("N");
 			cicloControle.setTerceiroAberto(Integer.parseInt(txtTerceiroAberto.getText()));
 			cicloControle.setTerceiroFechado(Integer.parseInt(txtTerceiroFechado.getText()));
+			cicloControle.setTerceiroSempreAberto(null);
+			cicloControle.setTerceiroSempreFechado(null);
 		}
 
 		if (chkQuarto.isSelected()) {
 			cicloControle.setQuartoFixo("S");
+			cicloControle.setQuartoAberto(null);
+			cicloControle.setQuartoFechado(null);
 			if (rdQuartoAberto.isSelected()) {
 				cicloControle.setQuartoSempreAberto("S");
 				cicloControle.setQuartoSempreFechado("N");
@@ -275,6 +290,8 @@ public class ControleController implements Initializable, ControlledScreen {
 			cicloControle.setQuartoFixo("N");
 			cicloControle.setQuartoAberto(Integer.parseInt(txtQuartoAberto.getText()));
 			cicloControle.setQuartoFechado(Integer.parseInt(txtQuartoFechado.getText()));
+			cicloControle.setQuartoSempreAberto(null);
+			cicloControle.setQuartoSempreFechado(null);
 		}
 
 		if (rdFinalAberto.isSelected()) {
@@ -285,7 +302,6 @@ public class ControleController implements Initializable, ControlledScreen {
 			cicloControle.setFinalAberto("N");
 			cicloControle.setFinalFechado("S");
 		}
-
 		cicloControle.setIdentificador(txtIdentificador.getText());
 	}
 

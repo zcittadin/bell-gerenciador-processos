@@ -19,7 +19,15 @@ public class CicloControleDAO {
 		session.getTransaction().commit();
 		session.close();
 	}
-	
+
+	public void updateCicloControle(CicloControle cicloControle) {
+		Session session = HibernateUtil.openSession();
+		session.beginTransaction();
+		session.update(cicloControle);
+		session.getTransaction().commit();
+		session.close();
+	}
+
 	public void removeCicloControle(CicloControle cicloControle) {
 		Session session = HibernateUtil.openSession();
 		session.beginTransaction();
