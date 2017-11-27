@@ -25,7 +25,7 @@ public class App extends Application {
 		Parent root = FXMLLoader.load(getClass().getResource("App.fxml"));
 		stage.setScene(new Scene(root));
 		stage.setTitle("Belluno - Controle de queima de coque");
-		stage.setMaximized(true);
+//		stage.setMaximized(true);
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent event) {

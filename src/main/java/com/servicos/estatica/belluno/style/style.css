@@ -64,3 +64,11 @@
 .btSave {
   -fx-graphic: url('Save.png');
 }
+
+.btEdit {
+  -fx-graphic: url('pencil.png');
+}
+
+.combo-font {
+	-fx-font: 14px "Regular";
+}

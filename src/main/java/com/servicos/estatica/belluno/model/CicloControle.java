@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name = "controle")
 public class CicloControle implements Serializable {
 
-	private static final long serialVersionUID = 6509543503391165733L;
+	private static final long serialVersionUID = 2996529224210643219L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +43,14 @@ public class CicloControle implements Serializable {
 	private Integer terceiroFechado;
 	@Column(name = "quarto_fechado")
 	private Integer quartoFechado;
+	@Column(name = "primeiro_fixo")
+	private char primeiroFixo;
+	@Column(name = "segundo_fixo")
+	private char segundoFixo;
+	@Column(name = "terceiro_fixo")
+	private char terceiroFixo;
+	@Column(name = "quarto_fixo")
+	private char quartoFixo;
 	@Column(name = "primeiro_sempre_aberto")
 	private char primeiroSempreAberto;
 	@Column(name = "primeiro_sempre_fechado")
@@ -57,9 +65,9 @@ public class CicloControle implements Serializable {
 	private char terceiroSempreFechado;
 	@Column(name = "quarto_sempre_aberto")
 	private char quartoSempreAberto;
-	@Column(name = "quartosempre_fechado")
+	@Column(name = "quarto_sempre_fechado")
 	private char quartoSempreFechado;
-	@Column(name = "final_fechado")
+	@Column(name = "final_aberto")
 	private char finalAberto;
 	@Column(name = "final_fechado")
 	private char finalFechado;
@@ -73,10 +81,10 @@ public class CicloControle implements Serializable {
 	public CicloControle(Long id, Integer primeiroTotal, Integer segundoTotal, Integer terceiroTotal,
 			Integer quartoTotal, Integer primeiroAberto, Integer segundoAberto, Integer terceiroAberto,
 			Integer quartoAberto, Integer primeiroFechado, Integer segundoFechado, Integer terceiroFechado,
-			Integer quartoFechado, char primeiroSempreAberto, char primeiroSempreFechado, char segundoSempreAberto,
-			char segundoSempreFechado, char terceiroSempreAberto, char terceiroSempreFechado, char quartoSempreAberto,
-			char quartoSempreFechado, char finalAberto, char finalFechado, String identificador) {
-		super();
+			Integer quartoFechado, char primeiroFixo, char segundoFixo, char terceiroFixo, char quartoFixo,
+			char primeiroSempreAberto, char primeiroSempreFechado, char segundoSempreAberto, char segundoSempreFechado,
+			char terceiroSempreAberto, char terceiroSempreFechado, char quartoSempreAberto, char quartoSempreFechado,
+			char finalAberto, char finalFechado, String identificador) {
 		this.id = id;
 		this.primeiroTotal = primeiroTotal;
 		this.segundoTotal = segundoTotal;
@@ -90,6 +98,10 @@ public class CicloControle implements Serializable {
 		this.segundoFechado = segundoFechado;
 		this.terceiroFechado = terceiroFechado;
 		this.quartoFechado = quartoFechado;
+		this.primeiroFixo = primeiroFixo;
+		this.segundoFixo = segundoFixo;
+		this.terceiroFixo = terceiroFixo;
+		this.quartoFixo = quartoFixo;
 		this.primeiroSempreAberto = primeiroSempreAberto;
 		this.primeiroSempreFechado = primeiroSempreFechado;
 		this.segundoSempreAberto = segundoSempreAberto;
@@ -293,6 +305,38 @@ public class CicloControle implements Serializable {
 
 	public void setIdentificador(String identificador) {
 		this.identificador = identificador;
+	}
+
+	public char getPrimeiroFixo() {
+		return primeiroFixo;
+	}
+
+	public void setPrimeiroFixo(char primeiroFixo) {
+		this.primeiroFixo = primeiroFixo;
+	}
+
+	public char getSegundoFixo() {
+		return segundoFixo;
+	}
+
+	public void setSegundoFixo(char segundoFixo) {
+		this.segundoFixo = segundoFixo;
+	}
+
+	public char getTerceiroFixo() {
+		return terceiroFixo;
+	}
+
+	public void setTerceiroFixo(char terceiroFixo) {
+		this.terceiroFixo = terceiroFixo;
+	}
+
+	public char getQuartoFixo() {
+		return quartoFixo;
+	}
+
+	public void setQuartoFixo(char quartoFixo) {
+		this.quartoFixo = quartoFixo;
 	}
 
 	@Override

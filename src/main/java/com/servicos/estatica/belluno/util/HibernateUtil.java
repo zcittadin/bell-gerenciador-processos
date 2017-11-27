@@ -6,6 +6,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import com.servicos.estatica.belluno.model.CicloControle;
 import com.servicos.estatica.belluno.model.Leitura;
 import com.servicos.estatica.belluno.model.Processo;
 
@@ -33,6 +34,7 @@ public class HibernateUtil {
 		configuration.addPackage("com.servicos.estatica.belluno.model");
 		configuration.addAnnotatedClass(Leitura.class);
 		configuration.addAnnotatedClass(Processo.class);
+		configuration.addAnnotatedClass(CicloControle.class);
 		configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
 		configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost/belluno");
 		configuration.setProperty("hibernate.connection.username", "root");
