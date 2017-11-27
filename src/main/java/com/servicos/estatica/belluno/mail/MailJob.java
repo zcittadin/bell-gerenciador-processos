@@ -16,11 +16,29 @@ public class MailJob implements Job {
 		try {
 			schedulerContext = context.getScheduler().getContext();
 			Processo processo = (Processo) schedulerContext.get("processo");
-			ProducaoMailService mailService = new ProducaoMailService();
-			mailService.sendMailReport(processo);
+			MailSender mailService = new MailSender();
+			try {
+				mailService.sendMail(processo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} catch (SchedulerException e) {
 			e.printStackTrace();
 		}
 	}
+
+	// @Override
+	// public void execute(JobExecutionContext context) throws JobExecutionException
+	// {
+	// SchedulerContext schedulerContext = null;
+	// try {
+	// schedulerContext = context.getScheduler().getContext();
+	// Processo processo = (Processo) schedulerContext.get("processo");
+	// ProducaoMailService mailService = new ProducaoMailService();
+	// mailService.sendMailReport(processo);
+	// } catch (SchedulerException e) {
+	// e.printStackTrace();
+	// }
+	// }
 
 }

@@ -28,8 +28,11 @@ public class ProducaoMailService {
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.socketFactory.port", "465");
 		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.socketFactory.fallback", "false");
 		props.put("mail.smtp.port", "465");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.ssl.enable", "true");
+//		props.put("mail.smtp.starttls.enable", "true");
 
 		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -42,12 +45,11 @@ public class ProducaoMailService {
 		try {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("zct.automacao@gmail.com"));
-			message.setSubject("Produção de coque: relatório de parcial");
+			message.setSubject("Produção de coque: relatório parcial");
 
-			// Address[] toUser =
-			// InternetAddress.parse("z_cittadin@hotmail.com");
-			Address[] toUser = InternetAddress.parse(
-					"z_cittadin@hotmail.com, eduardo@estatica-metrologia.com.br, cesar@lsy.com.br, sidnei@cbelluno.com.br");
+			 Address[] toUser = InternetAddress.parse("zcittadin@gmail.com");
+//			Address[] toUser = InternetAddress.parse(
+//					"z_cittadin@hotmail.com, eduardo@estatica-metrologia.com.br, cesar@lsy.com.br, sidnei@cbelluno.com.br");
 			// .parse("seuamigo@gmail.com, seucolega@hotmail.com,
 			// seuparente@yahoo.com.br");
 			message.setRecipients(Message.RecipientType.TO, toUser);
