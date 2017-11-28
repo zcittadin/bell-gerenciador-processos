@@ -130,7 +130,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btCancelar" disable="true" layoutX="607.0" layoutY="522.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="25.0" prefWidth="90.0" styleClass="btCancel" stylesheets="@../style/style.css" text="Cancelar">
+      <Button fx:id="btCancelar" layoutX="607.0" layoutY="522.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="25.0" prefWidth="90.0" styleClass="btCancel" stylesheets="@../style/style.css" text="Cancelar">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

@@ -184,12 +184,15 @@ public class ControleController implements Initializable, ControlledScreen {
 		};
 
 		saveTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void handle(WorkerStateEvent arg0) {
 				fetch(false);
 				resetFields(true);
+				comboControle.setItems(null);
 				populateCombo();
 				makeToast(toastMsg);
+				cancelar();
 			}
 		});
 
@@ -203,6 +206,7 @@ public class ControleController implements Initializable, ControlledScreen {
 				alert.setHeaderText("Ocorreu um erro ao salvar o ciclo de controle.");
 				alert.showAndWait();
 				txtIdentificador.requestFocus();
+				cancelar();
 			}
 		});
 		new Thread(saveTask).start();
@@ -308,6 +312,9 @@ public class ControleController implements Initializable, ControlledScreen {
 	@FXML
 	private void editCicloControle() {
 		disableFields(false);
+		btNovo.setDisable(true);
+		btExcluir.setDisable(true);
+		btUtilizar.setDisable(true);
 		comboControle.setDisable(true);
 		txtPrimeiroTotal.setText(cicloControle.getPrimeiroTotal().toString());
 		txtSegundoTotal.setText(cicloControle.getSegundoTotal().toString());
@@ -460,6 +467,12 @@ public class ControleController implements Initializable, ControlledScreen {
 	@FXML
 	private void cancelar() {
 		resetFields(true);
+		resetCombo();
+		btNovo.setDisable(false);
+		btEditar.setDisable(true);
+		btUtilizar.setDisable(true);
+		btExcluir.setDisable(true);
+		btCancelar.setDisable(false);
 		comboControle.setDisable(false);
 	}
 
