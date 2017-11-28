@@ -28,6 +28,7 @@ import com.servicos.estatica.belluno.dao.LeituraDAO;
 import com.servicos.estatica.belluno.dao.ProcessoDAO;
 import com.servicos.estatica.belluno.mail.MailJob;
 import com.servicos.estatica.belluno.modbus.ModbusRTUService;
+import com.servicos.estatica.belluno.model.CicloControle;
 import com.servicos.estatica.belluno.model.Leitura;
 import com.servicos.estatica.belluno.model.Processo;
 import com.servicos.estatica.belluno.report.builder.ProcessoReportCreator;
@@ -137,6 +138,8 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 
 	private static List<Leitura> leituras = new ArrayList<>();
 	private static Processo processo;
+
+	private CicloControle cicloControle;
 
 	SchedulerFactory schedFact = new StdSchedulerFactory();
 	Scheduler sched = null;
@@ -572,6 +575,11 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 			processo.setTempMax(tempMax.intValue());
 			processoDAO.updateTemperaturaMax(processo);
 		}
+	}
+
+	public void setCicloControle(CicloControle cicloControle) {
+		this.cicloControle = cicloControle;
+		System.out.println("Transferido: " + this.cicloControle.getIdentificador());
 	}
 
 	private void makeToast(String message) {

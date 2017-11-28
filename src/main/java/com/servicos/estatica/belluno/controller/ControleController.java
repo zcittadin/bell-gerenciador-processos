@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import com.servicos.estatica.belluno.app.ControlledScreen;
 import com.servicos.estatica.belluno.dao.CicloControleDAO;
 import com.servicos.estatica.belluno.model.CicloControle;
+import com.servicos.estatica.belluno.shared.CicloControleSelecionado;
 import com.servicos.estatica.belluno.util.Toast;
 
 import javafx.beans.value.ChangeListener;
@@ -55,6 +56,8 @@ public class ControleController implements Initializable, ControlledScreen {
 	private Button btSalvar;
 	@FXML
 	private Button btCancelar;
+	@FXML
+	private TextField txtCicloSelecionado;
 	@FXML
 	private TextField txtIdentificador;
 	@FXML
@@ -479,6 +482,7 @@ public class ControleController implements Initializable, ControlledScreen {
 		btExcluir.setDisable(true);
 		btCancelar.setDisable(false);
 		comboControle.setDisable(false);
+		txtCicloSelecionado.clear();
 	}
 
 	@FXML
@@ -518,6 +522,12 @@ public class ControleController implements Initializable, ControlledScreen {
 		txtQuartoFechado.setDisable(chkQuarto.isSelected());
 		rdQuartoAberto.setDisable(!chkQuarto.isSelected());
 		rdQuartoFechado.setDisable(!chkQuarto.isSelected());
+	}
+
+	@FXML
+	private void useCicloControle() {
+		txtCicloSelecionado.setText(cicloControle.getIdentificador());
+		CicloControleSelecionado.setCicloControle(cicloControle);
 	}
 
 	private void disableFields(boolean b) {

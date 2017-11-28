@@ -6,7 +6,9 @@ import java.time.Clock;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import com.servicos.estatica.belluno.model.CicloControle;
 import com.servicos.estatica.belluno.properties.CurrentScreenProperty;
+import com.servicos.estatica.belluno.shared.CicloControleSelecionado;
 import com.servicos.estatica.belluno.shared.ProcessoStatusManager;
 import com.servicos.estatica.belluno.util.EstaticaInfoUtil;
 
@@ -63,6 +65,10 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 	private static ImageViewResizer imgClienteResizer;
 	private static ImageViewResizer imgExitResizer;
 
+	private PaginaInicialController paginaInicialController = new PaginaInicialController();
+	private ControleController controleController = new ControleController();
+	private ConsultaController consultaController = new ConsultaController();
+
 	ScreensController mainContainer = new ScreensController();
 
 	@Override
@@ -114,13 +120,15 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 		imgExitResizer.setLayoutY(633);
 		mainPane.getChildren().addAll(imgClienteResizer, imgExitResizer);
 
-		mainContainer.loadScreen(screenInicioID, screenInicioFile);
-		mainContainer.loadScreen(screenControleID, screenControleFile);
-		mainContainer.loadScreen(screenConsultaID, screenConsultaFile);
+		mainContainer.loadScreenAndController(screenInicioID, screenInicioFile, paginaInicialController);
+		mainContainer.loadScreenAndController(screenControleID, screenControleFile, controleController);
+		mainContainer.loadScreenAndController(screenConsultaID, screenConsultaFile, consultaController);
 		CurrentScreenProperty.setScreen(screenInicioID);
 
 		mainContainer.setScreen(screenInicioID);
 		centralPane.getChildren().addAll(mainContainer);
+
+		initListeners();
 
 	}
 
@@ -164,6 +172,16 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 		if (result.get() == ButtonType.OK) {
 			Platform.exit();
 		}
+	}
+
+	private void initListeners() {
+		CicloControleSelecionado.cicloControleProperty().addListener(new ChangeListener<CicloControle>() {
+			@Override
+			public void changed(ObservableValue<? extends CicloControle> observable, CicloControle oldValue,
+					CicloControle newValue) {
+				paginaInicialController.setCicloControle(newValue);
+			}
+		});
 	}
 
 }
