@@ -447,6 +447,11 @@ public class ControleController implements Initializable, ControlledScreen {
 					makeToast("O ciclo programado foi removido com sucesso.");
 					populateCombo();
 					resetFields(true);
+					btEditar.setDisable(true);
+					btUtilizar.setDisable(true);
+					btExcluir.setDisable(true);
+					btSalvar.setDisable(true);
+					btCancelar.setDisable(false);
 				}
 
 			});
