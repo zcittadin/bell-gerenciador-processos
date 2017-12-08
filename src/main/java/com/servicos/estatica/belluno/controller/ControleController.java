@@ -49,15 +49,11 @@ public class ControleController implements Initializable, ControlledScreen {
 	@FXML
 	private Button btEditar;
 	@FXML
-	private Button btUtilizar;
-	@FXML
 	private Button btExcluir;
 	@FXML
 	private Button btSalvar;
 	@FXML
 	private Button btCancelar;
-	@FXML
-	private TextField txtCicloSelecionado;
 	@FXML
 	private TextField txtIdentificador;
 	@FXML
@@ -129,6 +125,8 @@ public class ControleController implements Initializable, ControlledScreen {
 	private static DecimalFormat decimalFormat = new DecimalFormat("#");
 	private static String toastMsg;
 
+	private static boolean cicloChanged = false;
+
 	ScreensController myController;
 
 	@Override
@@ -156,6 +154,7 @@ public class ControleController implements Initializable, ControlledScreen {
 		resetCombo();
 		cicloControle = null;
 		disableFields(false);
+		comboControle.setDisable(true);
 	}
 
 	@FXML
@@ -167,6 +166,18 @@ public class ControleController implements Initializable, ControlledScreen {
 			alert.showAndWait();
 			txtIdentificador.requestFocus();
 			return;
+		}
+		if (("".equals(txtPrimeiroTotal.getText().trim()) || txtPrimeiroTotal.getText() == null)
+				|| ("".equals(txtSegundoTotal.getText().trim()) || txtSegundoTotal.getText() == null)
+				|| ("".equals(txtTerceiroTotal.getText().trim()) || txtTerceiroTotal.getText() == null)
+				|| ("".equals(txtQuartoTotal.getText().trim()) || txtQuartoTotal.getText() == null)) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Atenção");
+			alert.setHeaderText("Informe corretamente o tempo total de cada ciclo.");
+			alert.showAndWait();
+			txtIdentificador.requestFocus();
+			return;
+
 		}
 		Task<Void> saveTask = new Task<Void>() {
 			@Override
@@ -196,6 +207,8 @@ public class ControleController implements Initializable, ControlledScreen {
 				populateCombo();
 				makeToast(toastMsg);
 				cancelar();
+				CicloControleSelecionado.setCicloChanged(!cicloChanged);
+				cicloChanged = !cicloChanged;
 			}
 		});
 
@@ -223,8 +236,8 @@ public class ControleController implements Initializable, ControlledScreen {
 
 		if (chkPrimeiro.isSelected()) {
 			cicloControle.setPrimeiroFixo("S");
-			cicloControle.setPrimeiroAberto(null);
-			cicloControle.setPrimeiroFechado(null);
+			cicloControle.setPrimeiroAberto(0);
+			cicloControle.setPrimeiroFechado(0);
 			if (rdPrimeiroAberto.isSelected()) {
 				cicloControle.setPrimeiroSempreAberto("S");
 				cicloControle.setPrimeiroSempreFechado("N");
@@ -235,16 +248,20 @@ public class ControleController implements Initializable, ControlledScreen {
 			}
 		} else {
 			cicloControle.setPrimeiroFixo("N");
-			cicloControle.setPrimeiroAberto(Integer.parseInt(txtPrimeiroAberto.getText()));
-			cicloControle.setPrimeiroFechado(Integer.parseInt(txtPrimeiroFechado.getText()));
+			cicloControle.setPrimeiroAberto(
+					"".equals(txtPrimeiroAberto.getText().trim()) || txtPrimeiroAberto.getText() == null ? 0
+							: Integer.parseInt(txtPrimeiroAberto.getText()));
+			cicloControle.setPrimeiroFechado(
+					"".equals(txtPrimeiroFechado.getText().trim()) || txtPrimeiroFechado.getText() == null ? 0
+							: Integer.parseInt(txtPrimeiroFechado.getText()));
 			cicloControle.setPrimeiroSempreAberto(null);
 			cicloControle.setPrimeiroSempreFechado(null);
 		}
 
 		if (chkSegundo.isSelected()) {
 			cicloControle.setSegundoFixo("S");
-			cicloControle.setSegundoAberto(null);
-			cicloControle.setSegundoFechado(null);
+			cicloControle.setSegundoAberto(0);
+			cicloControle.setSegundoFechado(0);
 			if (rdSegundoAberto.isSelected()) {
 				cicloControle.setSegundoSempreAberto("S");
 				cicloControle.setSegundoSempreFechado("N");
@@ -255,16 +272,20 @@ public class ControleController implements Initializable, ControlledScreen {
 			}
 		} else {
 			cicloControle.setSegundoFixo("N");
-			cicloControle.setSegundoAberto(Integer.parseInt(txtSegundoAberto.getText()));
-			cicloControle.setSegundoFechado(Integer.parseInt(txtSegundoFechado.getText()));
+			cicloControle.setSegundoAberto(
+					"".equals(txtSegundoAberto.getText().trim()) || txtSegundoAberto.getText() == null ? 0
+							: Integer.parseInt(txtSegundoAberto.getText()));
+			cicloControle.setSegundoFechado(
+					"".equals(txtSegundoFechado.getText().trim()) || txtSegundoFechado.getText() == null ? 0
+							: Integer.parseInt(txtSegundoFechado.getText()));
 			cicloControle.setSegundoSempreAberto(null);
 			cicloControle.setSegundoSempreFechado(null);
 		}
 
 		if (chkTerceiro.isSelected()) {
 			cicloControle.setTerceiroFixo("S");
-			cicloControle.setTerceiroAberto(null);
-			cicloControle.setTerceiroFechado(null);
+			cicloControle.setTerceiroAberto(0);
+			cicloControle.setTerceiroFechado(0);
 			if (rdTerceiroAberto.isSelected()) {
 				cicloControle.setTerceiroSempreAberto("S");
 				cicloControle.setTerceiroSempreFechado("N");
@@ -275,16 +296,20 @@ public class ControleController implements Initializable, ControlledScreen {
 			}
 		} else {
 			cicloControle.setTerceiroFixo("N");
-			cicloControle.setTerceiroAberto(Integer.parseInt(txtTerceiroAberto.getText()));
-			cicloControle.setTerceiroFechado(Integer.parseInt(txtTerceiroFechado.getText()));
+			cicloControle.setTerceiroAberto(
+					"".equals(txtTerceiroAberto.getText().trim()) || txtTerceiroAberto.getText() == null ? 0
+							: Integer.parseInt(txtTerceiroAberto.getText()));
+			cicloControle.setTerceiroFechado(
+					"".equals(txtTerceiroFechado.getText().trim()) || txtTerceiroFechado.getText() == null ? 0
+							: Integer.parseInt(txtTerceiroFechado.getText()));
 			cicloControle.setTerceiroSempreAberto(null);
 			cicloControle.setTerceiroSempreFechado(null);
 		}
 
 		if (chkQuarto.isSelected()) {
 			cicloControle.setQuartoFixo("S");
-			cicloControle.setQuartoAberto(null);
-			cicloControle.setQuartoFechado(null);
+			cicloControle.setQuartoAberto(0);
+			cicloControle.setQuartoFechado(0);
 			if (rdQuartoAberto.isSelected()) {
 				cicloControle.setQuartoSempreAberto("S");
 				cicloControle.setQuartoSempreFechado("N");
@@ -295,8 +320,12 @@ public class ControleController implements Initializable, ControlledScreen {
 			}
 		} else {
 			cicloControle.setQuartoFixo("N");
-			cicloControle.setQuartoAberto(Integer.parseInt(txtQuartoAberto.getText()));
-			cicloControle.setQuartoFechado(Integer.parseInt(txtQuartoFechado.getText()));
+			cicloControle.setQuartoAberto(
+					"".equals(txtQuartoAberto.getText().trim()) || txtQuartoAberto.getText() == null ? 0
+							: Integer.parseInt(txtQuartoAberto.getText()));
+			cicloControle.setQuartoFechado(
+					"".equals(txtQuartoFechado.getText().trim()) || txtQuartoFechado.getText() == null ? 0
+							: Integer.parseInt(txtQuartoFechado.getText()));
 			cicloControle.setQuartoSempreAberto(null);
 			cicloControle.setQuartoSempreFechado(null);
 		}
@@ -317,7 +346,6 @@ public class ControleController implements Initializable, ControlledScreen {
 		disableFields(false);
 		btNovo.setDisable(true);
 		btExcluir.setDisable(true);
-		btUtilizar.setDisable(true);
 		comboControle.setDisable(true);
 		txtPrimeiroTotal.setText(cicloControle.getPrimeiroTotal().toString());
 		txtSegundoTotal.setText(cicloControle.getSegundoTotal().toString());
@@ -336,7 +364,7 @@ public class ControleController implements Initializable, ControlledScreen {
 				rdPrimeiroFechado.setSelected(false);
 			} else {
 				rdPrimeiroAberto.setSelected(false);
-				rdPrimeiroAberto.setSelected(true);
+				rdPrimeiroFechado.setSelected(true);
 			}
 		} else {
 			chkPrimeiro.setSelected(false);
@@ -451,7 +479,6 @@ public class ControleController implements Initializable, ControlledScreen {
 					populateCombo();
 					resetFields(true);
 					btEditar.setDisable(true);
-					btUtilizar.setDisable(true);
 					btExcluir.setDisable(true);
 					btSalvar.setDisable(true);
 					btCancelar.setDisable(false);
@@ -478,17 +505,14 @@ public class ControleController implements Initializable, ControlledScreen {
 		resetCombo();
 		btNovo.setDisable(false);
 		btEditar.setDisable(true);
-		btUtilizar.setDisable(true);
 		btExcluir.setDisable(true);
 		btCancelar.setDisable(false);
 		comboControle.setDisable(false);
-		txtCicloSelecionado.clear();
 	}
 
 	@FXML
 	private void selectCicloControle() {
 		btEditar.setDisable(false);
-		btUtilizar.setDisable(false);
 		btExcluir.setDisable(false);
 	}
 
@@ -522,12 +546,6 @@ public class ControleController implements Initializable, ControlledScreen {
 		txtQuartoFechado.setDisable(chkQuarto.isSelected());
 		rdQuartoAberto.setDisable(!chkQuarto.isSelected());
 		rdQuartoFechado.setDisable(!chkQuarto.isSelected());
-	}
-
-	@FXML
-	private void useCicloControle() {
-		txtCicloSelecionado.setText(cicloControle.getIdentificador());
-		CicloControleSelecionado.setCicloControle(cicloControle);
 	}
 
 	private void disableFields(boolean b) {

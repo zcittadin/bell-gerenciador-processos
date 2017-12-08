@@ -16,11 +16,10 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="660.0" prefWidth="1208.0" styleClass="myGradient" stylesheets="@../style/style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+<AnchorPane prefHeight="660.0" prefWidth="1208.0" styleClass="myGradient" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Separator orientation="VERTICAL" prefHeight="660.0" />
-      <Rectangle fx:id="recControle" arcHeight="25.0" arcWidth="25.0" height="522.0" layoutX="22.0" layoutY="47.0" stroke="#a8cdc1" strokeType="INSIDE" strokeWidth="2.0" width="1166.0">
+      <Rectangle fx:id="recControle" arcHeight="25.0" arcWidth="25.0" height="556.0" layoutX="22.0" layoutY="53.0" stroke="#a8cdc1" strokeType="INSIDE" strokeWidth="2.0" width="1166.0">
          <fill>
             <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="1.0">
                <stops>
@@ -30,128 +29,111 @@
             </LinearGradient>
          </fill>
       </Rectangle>
-      <Label layoutX="52.0" layoutY="208.0" text="Primeiro ciclo:" textFill="WHITE">
+      <Label layoutX="52.0" layoutY="248.0" text="Primeiro ciclo:" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="txtPrimeiroTotal" disable="true" layoutX="52.0" layoutY="289.0" prefHeight="25.0" prefWidth="246.0" />
-      <Label layoutX="52.0" layoutY="272.0" text="Tempo total em horas" textFill="WHITE" />
-      <TextField fx:id="txtPrimeiroAberto" disable="true" layoutX="52.0" layoutY="343.0" prefHeight="25.0" prefWidth="246.0" />
-      <Label layoutX="52.0" layoutY="326.0" text="Tempo aberto em minutos" textFill="WHITE" />
-      <TextField fx:id="txtPrimeiroFechado" disable="true" layoutX="52.0" layoutY="397.0" prefHeight="25.0" prefWidth="246.0" />
-      <Label layoutX="52.0" layoutY="380.0" text="Tempo fechado em minutos" textFill="WHITE" />
-      <RadioButton fx:id="rdPrimeiroAberto" disable="true" layoutX="194.0" layoutY="222.0" mnemonicParsing="false" text="Sempre aberto" textFill="WHITE" />
-      <RadioButton fx:id="rdPrimeiroFechado" disable="true" layoutX="194.0" layoutY="249.0" mnemonicParsing="false" text="Sempre fechado" textFill="WHITE" />
-      <Label layoutX="340.0" layoutY="209.0" text="Segundo ciclo:" textFill="WHITE">
+      <TextField fx:id="txtPrimeiroTotal" disable="true" layoutX="52.0" layoutY="329.0" prefHeight="25.0" prefWidth="246.0" />
+      <Label layoutX="52.0" layoutY="312.0" text="Tempo total em horas" textFill="WHITE" />
+      <TextField fx:id="txtPrimeiroAberto" disable="true" layoutX="52.0" layoutY="383.0" prefHeight="25.0" prefWidth="246.0" />
+      <Label layoutX="52.0" layoutY="366.0" text="Tempo aberto em minutos" textFill="WHITE" />
+      <TextField fx:id="txtPrimeiroFechado" disable="true" layoutX="52.0" layoutY="437.0" prefHeight="25.0" prefWidth="246.0" />
+      <Label layoutX="52.0" layoutY="420.0" text="Tempo fechado em minutos" textFill="WHITE" />
+      <RadioButton fx:id="rdPrimeiroAberto" disable="true" layoutX="194.0" layoutY="262.0" mnemonicParsing="false" text="Sempre aberto" textFill="WHITE" />
+      <RadioButton fx:id="rdPrimeiroFechado" disable="true" layoutX="194.0" layoutY="289.0" mnemonicParsing="false" text="Sempre fechado" textFill="WHITE" />
+      <Label layoutX="340.0" layoutY="249.0" text="Segundo ciclo:" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="txtSegundoTotal" disable="true" layoutX="340.0" layoutY="290.0" prefHeight="25.0" prefWidth="246.0" />
-      <Label layoutX="340.0" layoutY="273.0" text="Tempo total em horas" textFill="WHITE" />
-      <TextField fx:id="txtSegundoAberto" disable="true" layoutX="340.0" layoutY="344.0" prefHeight="25.0" prefWidth="246.0" />
-      <Label layoutX="340.0" layoutY="327.0" text="Tempo aberto em minutos" textFill="WHITE" />
-      <TextField fx:id="txtSegundoFechado" disable="true" layoutX="340.0" layoutY="398.0" prefHeight="25.0" prefWidth="246.0" />
-      <Label layoutX="340.0" layoutY="381.0" text="Tempo fechado em minutos" textFill="WHITE" />
-      <RadioButton fx:id="rdSegundoAberto" disable="true" layoutX="482.0" layoutY="223.0" mnemonicParsing="false" text="Sempre aberto" textFill="WHITE" />
-      <RadioButton fx:id="rdSegundoFechado" disable="true" layoutX="482.0" layoutY="250.0" mnemonicParsing="false" text="Sempre fechado" textFill="WHITE" />
-      <Label layoutX="625.0" layoutY="209.0" text="Terceiro ciclo:" textFill="WHITE">
+      <TextField fx:id="txtSegundoTotal" disable="true" layoutX="340.0" layoutY="330.0" prefHeight="25.0" prefWidth="246.0" />
+      <Label layoutX="340.0" layoutY="313.0" text="Tempo total em horas" textFill="WHITE" />
+      <TextField fx:id="txtSegundoAberto" disable="true" layoutX="340.0" layoutY="384.0" prefHeight="25.0" prefWidth="246.0" />
+      <Label layoutX="340.0" layoutY="367.0" text="Tempo aberto em minutos" textFill="WHITE" />
+      <TextField fx:id="txtSegundoFechado" disable="true" layoutX="340.0" layoutY="438.0" prefHeight="25.0" prefWidth="246.0" />
+      <Label layoutX="340.0" layoutY="421.0" text="Tempo fechado em minutos" textFill="WHITE" />
+      <RadioButton fx:id="rdSegundoAberto" disable="true" layoutX="482.0" layoutY="263.0" mnemonicParsing="false" text="Sempre aberto" textFill="WHITE" />
+      <RadioButton fx:id="rdSegundoFechado" disable="true" layoutX="482.0" layoutY="290.0" mnemonicParsing="false" text="Sempre fechado" textFill="WHITE" />
+      <Label layoutX="625.0" layoutY="249.0" text="Terceiro ciclo:" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="txtTerceiroTotal" disable="true" layoutX="625.0" layoutY="290.0" prefHeight="25.0" prefWidth="246.0" />
-      <Label layoutX="625.0" layoutY="273.0" text="Tempo total em horas" textFill="WHITE" />
-      <TextField fx:id="txtTerceiroAberto" disable="true" layoutX="625.0" layoutY="344.0" prefHeight="25.0" prefWidth="246.0" />
-      <Label layoutX="625.0" layoutY="327.0" text="Tempo aberto em minutos" textFill="WHITE" />
-      <TextField fx:id="txtTerceiroFechado" disable="true" layoutX="625.0" layoutY="398.0" prefHeight="25.0" prefWidth="246.0" />
-      <Label layoutX="625.0" layoutY="381.0" text="Tempo fechado em minutos" textFill="WHITE" />
-      <RadioButton fx:id="rdTerceiroAberto" disable="true" layoutX="767.0" layoutY="223.0" mnemonicParsing="false" text="Sempre aberto" textFill="WHITE" />
-      <RadioButton fx:id="rdTerceiroFechado" disable="true" layoutX="767.0" layoutY="250.0" mnemonicParsing="false" text="Sempre fechado" textFill="WHITE" />
-      <Label layoutX="913.0" layoutY="210.0" text="Quarto ciclo:" textFill="WHITE">
+      <TextField fx:id="txtTerceiroTotal" disable="true" layoutX="625.0" layoutY="330.0" prefHeight="25.0" prefWidth="246.0" />
+      <Label layoutX="625.0" layoutY="313.0" text="Tempo total em horas" textFill="WHITE" />
+      <TextField fx:id="txtTerceiroAberto" disable="true" layoutX="625.0" layoutY="384.0" prefHeight="25.0" prefWidth="246.0" />
+      <Label layoutX="625.0" layoutY="367.0" text="Tempo aberto em minutos" textFill="WHITE" />
+      <TextField fx:id="txtTerceiroFechado" disable="true" layoutX="625.0" layoutY="438.0" prefHeight="25.0" prefWidth="246.0" />
+      <Label layoutX="625.0" layoutY="421.0" text="Tempo fechado em minutos" textFill="WHITE" />
+      <RadioButton fx:id="rdTerceiroAberto" disable="true" layoutX="767.0" layoutY="263.0" mnemonicParsing="false" text="Sempre aberto" textFill="WHITE" />
+      <RadioButton fx:id="rdTerceiroFechado" disable="true" layoutX="767.0" layoutY="290.0" mnemonicParsing="false" text="Sempre fechado" textFill="WHITE" />
+      <Label layoutX="913.0" layoutY="250.0" text="Quarto ciclo:" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="txtQuartoTotal" disable="true" layoutX="913.0" layoutY="291.0" prefHeight="25.0" prefWidth="246.0" />
-      <Label layoutX="913.0" layoutY="274.0" text="Tempo total em horas" textFill="WHITE" />
-      <TextField fx:id="txtQuartoAberto" disable="true" layoutX="913.0" layoutY="345.0" prefHeight="25.0" prefWidth="246.0" />
-      <Label layoutX="913.0" layoutY="328.0" text="Tempo aberto em minutos" textFill="WHITE" />
-      <TextField fx:id="txtQuartoFechado" disable="true" layoutX="913.0" layoutY="399.0" prefHeight="25.0" prefWidth="246.0" />
-      <Label layoutX="913.0" layoutY="382.0" text="Tempo fechado em minutos" textFill="WHITE" />
-      <RadioButton fx:id="rdQuartoAberto" disable="true" layoutX="1055.0" layoutY="224.0" mnemonicParsing="false" text="Sempre aberto" textFill="WHITE" />
-      <RadioButton fx:id="rdQuartoFechado" disable="true" layoutX="1055.0" layoutY="251.0" mnemonicParsing="false" text="Sempre fechado" textFill="WHITE" />
-      <Separator layoutX="318.0" layoutY="206.0" orientation="VERTICAL" prefHeight="361.0" />
-      <Separator layoutX="604.0" layoutY="48.0" orientation="VERTICAL" prefHeight="388.0" />
-      <Separator layoutX="890.0" layoutY="206.0" orientation="VERTICAL" prefHeight="230.0" />
-      <Separator layoutX="23.0" layoutY="436.0" prefWidth="1163.0" />
-      <RadioButton fx:id="rdFinalAberto" disable="true" layoutX="118.0" layoutY="492.0" mnemonicParsing="false" text="Finalizar aberto" textFill="WHITE" />
-      <RadioButton fx:id="rdFinalFechado" disable="true" layoutX="118.0" layoutY="519.0" mnemonicParsing="false" text="Finalizar fechado" textFill="WHITE" />
-      <Label layoutX="52.0" layoutY="451.0" text="Finalização:" textFill="WHITE">
+      <TextField fx:id="txtQuartoTotal" disable="true" layoutX="913.0" layoutY="331.0" prefHeight="25.0" prefWidth="246.0" />
+      <Label layoutX="913.0" layoutY="314.0" text="Tempo total em horas" textFill="WHITE" />
+      <TextField fx:id="txtQuartoAberto" disable="true" layoutX="913.0" layoutY="385.0" prefHeight="25.0" prefWidth="246.0" />
+      <Label layoutX="913.0" layoutY="368.0" text="Tempo aberto em minutos" textFill="WHITE" />
+      <TextField fx:id="txtQuartoFechado" disable="true" layoutX="913.0" layoutY="439.0" prefHeight="25.0" prefWidth="246.0" />
+      <Label layoutX="913.0" layoutY="422.0" text="Tempo fechado em minutos" textFill="WHITE" />
+      <RadioButton fx:id="rdQuartoAberto" disable="true" layoutX="1055.0" layoutY="264.0" mnemonicParsing="false" text="Sempre aberto" textFill="WHITE" />
+      <RadioButton fx:id="rdQuartoFechado" disable="true" layoutX="1055.0" layoutY="291.0" mnemonicParsing="false" text="Sempre fechado" textFill="WHITE" />
+      <Separator layoutX="318.0" layoutY="246.0" orientation="VERTICAL" prefHeight="361.0" />
+      <Separator layoutX="604.0" layoutY="55.0" orientation="VERTICAL" prefHeight="421.0" />
+      <Separator layoutX="890.0" layoutY="246.0" orientation="VERTICAL" prefHeight="230.0" />
+      <Separator layoutX="23.0" layoutY="476.0" prefWidth="1163.0" />
+      <RadioButton fx:id="rdFinalAberto" disable="true" layoutX="118.0" layoutY="532.0" mnemonicParsing="false" text="Finalizar aberto" textFill="WHITE" />
+      <RadioButton fx:id="rdFinalFechado" disable="true" layoutX="118.0" layoutY="559.0" mnemonicParsing="false" text="Finalizar fechado" textFill="WHITE" />
+      <Label layoutX="52.0" layoutY="491.0" text="Finalização:" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="700.0" layoutY="450.0" text="Ciclo selecionado:" textFill="WHITE">
+      <Separator layoutX="23.0" layoutY="246.0" prefWidth="1163.0" />
+      <Label layoutX="37.0" layoutY="58.0" text="Configuração dos ciclos de controle de temperatura" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Separator layoutX="23.0" layoutY="206.0" prefWidth="1163.0" />
-      <Label layoutX="96.0" layoutY="61.0" text="Configuração dos ciclos de controle de temperatura" textFill="WHITE">
+      <ComboBox fx:id="comboControle" layoutX="60.0" layoutY="185.0" onAction="#selectCicloControle" prefHeight="30.0" prefWidth="387.0" promptText="Selecione um ciclo de controle" styleClass="combo-font" stylesheets="@../style/style.css" />
+      <Button fx:id="btNovo" layoutX="487.0" layoutY="65.0" mnemonicParsing="false" onAction="#addCiclo" prefHeight="25.0" prefWidth="90.0" styleClass="btNovo" stylesheets="@../style/style.css" text="Novo">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="btExcluir" disable="true" layoutX="487.0" layoutY="137.0" mnemonicParsing="false" onAction="#removeCicloControle" prefHeight="25.0" prefWidth="90.0" styleClass="btDelete" stylesheets="@../style/style.css" text="Excluir">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <TextField fx:id="txtIdentificador" disable="true" layoutX="61.0" layoutY="130.0" prefHeight="25.0" prefWidth="387.0">
          <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="comboControle" layoutX="109.0" layoutY="105.0" onAction="#selectCicloControle" prefHeight="30.0" prefWidth="387.0" promptText="Selecione um ciclo de controle" styleClass="combo-font" stylesheets="@../style/style.css" />
-      <Button fx:id="btNovo" layoutX="107.0" layoutY="162.0" mnemonicParsing="false" onAction="#addCiclo" prefHeight="25.0" prefWidth="90.0" styleClass="btNovo" stylesheets="@../style/style.css" text="Novo">
+            <Font size="14.0" />
+         </font></TextField>
+      <Label layoutX="63.0" layoutY="111.0" text="Identificador do ciclo de controle:" textFill="WHITE" />
+      <Button fx:id="btSalvar" disable="true" layoutX="487.0" layoutY="173.0" mnemonicParsing="false" onAction="#saveCicloControle" prefHeight="25.0" prefWidth="90.0" styleClass="btSave" stylesheets="@../style/style.css" text="Salvar">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btUtilizar" disable="true" layoutX="308.0" layoutY="162.0" mnemonicParsing="false" onAction="#useCicloControle" prefHeight="25.0" prefWidth="90.0" styleClass="btUtilizar" stylesheets="@../style/style.css" text="Utilizar">
+      <Button fx:id="btCancelar" layoutX="487.0" layoutY="210.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="25.0" prefWidth="90.0" styleClass="btCancel" stylesheets="@../style/style.css" text="Cancelar">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btExcluir" disable="true" layoutX="408.0" layoutY="162.0" mnemonicParsing="false" onAction="#removeCicloControle" prefHeight="25.0" prefWidth="90.0" styleClass="btDelete" stylesheets="@../style/style.css" text="Excluir">
+      <CheckBox fx:id="chkPrimeiro" disable="true" layoutX="52.0" layoutY="276.0" mnemonicParsing="false" onAction="#togglePrimeiro" text="Funcionamento fixo" textFill="WHITE" />
+      <CheckBox fx:id="chkSegundo" disable="true" layoutX="341.0" layoutY="276.0" mnemonicParsing="false" onAction="#toggleSegundo" text="Funcionamento fixo" textFill="WHITE" />
+      <CheckBox fx:id="chkTerceiro" disable="true" layoutX="626.0" layoutY="276.0" mnemonicParsing="false" onAction="#toggleTerceiro" text="Funcionamento fixo" textFill="WHITE" />
+      <CheckBox fx:id="chkQuarto" disable="true" layoutX="916.0" layoutY="276.0" mnemonicParsing="false" onAction="#toggleQuarto" text="Funcionamento fixo" textFill="WHITE" />
+      <ProgressIndicator fx:id="progControle" layoutX="463.0" layoutY="294.0" prefHeight="165.0" prefWidth="283.0" style="-fx-progress-color: #E0FFFF;" visible="false" />
+      <Button fx:id="btEditar" disable="true" layoutX="487.0" layoutY="101.0" mnemonicParsing="false" onAction="#editCicloControle" prefHeight="25.0" prefWidth="90.0" styleClass="btEdit" stylesheets="@../style/style.css" text="Editar">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <TextField fx:id="txtIdentificador" disable="true" layoutX="344.0" layoutY="480.0" prefHeight="25.0" prefWidth="297.0" />
-      <Label layoutX="344.0" layoutY="451.0" text="Identificador do ciclo de controle:" textFill="WHITE">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
-      <Button fx:id="btSalvar" disable="true" layoutX="396.0" layoutY="522.0" mnemonicParsing="false" onAction="#saveCicloControle" prefHeight="25.0" prefWidth="90.0" styleClass="btSave" stylesheets="@../style/style.css" text="Salvar">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button fx:id="btCancelar" layoutX="495.0" layoutY="523.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="25.0" prefWidth="90.0" styleClass="btCancel" stylesheets="@../style/style.css" text="Cancelar">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <CheckBox fx:id="chkPrimeiro" disable="true" layoutX="52.0" layoutY="236.0" mnemonicParsing="false" onAction="#togglePrimeiro" text="Funcionamento fixo" textFill="WHITE" />
-      <CheckBox fx:id="chkSegundo" disable="true" layoutX="341.0" layoutY="236.0" mnemonicParsing="false" onAction="#toggleSegundo" text="Funcionamento fixo" textFill="WHITE" />
-      <CheckBox fx:id="chkTerceiro" disable="true" layoutX="626.0" layoutY="236.0" mnemonicParsing="false" onAction="#toggleTerceiro" text="Funcionamento fixo" textFill="WHITE" />
-      <CheckBox fx:id="chkQuarto" disable="true" layoutX="916.0" layoutY="236.0" mnemonicParsing="false" onAction="#toggleQuarto" text="Funcionamento fixo" textFill="WHITE" />
-      <ProgressIndicator fx:id="progControle" layoutX="463.0" layoutY="254.0" prefHeight="165.0" prefWidth="283.0" style="-fx-progress-color: #E0FFFF;" visible="false" />
-      <Button fx:id="btEditar" disable="true" layoutX="208.0" layoutY="162.0" mnemonicParsing="false" onAction="#editCicloControle" prefHeight="25.0" prefWidth="90.0" styleClass="btEdit" stylesheets="@../style/style.css" text="Editar">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <TextArea editable="false" layoutX="625.0" layoutY="61.0" prefHeight="132.0" prefWidth="544.0" text="   O controle de temperatura está dividido em 4 ciclos distintos. O início dos registros do processo &#10;só é possível após selecionar um ciclo de controle programado. Pode-se selecionar um ciclo pré-&#10;programado ou criar um novo, além de editar um ciclo existente bem como excluí-lo.&#10;   Cada ciclo pode ser de funcionamento fixo, onde a vávula permanece sempre aberta ou fechada&#10;de acordo com a seleção, ou alternado entre aberto e fechado, sempre obedecendo os campos de&#10;tempo programado para cada ciclo. Ao final dos quatro ciclos deve-se selecionar em &quot;Finalização&quot;&#10;se a vávula irá permanecer aberta ou fechada até a finalização do processo. Para que o ciclo pro-&#10;gramado seja gravado no banco de dados e posteriormente utilizado deve-se informar um nome&#10;de identificação para o mesmo." />
-      <TextField fx:id="txtCicloSelecionado" editable="false" layoutX="705.0" layoutY="488.0" prefHeight="57.0" prefWidth="450.0">
-         <font>
-            <Font size="22.0" />
-         </font>
-      </TextField>
-      <Separator layoutX="671.0" layoutY="438.0" orientation="VERTICAL" prefHeight="130.0" />
+      <TextArea editable="false" layoutX="625.0" layoutY="68.0" prefHeight="165.0" prefWidth="544.0" text="   O controle de temperatura está dividido em 4 ciclos distintos. O início dos registros do processo &#10;só é possível após selecionar um ciclo de controle programado. Pode-se selecionar um ciclo pré-&#10;programado ou criar um novo, além de editar um ciclo existente bem como excluí-lo.&#10;   Cada ciclo pode ser de funcionamento fixo, onde a vávula permanece sempre aberta ou fechada&#10;de acordo com a seleção, ou alternado entre aberto e fechado, sempre obedecendo os campos de&#10;tempo programado para cada ciclo. Ao final dos quatro ciclos deve-se selecionar em &quot;Finalização&quot;&#10;se a vávula irá permanecer aberta ou fechada até a finalização do processo. Para que o ciclo pro-&#10;gramado seja gravado no banco de dados e posteriormente utilizado deve-se informar um nome&#10;de identificação para o mesmo." />
    </children>
 </AnchorPane>

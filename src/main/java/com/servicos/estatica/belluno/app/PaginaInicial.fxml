@@ -6,6 +6,7 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.Separator?>
@@ -21,8 +22,32 @@
 
 <AnchorPane fx:id="mainPane" prefHeight="660.0" prefWidth="1208.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane prefHeight="660.0" prefWidth="1208.0" styleClass="myGradient" stylesheets="@../style/style.css" />
-      <ImageView fx:id="imgForno" fitHeight="134.0" fitWidth="207.0" layoutX="359.0" layoutY="16.0" pickOnBounds="true">
+      <AnchorPane prefHeight="660.0" prefWidth="1208.0" styleClass="myGradient" stylesheets="@../style/style.css">
+         <children>
+            <Button fx:id="btReport" disable="true" layoutX="329.0" layoutY="96.0" mnemonicParsing="false" onAction="#saveReport" prefHeight="25.0" prefWidth="84.0" styleClass="btReport" stylesheets="@../style/style.css" text="Relatório">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="btCancelar" disable="true" layoutX="329.0" layoutY="59.0" mnemonicParsing="false" onAction="#cancelarProcesso" prefHeight="25.0" prefWidth="84.0" styleClass="btCancel" stylesheets="@../style/style.css" text="Cancelar">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="btSalvar" disable="true" layoutX="330.0" layoutY="22.0" mnemonicParsing="false" onAction="#salvarProcesso" prefHeight="25.0" prefWidth="84.0" styleClass="btSave" stylesheets="@../style/style.css" text="Salvar">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <ComboBox fx:id="comboCicloControle" layoutX="34.0" layoutY="116.0" onAction="#enableViewCiclo" prefHeight="30.0" prefWidth="224.0" promptText="Selecione o ciclo" styleClass="combo-font" stylesheets="@../style/style.css" />
+            <CheckBox fx:id="chkSempreAberto" layoutX="329.0" layoutY="138.0" mnemonicParsing="false" text="Sempre aberto" textFill="WHITE" />
+            <Button fx:id="btViewControle" disable="true" layoutX="257.0" layoutY="116.0" mnemonicParsing="false" onAction="#viewControle" prefHeight="30.0" prefWidth="32.0" styleClass="btLook" stylesheets="@../style/style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children></AnchorPane>
+      <ImageView fx:id="imgForno" fitHeight="134.0" fitWidth="207.0" layoutX="489.0" layoutY="16.0" pickOnBounds="true">
          <image>
             <Image url="@../style/forno.png" />
          </image>
@@ -45,28 +70,16 @@
       </LineChart>
       <Separator orientation="VERTICAL" prefHeight="660.0" />
       <Separator layoutY="165.0" prefHeight="1.0" prefWidth="1208.0" />
-      <TextField fx:id="txtProcesso" disable="true" layoutX="33.0" layoutY="58.0" prefHeight="27.0" prefWidth="224.0" />
-      <Label layoutX="33.0" layoutY="27.0" text="Identificador do processo" textFill="WHITE">
+      <TextField fx:id="txtProcesso" disable="true" layoutX="33.0" layoutY="48.0" prefHeight="27.0" prefWidth="224.0">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <Label layoutX="33.0" layoutY="17.0" text="Identificador do processo" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font></Label>
-      <Button fx:id="btSalvar" disable="true" layoutX="33.0" layoutY="97.0" mnemonicParsing="false" onAction="#salvarProcesso" prefHeight="25.0" prefWidth="84.0" text="Salvar">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Separator layoutX="321.0" layoutY="1.0" orientation="VERTICAL" prefHeight="164.0" />
-      <Button fx:id="btCancelar" disable="true" layoutX="119.0" layoutY="97.0" mnemonicParsing="false" onAction="#cancelarProcesso" prefHeight="25.0" prefWidth="84.0" text="Cancelar">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button fx:id="btReport" disable="true" layoutX="205.0" layoutY="97.0" mnemonicParsing="false" onAction="#saveReport" prefHeight="25.0" prefWidth="84.0" text="Relatório">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <ImageView fx:id="imgSwitch" fitHeight="37.0" fitWidth="39.0" layoutX="362.0" layoutY="18.0" onMouseClicked="#toggleProcess" onMousePressed="#switchIsPressing" pickOnBounds="true" preserveRatio="true">
+      <Separator layoutX="451.0" layoutY="1.0" orientation="VERTICAL" prefHeight="164.0" />
+      <ImageView fx:id="imgSwitch" fitHeight="37.0" fitWidth="39.0" layoutX="492.0" layoutY="18.0" onMouseClicked="#toggleProcess" onMousePressed="#switchIsPressing" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../style/switch_off.png" />
          </image>
@@ -74,9 +87,9 @@
             <Cursor fx:constant="OPEN_HAND" />
          </cursor>
       </ImageView>
-      <Label layoutX="340.0" layoutY="15.0" text="On" textFill="WHITE" />
-      <Label layoutX="340.0" layoutY="37.0" text="Off" textFill="WHITE" />
-      <ImageView fx:id="imgFogo" fitHeight="37.0" fitWidth="68.0" layoutX="429.0" layoutY="72.0" pickOnBounds="true" visible="false">
+      <Label layoutX="470.0" layoutY="15.0" text="On" textFill="WHITE" />
+      <Label layoutX="470.0" layoutY="37.0" text="Off" textFill="WHITE" />
+      <ImageView fx:id="imgFogo" fitHeight="37.0" fitWidth="68.0" layoutX="559.0" layoutY="72.0" pickOnBounds="true" visible="false">
          <effect>
             <Glow level="1.0" />
          </effect>
@@ -84,35 +97,35 @@
             <Image url="@../../../../../../../../../../Desktop/fire.gif" />
          </image>
       </ImageView>
-      <Label fx:id="lblTemp" alignment="CENTER" layoutX="566.0" layoutY="38.0" prefHeight="37.0" prefWidth="110.0" styleClass="headerGradient" stylesheets="@../style/style.css" text="000.0" textFill="LIME">
+      <Label fx:id="lblTemp" alignment="CENTER" layoutX="696.0" layoutY="38.0" prefHeight="37.0" prefWidth="110.0" styleClass="headerGradient" stylesheets="@../style/style.css" text="000.0" textFill="LIME">
          <font>
             <Font name="DSEG7 Classic-Bold" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="lblChrono" alignment="CENTER" layoutX="566.0" layoutY="111.0" prefHeight="37.0" prefWidth="110.0" styleClass="headerGradient" stylesheets="@../style/style.css" text="00:00:00" textFill="#5aff00">
+      <Label fx:id="lblChrono" alignment="CENTER" layoutX="696.0" layoutY="111.0" prefHeight="37.0" prefWidth="110.0" styleClass="headerGradient" stylesheets="@../style/style.css" text="00:00:00" textFill="#5aff00">
          <font>
             <Font name="DSEG7 Classic-Bold" size="20.0" />
          </font></Label>
-      <Label layoutX="573.0" layoutY="16.0" text="Temperatura atual" textFill="WHITE" />
-      <Label layoutX="575.0" layoutY="90.0" text="Tempo decorrido" textFill="WHITE" />
-      <Separator layoutX="698.0" layoutY="1.0" orientation="VERTICAL" prefHeight="164.0" />
+      <Label layoutX="703.0" layoutY="16.0" text="Temperatura atual" textFill="WHITE" />
+      <Label layoutX="705.0" layoutY="90.0" text="Tempo decorrido" textFill="WHITE" />
+      <Separator layoutX="828.0" layoutY="1.0" orientation="VERTICAL" prefHeight="164.0" />
       <ProgressIndicator fx:id="progressSave" layoutX="71.0" layoutY="39.0" prefHeight="93.0" prefWidth="180.0" style="-fx-progress-color: #E0FFFF;" visible="false" />
-      <Label layoutX="723.0" layoutY="69.0" text="Temperatura mínima" textFill="WHITE">
+      <Label layoutX="848.0" layoutY="54.0" text="Temperatura mínima" textFill="WHITE">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="723.0" layoutY="104.0" text="Temperatura máxima" textFill="WHITE">
+      <Label layoutX="848.0" layoutY="89.0" text="Temperatura máxima" textFill="WHITE">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="724.0" layoutY="34.0" text="Horário inicial" textFill="WHITE">
+      <Label layoutX="849.0" layoutY="19.0" text="Horário inicial" textFill="WHITE">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Line endX="181.0" layoutX="826.0" layoutY="45.0">
+      <Line endX="181.0" layoutX="826.0" layoutY="30.0" startX="120.0">
          <stroke>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -122,7 +135,7 @@
             </LinearGradient>
          </stroke>
       </Line>
-      <Line endX="133.0" layoutX="873.0" layoutY="117.0">
+      <Line endX="133.0" layoutX="873.0" layoutY="102.0" startX="122.0">
          <stroke>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -132,7 +145,7 @@
             </LinearGradient>
          </stroke>
       </Line>
-      <Line endX="136.0" layoutX="871.0" layoutY="82.0">
+      <Line endX="136.0" layoutX="871.0" layoutY="67.0" startX="122.0">
          <stroke>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -142,30 +155,50 @@
             </LinearGradient>
          </stroke>
       </Line>
-      <Label fx:id="lblDhInicial" alignment="CENTER" layoutX="1015.0" layoutY="33.0" prefHeight="25.0" prefWidth="153.0" style="-fx-background-color: #FFE4E1;" text="00:00:00 - 00/00/00" textFill="#000a6b">
+      <Label fx:id="lblDhInicial" alignment="CENTER" layoutX="1015.0" layoutY="18.0" prefHeight="25.0" prefWidth="153.0" style="-fx-background-color: #FFE4E1;" text="00:00:00 - 00/00/00" textFill="#000a6b">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="lblTempMin" alignment="CENTER" layoutX="1015.0" layoutY="69.0" prefHeight="25.0" prefWidth="153.0" style="-fx-background-color: #FFE4E1;" text="000.0" textFill="#000a6b">
+      <Label fx:id="lblTempMin" alignment="CENTER" layoutX="1015.0" layoutY="54.0" prefHeight="25.0" prefWidth="153.0" style="-fx-background-color: #FFE4E1;" text="000.0" textFill="#000a6b">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="lblTempMax" alignment="CENTER" layoutX="1015.0" layoutY="104.0" prefHeight="25.0" prefWidth="153.0" style="-fx-background-color: #FFE4E1;" text="000.0" textFill="#000a6b">
+      <Label fx:id="lblTempMax" alignment="CENTER" layoutX="1015.0" layoutY="89.0" prefHeight="25.0" prefWidth="153.0" style="-fx-background-color: #FFE4E1;" text="000.0" textFill="#000a6b">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
       <CheckBox fx:id="chkMarcadores" layoutX="1095.0" layoutY="185.0" mnemonicParsing="false" onMouseClicked="#toggleMark" text="Marcadores" textFill="WHITE" />
-      <Button fx:id="btNovo" layoutX="257.0" layoutY="57.0" mnemonicParsing="false" onAction="#addProcesso" prefHeight="28.0" prefWidth="32.0" styleClass="btNovo" stylesheets="@../style/style.css">
+      <Button fx:id="btNovo" layoutX="257.0" layoutY="47.0" mnemonicParsing="false" onAction="#addProcesso" prefHeight="30.0" prefWidth="32.0" styleClass="btNovo" stylesheets="@../style/style.css">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="btSetPoint" layoutX="532.0" layoutY="18.0" mnemonicParsing="false" onAction="#adjSetPoint" prefHeight="28.0" prefWidth="32.0" styleClass="btSetPoint" stylesheets="@../style/style.css" visible="false">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
+      <Label layoutX="33.0" layoutY="87.0" text="Ciclo de controle" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="848.0" layoutY="124.0" text="Status da válvula" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Line endX="133.0" layoutX="873.0" layoutY="137.0" startX="92.0">
+         <stroke>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#6bda76" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </stroke>
+      </Line>
+      <Label fx:id="lblStatusVal" alignment="CENTER" layoutX="1015.0" layoutY="124.0" prefHeight="25.0" prefWidth="153.0" style="-fx-background-color: #FFE4E1;" textFill="#000a6b">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

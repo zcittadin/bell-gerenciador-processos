@@ -21,8 +21,8 @@ import com.servicos.estatica.belluno.model.Processo;
 public class MailSender {
 
 	private static final String SMTP_HOST_NAME = "smtp.sendgrid.net";
-	private static final String SMTP_AUTH_USER = "zcittadin";
-	private static final String SMTP_AUTH_PWD = "lufter0312";
+	private static final String SMTP_AUTH_USER = "";
+	private static final String SMTP_AUTH_PWD = "";
 
 	public void sendMail(Processo processo) throws Exception {
 		Properties properties = new Properties();

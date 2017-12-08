@@ -1,22 +1,20 @@
 package com.servicos.estatica.belluno.shared;
 
-import com.servicos.estatica.belluno.model.CicloControle;
-
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 public class CicloControleSelecionado {
 
-	private static SimpleObjectProperty<CicloControle> cicloSelecionado = new SimpleObjectProperty<>();
+	private static SimpleBooleanProperty cicloChanged = new SimpleBooleanProperty();
 
-	public static SimpleObjectProperty<CicloControle> cicloControleProperty() {
-		return cicloSelecionado;
+	public static SimpleBooleanProperty cicloChangedProperty() {
+		return cicloChanged;
 	}
 
-	public static CicloControle getCicloControle() {
-		return cicloSelecionado.get();
+	public static Boolean getCicloChanged() {
+		return cicloChanged.get();
 	}
 
-	public static void setCicloControle(CicloControle cicloSelecionado) {
-		cicloControleProperty().set(cicloSelecionado);
+	public static void setCicloChanged(Boolean cicloChanged) {
+		cicloChangedProperty().set(cicloChanged);
 	}
 }

@@ -24,6 +24,7 @@ import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 
 import com.servicos.estatica.belluno.app.ControlledScreen;
+import com.servicos.estatica.belluno.dao.CicloControleDAO;
 import com.servicos.estatica.belluno.dao.LeituraDAO;
 import com.servicos.estatica.belluno.dao.ProcessoDAO;
 import com.servicos.estatica.belluno.mail.MailJob;
@@ -34,13 +35,14 @@ import com.servicos.estatica.belluno.model.Processo;
 import com.servicos.estatica.belluno.report.builder.ProcessoReportCreator;
 import com.servicos.estatica.belluno.shared.ProcessoStatusManager;
 import com.servicos.estatica.belluno.util.Chronometer;
-import com.servicos.estatica.belluno.util.FxDialogs;
 import com.servicos.estatica.belluno.util.HoverDataChart;
 import com.servicos.estatica.belluno.util.Toast;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -48,9 +50,13 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -60,6 +66,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
@@ -68,9 +75,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+@SuppressWarnings("rawtypes")
 public class PaginaInicialController implements Initializable, ControlledScreen {
 
 	@FXML
@@ -92,6 +101,8 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	@FXML
 	private Button btCancelar;
 	@FXML
+	private Button btViewControle;
+	@FXML
 	private Button btReport;
 	@FXML
 	private Label lblTemp;
@@ -104,11 +115,18 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	@FXML
 	private Label lblTempMax;
 	@FXML
+	private Label lblStatusVal;
+	@FXML
 	private ProgressIndicator progressSave;
+	@FXML
+	private ComboBox comboCicloControle;
+	@FXML
+	private CheckBox chkSempreAberto;
 	@FXML
 	private CheckBox chkMarcadores;
 
 	private static Timeline scanModbusSlaves;
+	private static Timeline temperatureControl;
 	private static XYChart.Series<String, Number> tempSeries;
 	private static DateTimeFormatter dataHoraFormatter = DateTimeFormatter.ofPattern("HH:mm:ss - dd/MM/yy");
 
@@ -132,9 +150,14 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private Tooltip tooltipReport = new Tooltip("Exportar relatório em PDF");
 	private Tooltip tooltipMarks = new Tooltip("Habilitar marcadores do gráfico de linhas");
 	private Tooltip tooltipSwitch = new Tooltip("Iniciar/parar registro do processo");
+	private Tooltip tooltipViewControle = new Tooltip("Visualizar parâmetros de controle de temperatura");
+
+	private static ObservableList<CicloControle> ciclos = FXCollections.observableArrayList();
 
 	final ObservableList<XYChart.Series<String, Number>> plotValuesList = FXCollections.observableArrayList();
 	final List<Node> valueMarks = new ArrayList<>();
+
+	private CicloControleDAO cicloControleDAO = new CicloControleDAO();
 
 	private static List<Leitura> leituras = new ArrayList<>();
 	private static Processo processo;
@@ -142,12 +165,29 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	private CicloControle cicloControle;
 
 	SchedulerFactory schedFact = new StdSchedulerFactory();
-	Scheduler sched = null;
+	Scheduler mailScheduler = null;
 
 	final Chronometer chronoMeter = new Chronometer();
 	private static LeituraDAO leituraDAO = new LeituraDAO();
 	private static ProcessoDAO processoDAO = new ProcessoDAO();
 	private static ModbusRTUService modService;
+
+	private static Integer ABRIR = 2;
+	private static Integer FECHAR = 1;
+	private static Integer ABERTO = 1;
+	private static Integer FECHADO = 0;
+
+	private static boolean ciclo1 = false;
+	private static boolean ciclo2 = false;
+	private static boolean ciclo3 = false;
+	private static boolean ciclo4 = false;
+
+	private static Integer hours = 0;
+	private static Integer minutes = 0;
+	private static Integer minutesOpen = 0;
+	private static Integer minutesClosed = 0;
+
+	private static Integer statusVal = 0;
 
 	ScreensController myController;
 
@@ -156,6 +196,7 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		myController = screenPage;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		initTooltips();
@@ -165,6 +206,13 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		modService.openConnection();
 		configModbusReadSlaves();
 		configLineChart();
+		populateCombo();
+		comboCicloControle.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<CicloControle>() {
+			public void changed(ObservableValue<? extends CicloControle> observable, CicloControle oldValue,
+					CicloControle newValue) {
+				cicloControle = newValue;
+			}
+		});
 	}
 
 	@FXML
@@ -251,6 +299,8 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 			btCancelar.setDisable(true);
 			txtProcesso.setText("");
 			txtProcesso.setDisable(true);
+			populateCombo();
+			btViewControle.setDisable(true);
 			isAdding = false;
 			return;
 		}
@@ -408,14 +458,40 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	}
 
 	@FXML
-	private void adjSetPoint() {
-		String sp = FxDialogs.showNumberInput("Set-point", "", "Digite o set-point:", "");
-		if (sp != null && !"".equals(sp)) {
-			modService.writeSingleRegister(1, 0, Integer.parseInt(sp) * 10);
-		}
+	private void enableViewCiclo() {
+		btViewControle.setDisable(false);
+	}
+
+	@FXML
+	private void viewControle() throws IOException {
+		Stage stage;
+		Parent root;
+		stage = new Stage();
+		URL url = getClass().getResource("/com/servicos/estatica/belluno/app/ViewControle.fxml");
+		FXMLLoader fxmlloader = new FXMLLoader();
+		fxmlloader.setLocation(url);
+		fxmlloader.setBuilderFactory(new JavaFXBuilderFactory());
+		root = (Parent) fxmlloader.load(url.openStream());
+		((ViewControleController) fxmlloader.getController()).setContext(cicloControle);
+		stage.setScene(new Scene(root));
+		stage.setTitle("Novo projeto");
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.initOwner(txtProcesso.getScene().getWindow());
+		stage.setResizable(false);
+		stage.showAndWait();
+
 	}
 
 	private void initProcess() {
+
+		statusVal = modService.readMultipleRegisters(2, 1, 1).intValue();
+		if (statusVal == ABERTO) {
+			lblStatusVal.setText("ABERTA");
+		}
+		if (statusVal == FECHADO) {
+			lblStatusVal.setText("FECHADA");
+		}
+
 		temperatura = roundToHalf(modService.readMultipleRegisters(1, 1, 1) / 10);
 		plottedTemp = temperatura.intValue();
 		setPoint = roundToHalf(modService.readMultipleRegisters(1, 0, 1) / 10);
@@ -429,6 +505,8 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		});
 		plotTemp();
 		imgSwitch.setImage(new Image("/com/servicos/estatica/belluno/style/switch_on.png"));
+		comboCicloControle.setDisable(true);
+		chkSempreAberto.setDisable(true);
 		isReady = false;
 		isRunning = true;
 		scanModbusSlaves.play();
@@ -438,18 +516,28 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		processo.setDhInicial(Calendar.getInstance().getTime());
 		processoDAO.updateDataInicial(processo);
 		ProcessoStatusManager.setProcessoStatus(PROC_KEY, true);
+		minutesClosed = 0;
+		minutesOpen = 0;
+		minutes = 0;
+		hours = 0;
+		ciclo1 = true;
+		configureTempControl();
+		temperatureControl.play();
 	}
 
 	private void finalizeProcess() {
 		scanModbusSlaves.stop();
+		temperatureControl.stop();
 		try {
-			sched.shutdown();
+			mailScheduler.shutdown();
 		} catch (SchedulerException e) {
 			e.printStackTrace();
 		}
 		imgSwitch.setImage(new Image("/com/servicos/estatica/belluno/style/switch_off.png"));
 		btNovo.setDisable(false);
 		btReport.setDisable(false);
+		comboCicloControle.setDisable(false);
+		chkSempreAberto.setDisable(false);
 		isRunning = false;
 		isFinalized = true;
 		chronoMeter.stop();
@@ -458,6 +546,12 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		processo.setDhFinal(Calendar.getInstance().getTime());
 		processoDAO.updateDataFinal(processo);
 		ProcessoStatusManager.setProcessoStatus(PROC_KEY, false);
+		minutesClosed = 0;
+		minutesOpen = 0;
+		minutes = 0;
+		hours = 0;
+		ciclo1 = true;
+
 	}
 
 	private void saveTemp() {
@@ -468,7 +562,9 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 	}
 
 	private void configModbusReadSlaves() {
-		scanModbusSlaves = new Timeline(new KeyFrame(Duration.millis(30000), new EventHandler<ActionEvent>() {
+		// scanModbusSlaves = new Timeline(new KeyFrame(Duration.millis(6000), new
+		// EventHandler<ActionEvent>() {
+		scanModbusSlaves = new Timeline(new KeyFrame(Duration.millis(40000), new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				Task<Void> modbusTask = new Task<Void>() {
 					@Override
@@ -501,6 +597,10 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 				Thread t = new Thread(modbusTask);
 				t.start();
 				scanInterval++;
+//				if (scanInterval == 1) {
+//					plotTemp();
+//					scanInterval = 0;
+//				}
 				if (scanInterval == 120) {
 					plotTemp();
 					scanInterval = 0;
@@ -508,6 +608,203 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 			}
 		}));
 		scanModbusSlaves.setCycleCount(Timeline.INDEFINITE);
+	}
+
+	private void configureTempControl() {
+		temperatureControl = new Timeline(new KeyFrame(Duration.millis(60000), new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+
+				statusVal = modService.readMultipleRegisters(2, 1, 1).intValue();
+				if (statusVal == ABERTO) {
+					lblStatusVal.setText("ABERTA");
+				}
+				if (statusVal == FECHADO) {
+					lblStatusVal.setText("FECHADA");
+				}
+
+				if (chkSempreAberto.isSelected()) {
+					if (statusVal == FECHADO) {
+						modService.writeSingleRegister(2, 0, ABRIR);
+					}
+					return;
+				}
+
+				if (cicloControle != null) {
+					minutes++;
+					if (minutes == 60) {
+						minutes = 0;
+						hours++;
+					}
+					if (ciclo1) {
+						if ("S".equals(cicloControle.getPrimeiroFixo())) {
+							if ("S".equals(cicloControle.getPrimeiroSempreAberto())) {
+								if (statusVal == FECHADO) {
+									modService.writeSingleRegister(2, 0, ABRIR);
+									return;
+								}
+							} else {
+								if (statusVal == ABERTO) {
+									modService.writeSingleRegister(2, 0, FECHAR);
+									return;
+								}
+							}
+						} else {
+							if (statusVal == FECHADO) {
+								minutesClosed++;
+								if (cicloControle.getPrimeiroFechado() == minutesClosed) {
+									modService.writeSingleRegister(2, 0, ABRIR);
+									minutesClosed = 0;
+									return;
+								}
+							} else if (statusVal == ABERTO) {
+								minutesOpen++;
+								if (cicloControle.getPrimeiroAberto() == minutesOpen) {
+									modService.writeSingleRegister(2, 0, FECHAR);
+									minutesOpen = 0;
+									return;
+								}
+							}
+						}
+						if (cicloControle.getPrimeiroTotal() == hours) {
+							ciclo1 = false;
+							ciclo2 = true;
+							minutesClosed = 0;
+							minutesOpen = 0;
+							hours = 0;
+							return;
+						}
+					}
+					if (ciclo2) {
+						if ("S".equals(cicloControle.getSegundoFixo())) {
+							if ("S".equals(cicloControle.getSegundoSempreAberto())) {
+								if (statusVal == FECHADO) {
+									modService.writeSingleRegister(2, 0, ABRIR);
+									return;
+								}
+							} else {
+								if (statusVal == ABERTO) {
+									modService.writeSingleRegister(2, 0, FECHAR);
+									return;
+								}
+							}
+						} else {
+							if (statusVal == FECHADO) {
+								minutesClosed++;
+								if (cicloControle.getSegundoFechado() == minutesClosed) {
+									modService.writeSingleRegister(2, 0, ABRIR);
+									minutesClosed = 0;
+									return;
+								}
+							} else if (statusVal == ABERTO) {
+								minutesOpen++;
+								if (cicloControle.getSegundoAberto() == minutesOpen) {
+									modService.writeSingleRegister(2, 0, FECHAR);
+									minutesOpen = 0;
+									return;
+								}
+							}
+						}
+						if (cicloControle.getSegundoTotal() == hours) {
+							ciclo2 = false;
+							ciclo3 = true;
+							minutesClosed = 0;
+							minutesOpen = 0;
+							hours = 0;
+							return;
+						}
+					}
+					if (ciclo3) {
+						if ("S".equals(cicloControle.getTerceiroFixo())) {
+							if ("S".equals(cicloControle.getTerceiroSempreAberto())) {
+								if (statusVal == FECHADO) {
+									modService.writeSingleRegister(2, 0, ABRIR);
+									return;
+								}
+							} else {
+								if (statusVal == ABERTO) {
+									modService.writeSingleRegister(2, 0, FECHAR);
+									return;
+								}
+							}
+						} else {
+							if (statusVal == FECHADO) {
+								minutesClosed++;
+								if (cicloControle.getTerceiroFechado() == minutesClosed) {
+									modService.writeSingleRegister(2, 0, ABRIR);
+									minutesClosed = 0;
+									return;
+								}
+							} else if (statusVal == ABERTO) {
+								minutesOpen++;
+								if (cicloControle.getTerceiroAberto() == minutesOpen) {
+									modService.writeSingleRegister(2, 0, FECHAR);
+									minutesOpen = 0;
+									return;
+								}
+							}
+						}
+						if (cicloControle.getTerceiroTotal() == hours) {
+							ciclo3 = false;
+							ciclo4 = true;
+							minutesClosed = 0;
+							minutesOpen = 0;
+							hours = 0;
+							return;
+						}
+					}
+					if (ciclo4) {
+						if ("S".equals(cicloControle.getQuartoFixo())) {
+							if ("S".equals(cicloControle.getQuartoSempreAberto())) {
+								if (statusVal == FECHADO) {
+									modService.writeSingleRegister(2, 0, ABRIR);
+									return;
+								}
+							} else {
+								if (statusVal == ABERTO) {
+									modService.writeSingleRegister(2, 0, FECHAR);
+									return;
+								}
+							}
+						} else {
+							if (statusVal == FECHADO) {
+								minutesClosed++;
+								if (cicloControle.getQuartoFechado() == minutesClosed) {
+									modService.writeSingleRegister(2, 0, ABRIR);
+									minutesClosed = 0;
+									return;
+								}
+							} else if (statusVal == ABERTO) {
+								minutesOpen++;
+								if (cicloControle.getQuartoAberto() == minutesOpen) {
+									modService.writeSingleRegister(2, 0, FECHAR);
+									minutesOpen = 0;
+									return;
+								}
+							}
+						}
+						if (cicloControle.getQuartoTotal() == hours) {
+							ciclo4 = false;
+							minutesClosed = 0;
+							minutesOpen = 0;
+							hours = 0;
+							return;
+						}
+					}
+					if (!ciclo1 && !ciclo2 && !ciclo3 && !ciclo4) {
+						if ("S".equals(cicloControle.getFinalAberto()) && statusVal == FECHADO) {
+							modService.writeSingleRegister(2, 0, ABRIR);
+						} else if ("N".equals(cicloControle.getFinalAberto()) && statusVal == ABERTO) {
+							modService.writeSingleRegister(2, 0, FECHAR);
+						}
+					}
+				}
+
+			}
+
+		}));
+		temperatureControl.setCycleCount(Timeline.INDEFINITE);
 	}
 
 	public static double roundToHalf(double d) {
@@ -526,15 +823,15 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 
 	private void configureMailJob() {
 		try {
-			sched = schedFact.getScheduler();
-			sched.getContext().put("processo", processo);
+			mailScheduler = schedFact.getScheduler();
+			mailScheduler.getContext().put("processo", processo);
 			JobDetail job = JobBuilder.newJob(MailJob.class).withIdentity("myJob", "group1").build();
 			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("myTrigger", "group1")
-					.withSchedule(CronScheduleBuilder.cronSchedule("0 * * * * ?")).build();
-			// .withSchedule(CronScheduleBuilder.cronSchedule("0 0 0,4,8,12,16,20 * *
-			// ?")).build();
-			sched.scheduleJob(job, trigger);
-			sched.start();
+					// .withSchedule(CronScheduleBuilder.cronSchedule("0 * * * * ?")).build();
+					 .withSchedule(CronScheduleBuilder.cronSchedule("0 0 0,4,8,12,16,20 * *?")).build();
+//					.withSchedule(CronScheduleBuilder.cronSchedule("0 0 0,11,12,14,15,16 * * ?")).build();
+			mailScheduler.scheduleJob(job, trigger);
+			mailScheduler.start();
 		} catch (Exception e) {
 			System.out.println("Erro ao enviar e-mail.");
 			e.printStackTrace();
@@ -577,9 +874,11 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		}
 	}
 
-	public void setCicloControle(CicloControle cicloControle) {
-		this.cicloControle = cicloControle;
-		System.out.println("Transferido: " + this.cicloControle.getIdentificador());
+	@SuppressWarnings("unchecked")
+	public void populateCombo() {
+		comboCicloControle.setItems(null);
+		ciclos = FXCollections.observableList((List<CicloControle>) cicloControleDAO.findCiclos());
+		comboCicloControle.setItems(ciclos);
 	}
 
 	private void makeToast(String message) {
@@ -598,12 +897,13 @@ public class PaginaInicialController implements Initializable, ControlledScreen 
 		tooltipReport.setStyle(TOOLTIP_CSS);
 		tooltipSalvar.setStyle(TOOLTIP_CSS);
 		tooltipSwitch.setStyle(TOOLTIP_CSS);
+		tooltipViewControle.setStyle(TOOLTIP_CSS);
 		Tooltip.install(btNovo, tooltipNovo);
 		Tooltip.install(btSalvar, tooltipSalvar);
 		Tooltip.install(btCancelar, tooltipCancelar);
 		Tooltip.install(btReport, tooltipReport);
+		Tooltip.install(btViewControle, tooltipViewControle);
 		Tooltip.install(imgSwitch, tooltipSwitch);
 		Tooltip.install(chkMarcadores, tooltipMarks);
 	}
-
 }

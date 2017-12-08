@@ -41,6 +41,10 @@
   -fx-graphic: url('add.png');
 }
 
+.btReport {
+  -fx-graphic: url('report.png');
+}
+
 .btStyleSearch {
   -fx-graphic: url('zoom.png');
 }
@@ -65,8 +69,16 @@
   -fx-graphic: url('Save.png');
 }
 
+.btLook {
+  -fx-graphic: url('eye.png');
+}
+
 .btEdit {
   -fx-graphic: url('pencil.png');
+}
+
+.btVoltar {
+  -fx-graphic: url('Back.png');
 }
 
 .combo-font {

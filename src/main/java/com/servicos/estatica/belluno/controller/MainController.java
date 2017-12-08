@@ -6,7 +6,6 @@ import java.time.Clock;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import com.servicos.estatica.belluno.model.CicloControle;
 import com.servicos.estatica.belluno.properties.CurrentScreenProperty;
 import com.servicos.estatica.belluno.shared.CicloControleSelecionado;
 import com.servicos.estatica.belluno.shared.ProcessoStatusManager;
@@ -129,7 +128,6 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 		centralPane.getChildren().addAll(mainContainer);
 
 		initListeners();
-
 	}
 
 	@FXML
@@ -175,11 +173,10 @@ public class MainController extends EstaticaInfoUtil implements Initializable {
 	}
 
 	private void initListeners() {
-		CicloControleSelecionado.cicloControleProperty().addListener(new ChangeListener<CicloControle>() {
+		CicloControleSelecionado.cicloChangedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
-			public void changed(ObservableValue<? extends CicloControle> observable, CicloControle oldValue,
-					CicloControle newValue) {
-				paginaInicialController.setCicloControle(newValue);
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				paginaInicialController.populateCombo();
 			}
 		});
 	}
